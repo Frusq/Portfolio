@@ -56,12 +56,15 @@ plugins:
 
 author:
   name   : "Gary Yan"
-  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "Purdue mechanical engineering student who is eager to learn through hands-on technical experience"
+  avatar : "/assets/images/IMG_3748.jpg"
+  bio    : "Purdue mechanical engineering student from the Bay Area"
   links:
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
       url: "www.linkedin.com/in/garyyan8"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope"
+      url: "garyyan008@gmail.com"
 
 footer:
   links:
