@@ -19,11 +19,31 @@ gallery:
     alt: "Laptop stand"
 skills:
   - name: "Software"
-    items: ["Onshape", "Siemens NX", "Autodesk Fusion", "MATLAB", "Python", "Bambu Slicer", "RichAuto Controller", "Mach 3"]
+    items:
+      - { name: "Onshape", note: "Replace with where you learned Onshape" }
+      - { name: "Siemens NX", note: "Replace with where you learned Siemens NX" }
+      - { name: "Autodesk Fusion", note: "Replace with where you learned Autodesk Fusion" }
+      - { name: "MATLAB", note: "Replace with where you learned MATLAB" }
+      - { name: "Python", note: "Replace with where you learned Python" }
+      - { name: "Bambu Slicer", note: "Replace with where you learned Bambu Slicer" }
+      - { name: "RichAuto Controller", note: "Replace with where you learned RichAuto" }
+      - { name: "Mach 3", note: "Replace with where you learned Mach 3" }
   - name: "Manufacture"
-    items: ["5-Axis Milling", "3-Axis Milling", "CNC Router", "Laser Cutter", "3D Printing", "Hand Tools"]
+    items:
+      - { name: "5-Axis Milling", note: "Replace with where you learned 5-axis milling" }
+      - { name: "3-Axis Milling", note: "Replace with where you learned 3-axis milling" }
+      - { name: "CNC Router", note: "Replace with where you learned the CNC router" }
+      - { name: "Laser Cutter", note: "Replace with where you learned laser cutting" }
+      - { name: "3D Printing", note: "Replace with where you learned 3D printing" }
+      - { name: "Hand Tools", note: "Replace with where you learned hand tools" }
   - name: "Design"
-    items: ["GD&T", "DFM", "Multi-body Assemblies", "Manufacture Drawings", "Top Down Design", "Bill of Materials"]
+    items:
+      - { name: "GD&T", note: "Replace with where you learned GD&T" }
+      - { name: "DFM", note: "Replace with where you learned DFM" }
+      - { name: "Multi-body Assemblies", note: "Replace with where you learned multi-body assemblies" }
+      - { name: "Manufacture Drawings", note: "Replace with where you learned manufacture drawings" }
+      - { name: "Top Down Design", note: "Replace with where you learned top down design" }
+      - { name: "Bill of Materials", note: "Replace with where you learned bills of materials" }
 currently:
   - "First Year ME @ Purdue"
   - "Purdue Electric Racing Drivetrain Engineer"
@@ -64,7 +84,7 @@ dreaming:
   .collage img {
     position: relative;
     object-fit: cover;
-    border: 0px solid #fff;
+    border: 14px solid #fff;
     border-radius: 0;
     background-color: #fff;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
@@ -146,6 +166,18 @@ dreaming:
     gap: 0.55em;
   }
 
+  /* Wrapper holds the tooltip, because the tag's clip-path would cut it off */
+  .pill {
+    position: relative;
+    display: inline-block;
+    cursor: default;
+    outline: none;
+  }
+  .pill:hover,
+  .pill:focus {
+    z-index: 30;
+  }
+
   /* Chamfered "machined part" pills with a pink edge bar */
   .tag {
     display: inline-block;
@@ -159,11 +191,39 @@ dreaming:
     clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
     transition: background 0.15s ease, box-shadow 0.15s ease;
   }
-  .tag:hover {
-    transform: none;
+  .pill:hover .tag,
+  .pill:focus .tag {
     background: rgba(244, 143, 177, 0.3);
     box-shadow: inset 5px 0 0 #f48fb1;
   }
+
+  /* Tooltip */
+  .tip {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 8px);
+    width: max-content;
+    max-width: 240px;
+    padding: 0.5em 0.8em;
+    font-size: 0.8em;
+    line-height: 1.4;
+    color: #f5f5f5;
+    background: #2a2628;
+    border-left: 3px solid #f48fb1;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+    pointer-events: none;
+  }
+  .pill:hover .tip,
+  .pill:focus .tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
   @media (max-width: 600px) {
     .skill-group { flex-direction: column; gap: 0.4em; }
     .skill-group strong { flex: none; padding-top: 0; }
@@ -212,7 +272,7 @@ dreaming:
       <div class="skill-group">
         <strong>{{ group.name }}</strong>
         <div class="tags">
-          {% for item in group.items %}<span class="tag">{{ item }}</span>{% endfor %}
+          {% for item in group.items %}<span class="pill" tabindex="0"><span class="tag">{{ item.name }}</span>{% if item.note %}<span class="tip">{{ item.note }}</span>{% endif %}</span>{% endfor %}
         </div>
       </div>
     {% endfor %}
