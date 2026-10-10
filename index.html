@@ -98,16 +98,22 @@ currently:
 
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1em 2em;
   }
-  .skill-group strong { display: block; font-size: 0.9em; opacity: 0.8; margin-bottom: 0.2em; }
+  .skill-group strong { display: block; font-size: 0.9em; opacity: 0.8; margin-bottom: 0.5em; }
+  .tags {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5em;
+  }
   .tag {
-    display: inline-block;
-    padding: 0.2em 0.7em;
-    margin: 0.2em 0.2em 0 0;
+    display: block;
+    padding: 0.35em 0.6em;
     border-radius: 999px;
     font-size: 0.85em;
+    line-height: 1.3;
+    text-align: center;
     background: rgba(120, 200, 210, 0.15);
     border: 1px solid rgba(120, 200, 210, 0.4);
   }
@@ -140,7 +146,9 @@ currently:
     {% for group in page.skills %}
       <div class="skill-group">
         <strong>{{ group.name }}</strong>
-        {% for item in group.items %}<span class="tag">{{ item }}</span>{% endfor %}
+        <div class="tags">
+          {% for item in group.items %}<span class="tag">{{ item }}</span>{% endfor %}
+        </div>
       </div>
     {% endfor %}
   </div>
@@ -156,7 +164,7 @@ currently:
 
   <div class="card">
     <h3>Featured project</h3>
-    <p>500° Turreted ball shooter capable of firing at 8 balls per second fully autonomously, ranked top 100 globally in 2026. </p>
+    <p>500° Turreted ball shooter capable of firing at 8 balls per second fully autonomously, ranked top 100 globally in 2026.</p>
     <p><a href="/portfolio/">See all projects &rarr;</a></p>
   </div>
 </div>
