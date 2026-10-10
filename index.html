@@ -18,15 +18,15 @@ gallery:
     image_path: /assets/images/LaptopStand.jpg
     alt: "Laptop stand"
 skills:
+  - name: "Software"
+    items: ["Onshape", "Siemens NX", "Autodesk Fusion", "MATLAB", "Python", "Bambu Slicer", "RichAuto Controller", "Mach3"]
+  - name: "Manufacture"
+    items: ["5-Axis Milling", "3-Axis Milling", "CNC Router", "Laser Cutter", "3D Printing", "Hand Tools"]
   - name: "Design"
-    items: ["CAD", "Iterative design", "Prototyping"]
-  - name: "Manufacturing"
-    items: ["CNC machining", "3D printing", "Hand tools"]
-  - name: "Robotics"
-    items: ["Mechanisms", "Electronics integration", "Competition robots"]
+    items: ["GD&T", "DFM", "Multi-body Assemblies"]
 currently:
-  - "Studying mechanical engineering at Purdue"
-  - "Building and testing new design projects"
+  - "ME @ Purdue"
+  - "Drivetrain Engineer on Purdue Electric Racing"
   - "Looking for internship opportunities"
 ---
 
@@ -141,27 +141,12 @@ currently:
   </div>
 
   <div class="card">
-    <h3>Education</h3>
-    <p><strong>Purdue University</strong><br>
-    B.S. Mechanical Engineering<br>
-    West Lafayette, Indiana</p>
-  </div>
-
-  <div class="card">
     <h3>Featured project</h3>
-    <p>Add a one-line description of your best project here.</p>
+    <p>500° Turreted shooter capable of firing at 8 balls per second autonomously.</p>
     <p><a href="/portfolio/">See all projects &rarr;</a></p>
   </div>
 </div>
 
 <p>Want to work together or just talk engineering? Email me at <a href="mailto:garyyan008@gmail.com">garyyan008@gmail.com</a>.</p>
-
-<p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
-
-<div class="collage">
-  {% for photo in page.gallery %}
-    <img src="{{ photo.image_path }}" alt="{{ photo.alt }}">
-  {% endfor %}
-</div>
 
 <p>Browse my <a href="/portfolio/">Portfolio</a> to see more!</p>
