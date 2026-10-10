@@ -36,4 +36,156 @@ currently:
   .intro-row {
     display: grid;
     grid-template-columns: 1fr 1.25fr;
-    gap:
+    gap: 2em;
+    align-items: start;
+    margin-bottom: 0;
+  }
+  .intro-text p { font-size: 1.1em; }
+  @media (max-width: 800px) {
+    .intro-row { grid-template-columns: 1fr; }
+  }
+
+  .collage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin-top: -3em;
+    margin-bottom: 3em;
+  }
+  @media (max-width: 800px) {
+    .collage { margin-top: 0; margin-bottom: 0; padding: 0.5em 0 1.5em; }
+  }
+  .collage img {
+    position: relative;
+    object-fit: cover;
+    border: 6px solid #fff;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg));
+    transition: transform 0.25s ease;
+  }
+  .collage img:nth-child(1) {
+    width: 52%; aspect-ratio: 4 / 3;
+    --r: -6deg; --x: 0; --y: 0.5em;
+    margin: -0.5em -1.5em; z-index: 1;
+  }
+  .collage img:nth-child(2) {
+    width: 34%; aspect-ratio: 2 / 3;
+    object-position: 65% center;
+    --r: 5deg; --x: -1.5em; --y: 1.5em;
+    margin: 0 -1em; z-index: 3;
+  }
+  .collage img:nth-child(3) {
+    width: 54%; aspect-ratio: 4 / 3;
+    object-position: center;
+    --r: 3deg; --x: 1em; --y: -1em;
+    margin: -1em; z-index: 2;
+  }
+  .collage img:nth-child(4) {
+    width: 50%; aspect-ratio: 5 / 4;
+    --r: -3deg; --x: -1em; --y: -0.5em;
+    margin: -1em 0; z-index: 4;
+  }
+  .collage img:hover {
+    transform: translate(var(--x, 0), var(--y, 0)) rotate(0deg) scale(1.08);
+    z-index: 10;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 1.1em 1.3em;
+    margin-bottom: 1.2em;
+  }
+  .card h3 { margin-top: 0; }
+  .card ul { margin: 0; padding-left: 1.2em; }
+  .card p { margin: 0 0 0.6em; }
+
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  .skill-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2em;
+  }
+  .skill-group strong {
+    flex: 0 0 130px;
+    padding-top: 0.3em;
+    font-size: 0.95em;
+    opacity: 0.8;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45em;
+  }
+  .tag {
+    display: inline-block;
+    padding: 0.25em 0.8em;
+    border-radius: 999px;
+    font-size: 0.85em;
+    white-space: nowrap;
+    background: rgba(120, 200, 210, 0.15);
+    border: 1px solid rgba(120, 200, 210, 0.4);
+  }
+  @media (max-width: 600px) {
+    .skill-group { flex-direction: column; gap: 0.4em; }
+    .skill-group strong { flex: none; padding-top: 0; }
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2em;
+    margin-bottom: 1.5em;
+  }
+  .cards .card { margin-bottom: 0; }
+</style>
+
+<div class="intro-row">
+  <div class="intro-text">
+    <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
+    <p>Browse my <a href="/portfolio/">projects</a> to see more!</p>
+  </div>
+
+  <div class="collage">
+    {% for photo in page.gallery %}
+      <img src="{{ photo.image_path }}" alt="{{ photo.alt }}">
+    {% endfor %}
+  </div>
+</div>
+
+<div class="card">
+  <h3>Skills</h3>
+  <div class="skills-grid">
+    {% for group in page.skills %}
+      <div class="skill-group">
+        <strong>{{ group.name }}</strong>
+        <div class="tags">
+          {% for item in group.items %}<span class="tag">{{ item }}</span>{% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <h3>Currently</h3>
+    <ul>
+      {% for line in page.currently %}<li>{{ line }}</li>{% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Featured project</h3>
+    <p>500° Turreted ball shooter capable of firing at 8 balls per second fully autonomously, ranking top 100 globally in 2026.</p>
+    <p><a href="/portfolio/">See all projects &rarr;</a></p>
+  </div>
+</div>
