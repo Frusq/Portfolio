@@ -5,6 +5,11 @@
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
 
+/* Dark neutral base colors */
+$background-color: #1a1a1a;
+$border-color: #333333;
+$footer-background-color: #121212;
+
 /* Pink accent colors */
 $primary-color: #f48fb1;
 $link-color: #f48fb1;
@@ -17,14 +22,25 @@ $masthead-link-color-hover: #f48fb1;
 
 @import "minimal-mistakes";
 
-/* Top bar: new background color, no line underneath */
+/* Page background, forced in case the variable doesn't apply */
+html,
+body {
+  background-color: #1a1a1a !important;
+}
+
+/* Top bar: muted dark color, no line underneath */
 .masthead,
 .greedy-nav,
 .greedy-nav .hidden-links {
-  background: #3b2a40 !important;
+  background: #2a2628 !important;
 }
 .masthead {
   border-bottom: none !important;
+}
+
+/* Footer */
+.page__footer {
+  background-color: #121212 !important;
 }
 
 /* Direct link colors, in case the variables above don't apply */
