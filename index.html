@@ -102,16 +102,27 @@ dreaming:
     z-index: 10;
   }
 
-  .card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    padding: 1.1em 1.3em;
-    margin-bottom: 1.2em;
+  /* Open sections: no boxes */
+  .block {
+    margin-bottom: 2.8em;
   }
-  .card h3 { margin-top: 0; }
-  .card ul { margin: 0; padding-left: 1.2em; }
-  .card p { margin: 0 0 0.6em; }
+  .page__content h3.block-title {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+    margin: 0 0 1.1em;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #f48fb1;
+  }
+  .page__content h3.block-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(244, 143, 177, 0.35);
+  }
 
   .skills-grid {
     display: flex;
@@ -148,13 +159,27 @@ dreaming:
     .skill-group strong { flex: none; padding-top: 0; }
   }
 
-  .cards {
+  .duo {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.2em;
-    margin-bottom: 1.5em;
+    gap: 2.5em;
   }
-  .cards .card { margin-bottom: 0; }
+  .plain-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .plain-list li {
+    position: relative;
+    padding-left: 1.6em;
+    margin-bottom: 0.7em;
+  }
+  .plain-list li::before {
+    content: "\2192";
+    position: absolute;
+    left: 0;
+    color: #f48fb1;
+  }
 </style>
 
 <div class="intro-row">
@@ -170,8 +195,8 @@ dreaming:
   </div>
 </div>
 
-<div class="card">
-  <h3>Skills</h3>
+<div class="block">
+  <h3 class="block-title">Skills</h3>
   <div class="skills-grid">
     {% for group in page.skills %}
       <div class="skill-group">
@@ -184,17 +209,17 @@ dreaming:
   </div>
 </div>
 
-<div class="cards">
-  <div class="card">
-    <h3>Currently</h3>
-    <ul>
+<div class="duo">
+  <div class="block">
+    <h3 class="block-title">Currently</h3>
+    <ul class="plain-list">
       {% for line in page.currently %}<li>{{ line }}</li>{% endfor %}
     </ul>
   </div>
 
-  <div class="card">
-    <h3>What I'm dreaming about</h3>
-    <ul>
+  <div class="block">
+    <h3 class="block-title">What I'm dreaming about</h3>
+    <ul class="plain-list">
       {% for line in page.dreaming %}<li>{{ line }}</li>{% endfor %}
     </ul>
   </div>
