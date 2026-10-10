@@ -223,4 +223,137 @@ groups:
   .section { margin-bottom: 3em; }
   .section-heading {
     margin: 0 0 0.8em;
-    font-size:
+    font-size: 0.85em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+  .section-text { max-width: 46em; margin: 0 0 1.4em; }
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.6em;
+  }
+  .shots figure { margin: 0; }
+  .shots img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 10px solid #fff;
+    background-color: #fff;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+  }
+  .shots figcaption {
+    margin-top: 0.7em;
+    font-size: 0.85em;
+    opacity: 0.8;
+  }
+
+  /* Close the gap above the footer */
+  .page__content { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+  .page { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+  .page__footer { margin-top: 2em !important; }
+
+  /* Fall into place as you scroll (only when JavaScript is available) */
+  .rv-on .rv {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .rv-on .rv.in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.34, 1.3, 0.64, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rv-on .rv { opacity: 1; transform: none; }
+  }
+</style>
+
+<p class="lead">A selection of things I've designed and built, grouped by where I made them.</p>
+
+<div class="tags jump">
+  {% for g in page.groups %}<a class="tag" href="#{{ g.id }}">{{ g.name }}</a>{% endfor %}
+</div>
+
+<div class="overview">
+  {% for g in page.groups %}
+    {% for p in g.projects %}
+      <a class="ov rv" href="#{{ g.id }}-{{ p.title | slugify }}">
+        <img src="{{ p.hero }}" alt="{{ p.hero_alt }}">
+        <div class="ov-group">{{ g.name }}</div>
+        <div class="ov-title">{{ p.title }}</div>
+      </a>
+    {% endfor %}
+  {% endfor %}
+</div>
+
+{% for g in page.groups %}
+<div class="group" id="{{ g.id }}">
+  <h2 class="label rv">{{ g.name }}</h2>
+  {% if g.blurb %}<p class="group-blurb">{{ g.blurb }}</p>{% endif %}
+
+  {% for p in g.projects %}
+  <div class="project" id="{{ g.id }}-{{ p.title | slugify }}">
+    <h3 class="project-title rv">{{ p.title }}</h3>
+
+    <div class="project-top">
+      <div class="rv">
+        <p class="situation"><strong>Situation:</strong> {{ p.situation }}</p>
+        <ul class="plain-list">
+          {% for pt in p.points %}<li>{{ pt }}</li>{% endfor %}
+        </ul>
+        {% if p.tools %}
+        <div class="tags">
+          {% for t in p.tools %}<span class="tag">{{ t }}</span>{% endfor %}
+        </div>
+        {% endif %}
+        {% if p.links and p.links.size > 0 %}
+        <div class="project-links">
+          {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      <div class="rv">
+        <img class="photo" src="{{ p.hero }}" alt="{{ p.hero_alt }}">
+      </div>
+    </div>
+
+    {% for s in p.sections %}
+    <div class="section rv">
+      <h4 class="section-heading">{{ s.heading }}</h4>
+      {% if s.text %}<p class="section-text">{{ s.text }}</p>{% endif %}
+      {% if s.images %}
+      <div class="shots">
+        {% for im in s.images %}
+        <figure>
+          <img src="{{ im.src }}" alt="{{ im.alt }}">
+          {% if im.caption %}<figcaption>{{ im.caption }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.rv');
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.documentElement.classList.add('rv-on');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
