@@ -59,7 +59,7 @@ plugins:
 author:
   name   : "Gary Yan"
   avatar : "/assets/images/Headshot.jpg"
-  location : San Francisco Bay Area
+  location : San Francisco Bay Area, California
   links:
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
@@ -73,6 +73,9 @@ footer:
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
       url: "https://linkedin.com/in/garyyan8"
+
+atom_feed:
+  hide: true
 
 collections:
   portfolio:
