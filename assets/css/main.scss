@@ -87,3 +87,49 @@ a:hover,
 .page__footer a:hover {
   color: #f48fb1;
 }
+
+/* ---------- Home page personalization ---------- */
+
+/* Pink bullets and a pink accent line on each card */
+.page__content .card {
+  border-top: 3px solid #f48fb1;
+}
+.page__content .card h3 {
+  color: #f8bbd0;
+}
+.card li::marker {
+  color: #f48fb1;
+}
+
+/* Skill pills lift slightly on hover */
+.tag {
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.tag:hover {
+  transform: translateY(-2px);
+  background: rgba(244, 143, 177, 0.3);
+}
+
+/* Stats strip (only shows if you add the stats HTML to index.html) */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.2em;
+  margin-bottom: 1.2em;
+}
+.stat {
+  text-align: center;
+  padding: 1em;
+  border-radius: 10px;
+  background: rgba(244, 143, 177, 0.1);
+  border: 1px solid rgba(244, 143, 177, 0.35);
+}
+.stat-number {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #f48fb1;
+}
+.stat-label {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
