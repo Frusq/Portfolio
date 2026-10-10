@@ -28,6 +28,10 @@ currently:
   - "First Year ME @ Purdue"
   - "Drivetrain Engineer on Purdue Electric Racing"
   - "Looking for internship opportunities"
+dreaming:
+  - "Replace this with your first dream"
+  - "Replace this with your second dream"
+  - "Replace this with your third dream"
 ---
 
 <style>
@@ -185,7 +189,8 @@ currently:
 
   <div class="card">
     <h3>What I'm dreaming of right now</h3>
-    <p>500° Turreted ball shooter capable of firing at 8 balls per second fully autonomously, ranking top 100 globally in 2026.</p>
-    <p><a href="/portfolio/">See all projects &rarr;</a></p>
+    <ul>
+      {% for line in page.dreaming %}<li>{{ line }}</li>{% endfor %}
+    </ul>
   </div>
 </div>
