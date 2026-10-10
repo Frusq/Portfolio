@@ -38,7 +38,7 @@ currently:
     grid-template-columns: 1fr 1.25fr;
     gap: 2em;
     align-items: start;
-    margin-bottom: 1.5em;
+    margin-bottom: 0;
   }
   .intro-text p { font-size: 1.1em; }
   @media (max-width: 800px) {
@@ -50,7 +50,12 @@ currently:
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 0.5em 0 1.5em;
+    padding: 0;
+    margin-top: -2em;
+    margin-bottom: -1.5em;
+  }
+  @media (max-width: 800px) {
+    .collage { margin-top: 0; margin-bottom: 0; padding: 0.5em 0 1.5em; }
   }
   .collage img {
     position: relative;
@@ -94,92 +99,4 @@ currently:
     padding: 1.1em 1.3em;
     margin-bottom: 1.2em;
   }
-  .card h3 { margin-top: 0; }
-  .card ul { margin: 0; padding-left: 1.2em; }
-  .card p { margin: 0 0 0.6em; }
-
-  .skills-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-  }
-  .skill-group {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.2em;
-  }
-  .skill-group strong {
-    flex: 0 0 130px;
-    padding-top: 0.3em;
-    font-size: 0.95em;
-    opacity: 0.8;
-  }
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45em;
-  }
-  .tag {
-    display: inline-block;
-    padding: 0.25em 0.8em;
-    border-radius: 999px;
-    font-size: 0.85em;
-    white-space: nowrap;
-    background: rgba(120, 200, 210, 0.15);
-    border: 1px solid rgba(120, 200, 210, 0.4);
-  }
-  @media (max-width: 600px) {
-    .skill-group { flex-direction: column; gap: 0.4em; }
-    .skill-group strong { flex: none; padding-top: 0; }
-  }
-
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.2em;
-    margin-bottom: 1.5em;
-  }
-  .cards .card { margin-bottom: 0; }
-</style>
-
-<div class="intro-row">
-  <div class="intro-text">
-    <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
-    <p>Browse my <a href="/portfolio/">projects</a> to see more!</p>
-  </div>
-
-  <div class="collage">
-    {% for photo in page.gallery %}
-      <img src="{{ photo.image_path }}" alt="{{ photo.alt }}">
-    {% endfor %}
-  </div>
-</div>
-
-<div class="card">
-  <h3>Skills</h3>
-  <div class="skills-grid">
-    {% for group in page.skills %}
-      <div class="skill-group">
-        <strong>{{ group.name }}</strong>
-        <div class="tags">
-          {% for item in group.items %}<span class="tag">{{ item }}</span>{% endfor %}
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-</div>
-
-<div class="cards">
-  <div class="card">
-    <h3>Currently</h3>
-    <ul>
-      {% for line in page.currently %}<li>{{ line }}</li>{% endfor %}
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>Featured project</h3>
-    <p>500° Turreted ball shooter capable of firing at 8 balls per second fully autonomously, ranking top 100 globally in 2026.</p>
-    <p><a href="/portfolio/">See all projects &rarr;</a></p>
-  </div>
-</div>
+  .card h3 {
