@@ -18,8 +18,11 @@ email: garyyan008@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Purdue Mechanical Engineering student passionate about transforming creative design into real-world innovation through robotics.
 github_username: Frusq
-minimal_mistakes_skin: default
+minimal_mistakes_skin: dark
 search: true
+
+url: "https://garyyan.net"
+baseurl: ""
 
 # Build settings
 markdown: kramdown
@@ -28,7 +31,7 @@ remote_theme: mmistakes/minimal-mistakes
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: America/Los_Angeles
 
 include:
   - _pages
@@ -57,20 +60,21 @@ plugins:
 author:
   name   : "Gary Yan"
   avatar : "/assets/images/IMG_3748.jpg"
-  bio    : "Purdue mechanical engineering student from the Bay Area"
+  bio    : "Purdue mechanical engineering student"
+  location : San Francisco Bay Area, California
   links:
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
-      url: "www.linkedin.com/in/garyyan8"
+      url: "https://linkedin.com/in/garyyan8"
     - label: "Email"
       icon: "fas fa-fw fa-envelope"
-      url: "garyyan008@gmail.com"
+      url: "mailto:garyyan008@gmail.com"
 
 footer:
   links:
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
-      url: "www.linkedin.com/in/garyyan8"
+      url: "https://linkedin.com/in/garyyan8"
 
 defaults:
   # _posts
@@ -81,7 +85,7 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      comments: true
+      comments: false
       share: true
       related: true
   # _pages
