@@ -4,7 +4,7 @@ title: "Hi, I'm Gary"
 permalink: /
 author_profile: true
 gallery:
-  - url: /assets/images/BallKnowledge.jpg
+  - url: /assets/images/BallKnowledge.PNG
     image_path: /assets/images/BallKnowledge.jpg
     alt: "Ball Knowledge project"
   - url: /assets/images/Climb.jpg
@@ -18,8 +18,39 @@ gallery:
     alt: "Laptop stand"
 ---
 
+<style>
+  .collage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1.5em 0 2.5em;
+  }
+  .collage img {
+    position: relative;
+    width: 46%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 6px solid #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    margin: -1em;
+    transition: transform 0.25s ease;
+  }
+  .collage img:nth-child(1) { transform: rotate(-4deg); }
+  .collage img:nth-child(2) { transform: rotate(3deg); }
+  .collage img:nth-child(3) { transform: rotate(2deg); }
+  .collage img:nth-child(4) { transform: rotate(-3deg); }
+  .collage img:hover {
+    transform: rotate(0deg) scale(1.08);
+    z-index: 10;
+  }
+</style>
+
 <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
 
-{% include gallery columns=2 %}
+<div class="collage">
+  {% for photo in page.gallery %}
+    <img src="{{ photo.image_path }}" alt="{{ photo.alt }}">
+  {% endfor %}
+</div>
 
 <p>Browse my <a href="/portfolio/">Portfolio</a> to see more!</p>
