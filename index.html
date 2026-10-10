@@ -117,3 +117,67 @@ currently:
     flex-wrap: wrap;
     gap: 0.45em;
   }
+  .tag {
+    display: inline-block;
+    padding: 0.25em 0.8em;
+    border-radius: 999px;
+    font-size: 0.85em;
+    white-space: nowrap;
+    background: rgba(120, 200, 210, 0.15);
+    border: 1px solid rgba(120, 200, 210, 0.4);
+  }
+  @media (max-width: 600px) {
+    .skill-group { flex-direction: column; gap: 0.4em; }
+    .skill-group strong { flex: none; padding-top: 0; }
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2em;
+    margin-bottom: 1.5em;
+  }
+  .cards .card { margin-bottom: 0; }
+</style>
+
+<div class="intro-row">
+  <div class="intro-text">
+    <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
+    <p>Browse my <a href="/portfolio/">projects</a> to see more!</p>
+  </div>
+
+  <div class="collage">
+    {% for photo in page.gallery %}
+      <img src="{{ photo.image_path }}" alt="{{ photo.alt }}">
+    {% endfor %}
+  </div>
+</div>
+
+<div class="card">
+  <h3>Skills</h3>
+  <div class="skills-grid">
+    {% for group in page.skills %}
+      <div class="skill-group">
+        <strong>{{ group.name }}</strong>
+        <div class="tags">
+          {% for item in group.items %}<span class="tag">{{ item }}</span>{% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <h3>Currently</h3>
+    <ul>
+      {% for line in page.currently %}<li>{{ line }}</li>{% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Featured project</h3>
+    <p>500° Turreted ball shooter capable of firing at 8 balls per second fully autonomously, ranking top 100 globally in 2026.</p>
+    <p><a href="/portfolio/">See all projects &rarr;</a></p>
+  </div>
+</div>
