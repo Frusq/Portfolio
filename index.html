@@ -4,7 +4,7 @@ title: "Hi, I'm Gary"
 permalink: /
 author_profile: true
 gallery:
-  - url: /assets/images/BallKnowledge.PNG
+  - url: /assets/images/BallKnowledge.jpg
     image_path: /assets/images/BallKnowledge.jpg
     alt: "Ball Knowledge project"
   - url: /assets/images/Climb.jpg
@@ -23,24 +23,40 @@ gallery:
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 1.5em 0 2.5em;
+    align-items: center;
+    padding: 2em 0 3em;
   }
   .collage img {
     position: relative;
-    width: 46%;
-    aspect-ratio: 4 / 3;
     object-fit: cover;
     border: 6px solid #fff;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
-    margin: -1em;
+    transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg));
     transition: transform 0.25s ease;
   }
-  .collage img:nth-child(1) { transform: rotate(-4deg); }
-  .collage img:nth-child(2) { transform: rotate(3deg); }
-  .collage img:nth-child(3) { transform: rotate(2deg); }
-  .collage img:nth-child(4) { transform: rotate(-3deg); }
+  .collage img:nth-child(1) {
+    width: 52%; aspect-ratio: 4 / 3;
+    --r: -6deg; --x: 0; --y: 0.5em;
+    margin: -0.5em -1.5em; z-index: 1;
+  }
+   .collage img:nth-child(2) {
+    width: 34%; aspect-ratio: 2 / 3;
+    object-position: 65% center;
+    --r: 5deg; --x: -1.5em; --y: 1.5em;
+    margin: 0 -1em; z-index: 3;
+  }
+  .collage img:nth-child(3) {
+    width: 40%; aspect-ratio: 3 / 4;
+    --r: 3deg; --x: 1em; --y: -1em;
+    margin: -1em; z-index: 2;
+  }
+  .collage img:nth-child(4) {
+    width: 50%; aspect-ratio: 5 / 4;
+    --r: -3deg; --x: -1em; --y: -0.5em;
+    margin: -1em 0; z-index: 4;
+  }
   .collage img:hover {
-    transform: rotate(0deg) scale(1.08);
+    transform: translate(var(--x, 0), var(--y, 0)) rotate(0deg) scale(1.08);
     z-index: 10;
   }
 </style>
