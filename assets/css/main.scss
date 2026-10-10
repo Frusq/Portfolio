@@ -21,10 +21,10 @@ $masthead-link-color-hover: #f48fb1;
 .masthead,
 .greedy-nav,
 .greedy-nav .hidden-links {
-  background-color: #3b2a40;
+  background: #3b2a40 !important;
 }
 .masthead {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 /* Direct link colors, in case the variables above don't apply */
