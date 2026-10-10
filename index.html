@@ -31,7 +31,6 @@ currently:
 dreaming:
   - "Quadruped Exploration Robot"
   - "Badminton Shuttle Launcher"
-  - "Aluminum Keyboard Case"
 ---
 
 <style>
@@ -66,7 +65,12 @@ dreaming:
     object-fit: cover;
     border: 3px solid #fff;
     border-radius: 14px;
+    background-color: #fff;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+    outline: 1px solid transparent;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
     transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg));
     transition: transform 0.25s ease;
   }
