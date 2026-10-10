@@ -17,9 +17,37 @@ $masthead-link-color-hover: #f48fb1;
 
 @import "minimal-mistakes";
 
-/* Pink line under the top bar */
+/* Top bar: new background color, no line underneath */
+.masthead,
+.greedy-nav,
+.greedy-nav .hidden-links {
+  background-color: #3b2a40;
+}
 .masthead {
-  border-bottom: 2px solid rgba(244, 143, 177, 0.5);
+  border-bottom: none;
+}
+
+/* Direct link colors, in case the variables above don't apply */
+a,
+.page__content a,
+.page__inner-wrap a {
+  color: #f48fb1;
+}
+a:visited,
+.page__content a:visited {
+  color: #d4799a;
+}
+a:hover,
+.page__content a:hover {
+  color: #f8bbd0;
+}
+
+/* Top bar links */
+.greedy-nav a {
+  color: #ffffff;
+}
+.greedy-nav a:hover {
+  color: #f48fb1;
 }
 
 /* Sidebar links (LinkedIn, email) */
