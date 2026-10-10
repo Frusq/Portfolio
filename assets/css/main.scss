@@ -22,10 +22,16 @@ $masthead-link-color-hover: #f48fb1;
 
 @import "minimal-mistakes";
 
-/* Page background, forced in case the variable doesn't apply */
+/* Page background, forced on every wrapper */
 html,
-body {
-  background-color: #1a1a1a !important;
+body,
+.initial-content,
+.page,
+.page__inner-wrap,
+.page__content,
+.layout--single,
+.layout--wide {
+  background: #1a1a1a !important;
 }
 
 /* Top bar: muted dark color, no line underneath */
@@ -40,7 +46,7 @@ body {
 
 /* Footer */
 .page__footer {
-  background-color: #121212 !important;
+  background: #121212 !important;
 }
 
 /* Direct link colors, in case the variables above don't apply */
