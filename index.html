@@ -1,8 +1,9 @@
 ---
 layout: single
-title: "Hi, I'm Gary"
+title: "Hi, I'm Gary Yan"
 permalink: /
 author_profile: true
+classes: wide
 gallery:
   - url: /assets/images/BallKnowledge.jpg
     image_path: /assets/images/BallKnowledge.jpg
@@ -16,10 +17,30 @@ gallery:
   - url: /assets/images/LaptopStand.jpg
     image_path: /assets/images/LaptopStand.jpg
     alt: "Laptop stand"
+skills:
+  - name: "Design"
+    items: ["CAD", "Iterative design", "Prototyping"]
+  - name: "Manufacturing"
+    items: ["CNC machining", "3D printing", "Hand tools"]
+  - name: "Robotics"
+    items: ["Mechanisms", "Electronics integration", "Competition robots"]
+currently:
+  - "Studying mechanical engineering at Purdue"
+  - "Building and testing new design projects"
+  - "Looking for internship opportunities"
 ---
 
 <style>
+  .intro-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2em;
+  }
+  .intro-text { flex: 1 1 280px; }
   .collage {
+    flex: 1 1 380px;
+    max-width: 520px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -39,14 +60,14 @@ gallery:
     --r: -6deg; --x: 0; --y: 0.5em;
     margin: -0.5em -1.5em; z-index: 1;
   }
-   .collage img:nth-child(2) {
+  .collage img:nth-child(2) {
     width: 34%; aspect-ratio: 2 / 3;
     object-position: 65% center;
     --r: 5deg; --x: -1.5em; --y: 1.5em;
     margin: 0 -1em; z-index: 3;
   }
-   .collage img:nth-child(3) {
-    width: 40%; aspect-ratio: 3 / 5;
+  .collage img:nth-child(3) {
+    width: 60%; aspect-ratio: 16 / 9;
     object-position: 40% center;
     --r: 3deg; --x: 1em; --y: -1em;
     margin: -1em; z-index: 2;
@@ -60,7 +81,80 @@ gallery:
     transform: translate(var(--x, 0), var(--y, 0)) rotate(0deg) scale(1.08);
     z-index: 10;
   }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2em;
+    margin: 1em 0 2em;
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 1.1em 1.3em;
+  }
+  .card h3 { margin-top: 0; }
+  .card ul { margin: 0; padding-left: 1.2em; }
+  .skill-group { margin-bottom: 0.6em; }
+  .skill-group strong { display: block; font-size: 0.9em; opacity: 0.8; }
+  .tag {
+    display: inline-block;
+    padding: 0.2em 0.7em;
+    margin: 0.2em 0.2em 0 0;
+    border-radius: 999px;
+    font-size: 0.85em;
+    background: rgba(120, 200, 210, 0.15);
+    border: 1px solid rgba(120, 200, 210, 0.4);
+  }
 </style>
+
+<div class="intro-row">
+  <div class="intro-text">
+    <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
+    <p>Browse my <a href="/portfolio/">Portfolio</a> to see more!</p>
+  </div>
+
+  <div class="collage">
+    {% for photo in page.gallery %}
+      <img src="{{ photo.image_path }}" alt="{{ photo.alt }}">
+    {% endfor %}
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <h3>Skills</h3>
+    {% for group in page.skills %}
+      <div class="skill-group">
+        <strong>{{ group.name }}</strong>
+        {% for item in group.items %}<span class="tag">{{ item }}</span>{% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="card">
+    <h3>Currently</h3>
+    <ul>
+      {% for line in page.currently %}<li>{{ line }}</li>{% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Education</h3>
+    <p><strong>Purdue University</strong><br>
+    B.S. Mechanical Engineering<br>
+    West Lafayette, Indiana</p>
+  </div>
+
+  <div class="card">
+    <h3>Featured project</h3>
+    <p>Add a one-line description of your best project here.</p>
+    <p><a href="/portfolio/">See all projects &rarr;</a></p>
+  </div>
+</div>
+
+<p>Want to work together or just talk engineering? Email me at <a href="mailto:garyyan008@gmail.com">garyyan008@gmail.com</a>.</p>
 
 <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
 
