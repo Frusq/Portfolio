@@ -271,10 +271,71 @@ dreaming:
   .page__content { padding-bottom: 0 !important; margin-bottom: 0 !important; }
   .page { margin-bottom: 0 !important; padding-bottom: 0 !important; }
   .page__footer { margin-top: 2em !important; }
+
+  /* ---------- Entrance animations: things fall into place ---------- */
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: translate(var(--x, 0), calc(var(--y, 0px) - 180px)) rotate(calc(var(--r, 0deg) - 18deg));
+    }
+    to {
+      opacity: 1;
+      transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg));
+    }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(-28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Photos drop in one after another, with a small bounce as they land */
+  .collage img {
+    animation: drop-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+  .collage img:nth-child(1) { animation-delay: 0.30s; }
+  .collage img:nth-child(2) { animation-delay: 0.45s; }
+  .collage img:nth-child(3) { animation-delay: 0.60s; }
+  .collage img:nth-child(4) { animation-delay: 0.75s; }
+
+  /* Text and section labels drop in; delay is set per element with --d */
+  .reveal {
+    animation: rise-in 0.7s ease-out backwards;
+    animation-delay: var(--d, 0s);
+  }
+
+  /* Skill pills pop in left to right, row by row */
+  .skill-group strong {
+    animation: rise-in 0.6s ease-out backwards;
+    animation-delay: calc(0.85s + var(--g, 0) * 0.15s);
+  }
+  .pill {
+    animation: rise-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+    animation-delay: calc(0.9s + var(--g, 0) * 0.15s + var(--i, 0) * 0.045s);
+  }
+
+  /* Sidebar fades in */
+  .sidebar {
+    animation: fade-in 0.8s ease-out backwards;
+  }
+
+  /* Respect people who turn off motion in their system settings */
+  @media (prefers-reduced-motion: reduce) {
+    .collage img,
+    .reveal,
+    .skill-group strong,
+    .pill,
+    .sidebar {
+      animation: none !important;
+    }
+  }
 </style>
 
 <div class="intro-row">
-  <div class="intro-text">
+  <div class="intro-text reveal" style="--d: 0.05s">
     <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
     <p>Browse my <a href="/portfolio/">portfolio</a> to see more!</p>
   </div>
@@ -287,13 +348,13 @@ dreaming:
 </div>
 
 <div class="block">
-  <h3 class="block-title">Skills</h3>
+  <h3 class="block-title reveal" style="--d: 0.7s">Skills</h3>
   <div class="skills-grid">
     {% for group in page.skills %}
-      <div class="skill-group">
+      <div class="skill-group" style="--g: {{ forloop.index0 }}">
         <strong>{{ group.name }}</strong>
         <div class="tags">
-          {% for item in group.items %}<span class="pill" tabindex="0"><span class="tag">{{ item.name }}</span>{% if item.note %}<span class="tip">{{ item.note | replace: ' | ', '<br>' }}</span>{% endif %}</span>{% endfor %}
+          {% for item in group.items %}<span class="pill" tabindex="0" style="--i: {{ forloop.index0 }}"><span class="tag">{{ item.name }}</span>{% if item.note %}<span class="tip">{{ item.note | replace: ' | ', '<br>' }}</span>{% endif %}</span>{% endfor %}
         </div>
       </div>
     {% endfor %}
@@ -301,14 +362,14 @@ dreaming:
 </div>
 
 <div class="duo">
-  <div class="block">
+  <div class="block reveal" style="--d: 1.3s">
     <h3 class="block-title">Currently</h3>
     <ul class="plain-list">
       {% for line in page.currently %}<li>{{ line }}</li>{% endfor %}
     </ul>
   </div>
 
-  <div class="block">
+  <div class="block reveal" style="--d: 1.45s">
     <h3 class="block-title">What I'm dreaming about</h3>
     <ul class="plain-list">
       {% for line in page.dreaming %}<li>{{ line }}</li>{% endfor %}
