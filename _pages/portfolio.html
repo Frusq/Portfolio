@@ -15,26 +15,57 @@ groups:
       - "Headed strategy team and dictated match strategy with alliance partners"
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
-        situation: "Replace with the situation: what the problem was and what you set out to build. Fully autonomous shooter firing 8 balls per second, ranked top 100 globally in 2026."
-        points:
-          - "Replace with what you designed or modeled"
-          - "Replace with a constraint or challenge you solved"
-          - "Replace with what you manufactured"
-        tools: ["Onshape", "3D Printing", "CNC Router"]
-        hero: /assets/images/BallKnowledge.jpg
-        hero_alt: "FRC 6036 robot surrounded by yellow balls"
-        links: []
-        sections:
-          - heading: "How it works"
-            text: "Replace with a short explanation of the mechanism, like how the turret aims and how balls are fed."
-        # Photo slots: swap the src for each new photo. Add caption: "..." if you want one.
-        photos:
-          - { src: "/assets/images/BallKnowledge.jpg" }
-          - { src: "/assets/images/BallKnowledge.jpg" }
-          - { src: "/assets/images/BallKnowledge.jpg" }
-          - { src: "/assets/images/BallKnowledge.jpg" }
-          - { src: "/assets/images/BallKnowledge.jpg" }
-          - { src: "/assets/images/BallKnowledge.jpg" }
+        summary: "Fully autonomous shooter firing 8 balls per second, ranked top 100 globally in 2026. Replace or add a line about the overall robot."
+        parts:
+          - kicker: "Master Sketch"
+            name: "Replace with a short name, like Overall Layout"
+            size: small
+            situation: "Replace with how the master sketch set the layout and packaging for the whole robot."
+            points:
+              - "Replace with a key constraint it defined"
+              - "Replace with how it kept the subsystems compatible"
+            tools: ["Onshape"]
+            image: /assets/images/BallKnowledge.jpg
+            alt: "FRC 6036 robot surrounded by yellow balls"
+            photos:
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+          - kicker: "Subsystem 1"
+            name: "Replace with the subsystem name"
+            situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
+            points:
+              - "Replace with what you designed or modeled"
+              - "Replace with a constraint or challenge you solved"
+              - "Replace with what you manufactured"
+            tools: ["Onshape", "CNC Router"]
+            image: /assets/images/BallKnowledge.jpg
+            alt: "Replace with a description of the photo"
+            photos:
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+          - kicker: "Subsystem 2"
+            name: "Replace with the subsystem name"
+            situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
+            points:
+              - "Replace with what you designed or modeled"
+              - "Replace with a constraint or challenge you solved"
+              - "Replace with what you manufactured"
+            tools: ["Onshape", "3D Printing"]
+            image: /assets/images/BallKnowledge.jpg
+            alt: "Replace with a description of the photo"
+            photos:
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
+              - { src: "/assets/images/BallKnowledge.jpg" }
   - id: purdue-electric-racing
     name: "Purdue Electric Racing"
     blurb: "Replace with one line about your drivetrain role"
@@ -203,6 +234,7 @@ groups:
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
+  .project-summary { max-width: 56em; margin: -0.4em 0 2.8em; }
 
   .project-top {
     display: grid;
@@ -250,6 +282,58 @@ groups:
     flex-wrap: wrap;
     gap: 0.8em 1.6em;
     margin-top: 1.2em;
+  }
+
+  /* Parts inside one project (master sketch, subsystems) */
+  .part { margin-bottom: 4.5em; }
+  .part:last-child { margin-bottom: 0; }
+  .part-kicker {
+    margin-bottom: 0.3em;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #f48fb1;
+  }
+  .page__content h4.part-title {
+    margin: 0 0 1.2em;
+    padding: 0;
+    border: none;
+    font-size: 1.15em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Smaller part (master sketch): tighter text, smaller photos */
+  .part--small { margin-bottom: 3.5em; }
+  .part--small .part-kicker { font-size: 0.72em; }
+  .page__content .part--small h4.part-title {
+    margin-bottom: 0.9em;
+    font-size: 0.95em;
+  }
+  .part--small .project-top {
+    grid-template-columns: 1.5fr 0.8fr;
+    gap: 2em;
+    margin-bottom: 1.5em;
+  }
+  .part--small .situation,
+  .part--small .plain-list li { font-size: 0.92em; }
+  .part--small .photo { border-width: 8px; }
+  .part--small .gallery {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+    margin-bottom: 0;
+  }
+  .part--small .gallery img { border-width: 6px; }
+  @media (max-width: 1000px) {
+    .part--small .gallery { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 800px) {
+    .part--small .project-top { grid-template-columns: 1fr; gap: 1.2em; }
+  }
+  @media (max-width: 600px) {
+    .part--small .gallery { grid-template-columns: 1fr; }
   }
 
   /* Extra sections inside a project (How it works, Dev / Test, etc.) */
@@ -361,56 +445,103 @@ groups:
   <div class="project" id="{{ g.id }}-{{ p.title | slugify }}">
     <h3 class="project-title rv">{{ p.title }}</h3>
 
-    <div class="project-top">
-      <div class="rv">
-        <p class="situation"><strong>Situation:</strong> {{ p.situation }}</p>
-        <ul class="plain-list">
-          {% for pt in p.points %}<li>{{ pt }}</li>{% endfor %}
-        </ul>
-        {% if p.tools %}
-        <div class="tags">
-          {% for t in p.tools %}<span class="tag">{{ t }}</span>{% endfor %}
-        </div>
-        {% endif %}
-        {% if p.links and p.links.size > 0 %}
-        <div class="project-links">
-          {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}
-        </div>
-        {% endif %}
-      </div>
-      <div class="rv">
-        <img class="photo" src="{{ p.hero }}" alt="{{ p.hero_alt }}">
-      </div>
-    </div>
+    {% if p.parts %}
 
-    {% for s in p.sections %}
-    <div class="section rv">
-      <h4 class="section-heading">{{ s.heading }}</h4>
-      {% if s.text %}<p class="section-text">{{ s.text }}</p>{% endif %}
-      {% if s.images %}
-      <div class="shots">
-        {% for im in s.images %}
-        <figure>
-          <img src="{{ im.src }}" alt="{{ im.alt }}">
-          {% if im.caption %}<figcaption>{{ im.caption }}</figcaption>{% endif %}
+      {% if p.summary %}<p class="project-summary rv">{{ p.summary }}</p>{% endif %}
+
+      {% for part in p.parts %}
+      <div class="part{% if part.size == 'small' %} part--small{% endif %}">
+        {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
+        <h4 class="part-title rv">{{ part.name }}</h4>
+
+        <div class="project-top">
+          <div class="rv">
+            {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
+            {% if part.points %}
+            <ul class="plain-list">
+              {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+            {% if part.tools %}
+            <div class="tags">
+              {% for t in part.tools %}<span class="tag">{{ t }}</span>{% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          <div class="rv">
+            <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
+          </div>
+        </div>
+
+        {% if part.photos and part.photos.size > 0 %}
+        <div class="gallery">
+          {% for ph in part.photos %}
+          <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+            <a href="{{ ph.src }}" target="_blank" rel="noopener">
+              <img src="{{ ph.src }}" alt="{{ ph.alt | default: part.name }}">
+            </a>
+            {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+          </figure>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+    {% else %}
+
+      <div class="project-top">
+        <div class="rv">
+          <p class="situation"><strong>Situation:</strong> {{ p.situation }}</p>
+          <ul class="plain-list">
+            {% for pt in p.points %}<li>{{ pt }}</li>{% endfor %}
+          </ul>
+          {% if p.tools %}
+          <div class="tags">
+            {% for t in p.tools %}<span class="tag">{{ t }}</span>{% endfor %}
+          </div>
+          {% endif %}
+          {% if p.links and p.links.size > 0 %}
+          <div class="project-links">
+            {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="rv">
+          <img class="photo" src="{{ p.hero }}" alt="{{ p.hero_alt }}">
+        </div>
+      </div>
+
+      {% for s in p.sections %}
+      <div class="section rv">
+        <h4 class="section-heading">{{ s.heading }}</h4>
+        {% if s.text %}<p class="section-text">{{ s.text }}</p>{% endif %}
+        {% if s.images %}
+        <div class="shots">
+          {% for im in s.images %}
+          <figure>
+            <img src="{{ im.src }}" alt="{{ im.alt }}">
+            {% if im.caption %}<figcaption>{{ im.caption }}</figcaption>{% endif %}
+          </figure>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      {% if p.photos and p.photos.size > 0 %}
+      <div class="gallery">
+        {% for ph in p.photos %}
+        <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+          <a href="{{ ph.src }}" target="_blank" rel="noopener">
+            <img src="{{ ph.src }}" alt="{{ ph.alt | default: p.title }}">
+          </a>
+          {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
         </figure>
         {% endfor %}
       </div>
       {% endif %}
-    </div>
-    {% endfor %}
 
-    {% if p.photos and p.photos.size > 0 %}
-    <div class="gallery">
-      {% for ph in p.photos %}
-      <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
-        <a href="{{ ph.src }}" target="_blank" rel="noopener">
-          <img src="{{ ph.src }}" alt="{{ ph.alt | default: p.title }}">
-        </a>
-        {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
-      </figure>
-      {% endfor %}
-    </div>
     {% endif %}
   </div>
   {% endfor %}
