@@ -23,7 +23,6 @@ $masthead-link-color-hover: #f48fb1;
 @import "minimal-mistakes";
 
 /* Page background, forced on every wrapper */
-html,
 body,
 .initial-content,
 .page,
@@ -32,6 +31,16 @@ body,
 .layout--single,
 .layout--wide {
   background: #1a1a1a !important;
+}
+
+/* What shows when you pull past the top or bottom of the page (rubber-band scroll):
+   the top bar color above the page, the footer color below it */
+html {
+  background-color: #121212 !important;
+  background-image: linear-gradient(#2a2628, #2a2628) !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100vh !important;
+  background-position: 0 -100vh !important;
 }
 
 /* Top bar: muted dark color, no line underneath */
