@@ -7,14 +7,14 @@ classes: wide
 groups:
   - id: frc-6036
     name: "FRC 6036"
-    blurb: "Design Captain & Drive Coach
-Lead design subteam, prototyping, and manufacture timelines using Gantt charts
-Conducted design reviews for every subsystem to ensure mechanism compatibility
-Managed part procurement and inventory using spreadsheets and weekly tracking
-Headed strategy team and dictated match strategy with alliance partners
-"
+    blurb: "Design Captain & Drive Coach"
+    role_points:
+      - "Lead design subteam, prototyping, and manufacture timelines using Gantt charts"
+      - "Conducted design reviews for every subsystem to ensure mechanism compatibility"
+      - "Managed part procurement and inventory using spreadsheets and weekly tracking"
+      - "Headed strategy team and dictated match strategy with alliance partners"
     projects:
-      - title: "FRC 2026 Robot "Ball Knowledge""
+      - title: 'FRC 2026 Robot "Ball Knowledge"'
         situation: "Replace with the situation: what the problem was and what you set out to build. Fully autonomous shooter firing 8 balls per second, ranked top 100 globally in 2026."
         points:
           - "Replace with what you designed or modeled"
@@ -183,7 +183,14 @@ Headed strategy team and dictated match strategy with alliance partners
 
   /* Groups and projects */
   .group { margin-bottom: 3.5em; }
-  .group-blurb { margin: -0.4em 0 2.5em; opacity: 0.8; }
+  .group-intro { margin: -0.4em 0 2.5em; max-width: 56em; }
+  .group-blurb {
+    margin: 0 0 0.9em;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  .group-intro .plain-list { margin-bottom: 0; }
+  .group-intro > :last-child { margin-bottom: 0; }
 
   .project {
     margin-bottom: 5em;
@@ -339,7 +346,16 @@ Headed strategy team and dictated match strategy with alliance partners
 {% for g in page.groups %}
 <div class="group" id="{{ g.id }}">
   <h2 class="label rv">{{ g.name }}</h2>
-  {% if g.blurb %}<p class="group-blurb">{{ g.blurb }}</p>{% endif %}
+  {% if g.blurb or g.role_points %}
+  <div class="group-intro">
+    {% if g.blurb %}<p class="group-blurb">{{ g.blurb }}</p>{% endif %}
+    {% if g.role_points %}
+    <ul class="plain-list">
+      {% for rp in g.role_points %}<li>{{ rp }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  {% endif %}
 
   {% for p in g.projects %}
   <div class="project" id="{{ g.id }}-{{ p.title | slugify }}">
