@@ -523,4 +523,114 @@ groups:
         {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
         <h4 class="part-title rv">{{ part.name }}</h4>
 
-        <div
+        <div class="project-top">
+          <div class="rv">
+            {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
+            {% if part.points %}
+            <ul class="plain-list">
+              {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+            {% if part.tools %}
+            <div class="tags">
+              {% for t in part.tools %}<span class="tag">{{ t }}</span>{% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          <div class="rv">
+            <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
+          </div>
+        </div>
+
+        {% if part.photos and part.photos.size > 0 %}
+        <div class="gallery">
+          {% for ph in part.photos %}
+          <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+            <a href="{{ ph.src }}" target="_blank" rel="noopener">
+              <img src="{{ ph.src }}" alt="{{ ph.alt | default: part.name }}">
+            </a>
+            {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+          </figure>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+    {% else %}
+
+      <div class="project-top">
+        <div class="rv">
+          <p class="situation"><strong>Situation:</strong> {{ p.situation }}</p>
+          <ul class="plain-list">
+            {% for pt in p.points %}<li>{{ pt }}</li>{% endfor %}
+          </ul>
+          {% if p.tools %}
+          <div class="tags">
+            {% for t in p.tools %}<span class="tag">{{ t }}</span>{% endfor %}
+          </div>
+          {% endif %}
+          {% if p.links and p.links.size > 0 %}
+          <div class="project-links">
+            {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="rv">
+          <img class="photo" src="{{ p.hero }}" alt="{{ p.hero_alt }}">
+        </div>
+      </div>
+
+      {% for s in p.sections %}
+      <div class="section rv">
+        <h4 class="section-heading">{{ s.heading }}</h4>
+        {% if s.text %}<p class="section-text">{{ s.text }}</p>{% endif %}
+        {% if s.images %}
+        <div class="shots">
+          {% for im in s.images %}
+          <figure>
+            <img src="{{ im.src }}" alt="{{ im.alt }}">
+            {% if im.caption %}<figcaption>{{ im.caption }}</figcaption>{% endif %}
+          </figure>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      {% if p.photos and p.photos.size > 0 %}
+      <div class="gallery">
+        {% for ph in p.photos %}
+        <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+          <a href="{{ ph.src }}" target="_blank" rel="noopener">
+            <img src="{{ ph.src }}" alt="{{ ph.alt | default: p.title }}">
+          </a>
+          {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.rv');
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.documentElement.classList.add('rv-on');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
