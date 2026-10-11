@@ -16,6 +16,14 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
+        # Robot overview slots. Each entry is ONE of: a photo (src), a YouTube video (youtube), or an MP4 (video).
+        # Add caption: "..." to any of them. Examples to copy:
+        #   - { youtube: "VIDEO_ID", caption: "Match footage" }
+        #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
+        overview:
+          - { src: "/assets/images/BallKnowledge.jpg" }
+          - { src: "/assets/images/BallKnowledge.jpg" }
+          - { src: "/assets/images/BallKnowledge.jpg" }
         parts:
           - kicker: "Master Sketch"
             name: "Overall Layout and Planning"
@@ -27,9 +35,9 @@ groups:
             image: /assets/images/BallKnowledge.jpg
             alt: "FRC 6036 robot surrounded by yellow balls"
             photos:
-              - { src: "/assets/images/Mastersketch_Side_View.jpg" }
-              - { src: "/assets/images/Mastersketch_Top_View.jpg" }
-              - { src: "/assets/images/KrayonCAD.jpg" }
+              - { src: "/assets/images/Mastersketch_Side_View.png" }
+              - { src: "/assets/images/Mastersketch_Top_View.png" }
+              - { src: "/assets/images/KrayonCAD.png" }
           - kicker: "Subsystem 1"
             name: "Replace with the subsystem name"
             situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
@@ -282,6 +290,51 @@ groups:
     margin-top: 1.2em;
   }
 
+  /* Robot overview: photos and videos shown before the parts */
+  .overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8em;
+    margin: 0 0 4.5em;
+  }
+  @media (max-width: 1000px) {
+    .overview { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .overview { grid-template-columns: 1fr; }
+  }
+  .overview figure { margin: 0; }
+  .overview a { display: block; }
+  .overview img,
+  .ov-frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    box-sizing: border-box;
+    border: 12px solid #fff;
+    background-color: #fff;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+  }
+  .overview img {
+    object-fit: cover;
+    transition: transform 0.25s ease;
+  }
+  .overview a:hover img { transform: translateY(-4px); }
+  .ov-frame { background: #000; }
+  .ov-frame iframe,
+  .ov-frame video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+  .overview figcaption {
+    margin-top: 0.7em;
+    font-size: 0.85em;
+    opacity: 0.8;
+  }
+
   /* Parts inside one project (master sketch, subsystems) */
   .part { margin-bottom: 4.5em; }
   .part:last-child { margin-bottom: 0; }
@@ -446,6 +499,23 @@ groups:
     {% if p.parts %}
 
       {% if p.summary %}<p class="project-summary rv">{{ p.summary }}</p>{% endif %}
+
+      {% if p.overview and p.overview.size > 0 %}
+      <div class="overview">
+        {% for m in p.overview %}
+        <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+          {% if m.youtube %}
+          <div class="ov-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ m.youtube }}" title="{{ m.caption | default: 'Robot video' }}" loading="lazy" allowfullscreen></iframe></div>
+          {% elsif m.video %}
+          <div class="ov-frame"><video src="{{ m.video }}"{% if m.poster %} poster="{{ m.poster }}"{% endif %}{% if m.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+          {% elsif m.src %}
+          <a href="{{ m.src }}" target="_blank" rel="noopener"><img src="{{ m.src }}" alt="{{ m.alt | default: p.title }}"></a>
+          {% endif %}
+          {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
+      </div>
+      {% endif %}
 
       {% for part in p.parts %}
       <div class="part{% if part.size == 'small' %} part--small{% endif %}">
