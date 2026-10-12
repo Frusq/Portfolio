@@ -57,9 +57,14 @@ groups:
               - "Hood angle ranges from 10° to 45°, allowing the shooter to score from anywhere in the alliance zone"
               - "7\" shooter sweep radius creates tight packaging for more ball storage"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "Top Down Design"]
-            # When you have the shooting video, delete the image and alt lines and use these instead:
-            video: /assets/images/Shooter_SOTM.MOV
+            # CHANGE THIS to your shooting video's exact file name (capitals matter):
+            video: /assets/images/YOUR_SHOOTING_VIDEO.mov
             loop: true
+            crop: true
+            # crop_focus picks which part of the video stays in view when the sides are trimmed.
+            # "left center" keeps the left edge, "right center" keeps the right edge, "50% center" is the middle.
+            # Try a number like "75% center" to cut the left side more (bigger number = more cut from the left).
+            crop_focus: "75% center"
             image_caption: "Shooting on the move"
             photos:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
@@ -796,6 +801,7 @@ groups:
   /* A part with crop: true: the video is cut off at the bottom so it ends level with the text beside it.
      object-position: center top keeps the top of the video and trims the bottom.
      Use center center to trim top and bottom equally, or center bottom to trim the top.
+     Add crop_focus: "75% center" to the part to choose which side stays in view.
      To go back to the full video, delete crop: true from the part. */
   .project-top--crop { align-items: stretch; }
   .project-top--crop > .rv:last-child {
@@ -1227,9 +1233,9 @@ groups:
             {% if part.youtube %}
             <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ part.youtube }}" title="{{ part.alt | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
             {% elsif part.video %}
-            <div class="vid-frame"><video src="{{ part.video }}"{% if part.poster %} poster="{{ part.poster }}"{% endif %}{% if part.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+            <div class="vid-frame"><video src="{{ part.video }}"{% if part.poster %} poster="{{ part.poster }}"{% endif %}{% if part.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"{% if part.crop_focus %} style="object-position: {{ part.crop_focus }}"{% endif %}></video></div>
             {% else %}
-            <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
+            <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}"{% if part.crop_focus %} style="object-position: {{ part.crop_focus }}"{% endif %}>
             {% endif %}
             {% if part.image_caption != blank %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
             {% endif %}
