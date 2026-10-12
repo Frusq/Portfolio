@@ -810,11 +810,11 @@ groups:
   }
   .sl-mark.is-on { opacity: 1; color: #f48fb1; }
   /* First and last labels sit flush with the edges of the image, so nothing hangs outside it */
-  .sl-mark:first-child { left: 0; transform: none; }
-  .sl-mark:last-child { left: auto; right: 0; transform: none; }
+  .sl .sl-marks .sl-mark:first-child { left: 0 !important; right: auto !important; transform: none !important; }
+  .sl .sl-marks .sl-mark:last-child { left: auto !important; right: 0 !important; transform: none !important; }
 
   /* Line the top of the bullet text up with the top of the picture beside it */
-  .project-top > .rv:first-child > :first-child { margin-top: -0.3em; }
+  .project-top > .rv:first-child > :first-child { margin-top: -0.3em !important; }
 
   /* Extra sections inside a project (How it works, Dev / Test, etc.) */
   .section { margin-bottom: 3em; }
