@@ -16,7 +16,7 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
-        # Text blocks across the top of the overview: the first one takes the left third, the second takes the right two-thirds.
+        # Text blocks across the top of the overview: the first one takes the narrow left column, the second the wide right column.
         overview_text:
           - label: "Situation"
             text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts meant robots were trying to use the time when they could not shoot to optimize the shifts when they could shoot.'
@@ -26,7 +26,7 @@ groups:
         #   - { src: "/assets/images/robot-1.jpg", caption: "Optional caption" }
         #   - { youtube: "VIDEO_ID", caption: "Match footage" }
         #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
-        # wide: true makes that entry the big one (right side, two-thirds width, as tall as two photos).
+        # wide: true makes that entry the big one (right side). The photos stack on the left and stretch to match its height.
         # Delete a caption: "..." part to hide that caption.
         overview:
           - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Replace with a caption" }
@@ -381,15 +381,15 @@ groups:
     height: auto;
   }
 
-  /* Robot overview: text and media use the same two columns (one third, two thirds),
-     so every edge lines up. Text on top, then two stacked photos beside the big video. */
+  /* Robot overview: text and media use the same two columns, so every edge lines up.
+     Text on top, then two stacked photos beside the big video. The photos stretch to fill the video's height. */
   .overview-wrap {
     display: block;
     margin: 0 0 4.5em;
   }
   .ov-text {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1.7fr;
     gap: var(--ovgap);
     align-items: start;
     margin-bottom: 3.2em;
@@ -410,30 +410,45 @@ groups:
 
   .ov-media {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: var(--ovgap);
-    align-items: start;
+    grid-template-columns: 1fr 1.7fr;
+    column-gap: var(--ovgap);
+    row-gap: 1.4em;
+    align-items: stretch;
   }
-  /* The big entry (wide: true) sits in the right two-thirds and spans both photo rows */
+  /* Each figure is a column: picture on top, caption at the bottom */
+  .ov-media figure {
+    display: flex;
+    flex-direction: column;
+  }
+  /* The big entry (wide: true) sits in the right column and spans both photo rows */
   .ov-wide { grid-column: 2; grid-row: 1 / span 2; }
-  @media (max-width: 1000px) {
-    .ov-media { grid-template-columns: repeat(2, 1fr); gap: 1.8em; }
-    .ov-wide { grid-column: 1 / -1; grid-row: auto; }
-  }
-  @media (max-width: 600px) {
-    .ov-media { grid-template-columns: 1fr; }
-  }
-  .ov-media a { display: block; }
-  .ov-media img {
+  /* Photos fill whatever height their row gets, so their edges match the video's */
+  .ov-media figure > a {
     display: block;
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 6em;
+  }
+  .ov-media figure > a img {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 100%;
+    aspect-ratio: auto;
     box-sizing: border-box;
     background-color: #fff;
     object-fit: cover;
     transition: transform 0.25s ease;
   }
-  .ov-media a:hover img { transform: translateY(-4px); }
+  .ov-media figure > a:hover img { transform: translateY(-4px); }
+  @media (max-width: 1000px) {
+    .ov-media { grid-template-columns: repeat(2, 1fr); gap: 1.8em; }
+    .ov-wide { grid-column: 1 / -1; grid-row: auto; }
+    .ov-media figure > a { flex: none; min-height: 0; aspect-ratio: 16 / 9; }
+  }
+  @media (max-width: 600px) {
+    .ov-media { grid-template-columns: 1fr; }
+  }
 
   /* Parts inside one project (master sketch, subsystems) */
   .part { margin-bottom: 4.5em; }
