@@ -164,6 +164,15 @@ groups:
     }
   }
 
+  /* Pull-past-the-edge color: swiping up past the top shows the top bar color, swiping down past the
+     bottom shows the footer color. (Same block can be pasted into the style section of index.html.) */
+  html {
+    min-height: 100%;
+    background-color: #121212;
+    background-image: linear-gradient(to bottom, #292628 50%, #121212 50%);
+  }
+  body { background-color: #1a1a1a; }
+
   /* Smooth scrolling when a jump link is clicked */
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) {
@@ -710,6 +719,9 @@ groups:
   }
   .sl-strip {
     display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     will-change: transform;
@@ -724,6 +736,24 @@ groups:
     border-radius: 0;
     object-fit: contain;
     background: #323232;
+  }
+
+  /* When a part has a slider, the picture grows to match the height of the text beside it, so the two
+     columns end at about the same place. The picture keeps its gray background (nothing is cropped).
+     To go back to a fixed shape, delete this block. */
+  .project-top--slider { align-items: stretch; }
+  .project-top--slider > .rv:last-child { display: flex; }
+  .project-top--slider .sl {
+    display: flex !important;
+    flex-direction: column;
+  }
+  .project-top--slider .sl-stage {
+    aspect-ratio: auto;
+    flex: 1 1 auto;
+    min-height: 20em;
+  }
+  @media (max-width: 800px) {
+    .project-top--slider .sl-stage { aspect-ratio: 4 / 3; flex: none; min-height: 0; }
   }
 
   /* The slider bar. The theme styles every form input with a border, rounded corners, and a glow
@@ -1089,7 +1119,7 @@ groups:
 
         {% else %}
 
-        <div class="project-top{% unless has_media %} project-top--text{% endunless %}">
+        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
