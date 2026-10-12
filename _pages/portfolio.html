@@ -657,6 +657,17 @@ groups:
     letter-spacing: 0.18em;
     color: #f48fb1;
   }
+  /* The number in front of each part title (1, 2, 3...). It counts the parts in order, so reordering
+     parts renumbers them automatically. To hide the numbers, delete this block and the part-num span in the HTML. */
+  .part-num {
+    display: inline-block;
+    min-width: 1.6em;
+    margin-right: 0.5em;
+    padding-right: 0.5em;
+    border-right: 2px solid rgba(244, 143, 177, 0.45);
+    text-align: right;
+    letter-spacing: 0;
+  }
   .page__content h4.part-title {
     margin: 0 0 1.2em;
     padding: 0;
@@ -1133,7 +1144,7 @@ groups:
       {% assign split = false %}
       {% if part.photos_split and has_media and part.photos.size > 0 and part.slider == nil %}{% assign split = true %}{% endif %}
       <div class="part{% if part.size == 'small' %} part--small{% endif %}">
-        {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
+        {% if part.kicker %}<div class="part-kicker rv"><span class="part-num">{{ forloop.index }}</span>{{ part.kicker }}</div>{% endif %}
         {% if part.name %}<h4 class="part-title rv">{{ part.name }}</h4>{% endif %}
 
         {% if part.tools %}
