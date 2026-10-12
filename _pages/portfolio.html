@@ -43,12 +43,12 @@ groups:
               - "Block CAD models help to envision robot subsystems and allocate space requirements for each subsystem"
               - "Subsystems are derived from the mastersketch to keep dimensions consistent and prevent collisions in assembly"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
-            # slider: replaces the big image on the right with a slider. Add, remove, or reorder slides freely.
-            # Each slide has a src, a button label, and a caption (the caption changes with the slide).
+            # slider: replaces the big image on the right with a slider bar. Dragging the bar is the only way to change images.
+            # Add, remove, or reorder slides freely. Each slide has a src, a label (shown under the bar), and a caption.
             slider:
               - { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch", caption: "Mastersketch corner view" }
               - { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD", caption: "Block CAD" }
-              - { src: "/assets/images/BallKnowledge_Full_CAD.png", label: "Full CAD", caption: "Full CAD Assembly" }
+              - { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Full CAD", caption: "Full CAD corner view" }
             # Photo row below the section. Delete these two lines if you don't want it.
             photos:
               - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Mastersketch top view" }
@@ -545,10 +545,11 @@ groups:
     .part-grid { grid-template-columns: 1fr; row-gap: 1.8em; }
   }
 
-  /* Slider: one frame, several images, swipe / arrows / labeled buttons to move between them.
-     It fills the big-image column. The stage is a fixed 4:3 box with the same dark gray as the
-     screenshots, so no image is cropped or stretched and there is no white padding. */
+  /* Image slider with a slider bar. The bar is the only control: the image itself does nothing when
+     clicked or swiped. It fills the big-image column. The stage is a fixed 4:3 box with the same
+     dark gray as the screenshots, so no image is cropped or stretched and there is no white padding. */
   .sl {
+    --th: 24px;
     display: block !important;
     width: 100%;
     margin: 0 !important;
@@ -562,28 +563,11 @@ groups:
     border: var(--frame) solid #fff;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
     overflow: hidden;
+    pointer-events: none;
   }
-  .sl-track {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    outline: none;
-  }
-  .sl-track::-webkit-scrollbar { display: none; }
-  .sl-slide {
-    flex: 0 0 100%;
-    height: 100%;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-  }
-  .sl-slide img {
-    display: block;
+  .sl-stage img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     border: none !important;
@@ -591,65 +575,88 @@ groups:
     border-radius: 0;
     object-fit: contain;
     background: transparent;
+    opacity: 0;
+    transition: opacity 0.4s ease;
   }
-  .sl-arrow {
+  .sl-stage img.is-on { opacity: 1; }
+
+  /* The slider bar */
+  .sl-bar {
+    padding: 1.3em 0 0;
+  }
+  .sl-range {
+    -webkit-appearance: none;
     appearance: none;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    width: 2.3em;
-    height: 2.3em;
+    display: block;
+    width: 100%;
+    height: var(--th);
+    margin: 0;
     padding: 0;
-    border: none;
+    background: transparent;
     cursor: pointer;
-    font: inherit;
-    font-size: 1.5em;
-    line-height: 1;
-    color: #f48fb1;
-    background: rgba(26, 26, 26, 0.72);
-    transition: background 0.2s ease;
+    touch-action: pan-y;
   }
-  .sl-arrow:hover { background: rgba(26, 26, 26, 0.95); }
-  .sl-arrow:focus-visible { outline: 2px solid #f48fb1; outline-offset: -2px; }
-  .sl-prev { left: 0.4em; }
-  .sl-next { right: 0.4em; }
-  .sl-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6em;
-    margin-top: 1.1em;
+  .sl-range:focus { outline: none; }
+  .sl-range::-webkit-slider-runnable-track {
+    height: 4px;
+    background: rgba(244, 143, 177, 0.35);
+    border: none;
   }
-  .sl-tab {
+  .sl-range::-moz-range-track {
+    height: 4px;
+    background: rgba(244, 143, 177, 0.35);
+    border: none;
+  }
+  .sl-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
     appearance: none;
+    width: var(--th);
+    height: var(--th);
+    margin-top: calc((4px - var(--th)) / 2);
     border: none;
-    cursor: pointer;
-    font: inherit;
-    font-size: 0.85em;
+    background: #f48fb1;
+    clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.15s ease;
+  }
+  .sl-range::-moz-range-thumb {
+    width: var(--th);
+    height: var(--th);
+    border: none;
+    border-radius: 0;
+    background: #f48fb1;
+    clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.15s ease;
+  }
+  .sl-range:hover::-webkit-slider-thumb,
+  .sl-range:active::-webkit-slider-thumb { transform: scale(1.12); }
+  .sl-range:hover::-moz-range-thumb,
+  .sl-range:active::-moz-range-thumb { transform: scale(1.12); }
+  .sl-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.5); }
+  .sl-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.5); }
+
+  /* Labels under the bar. They only mark the positions; they are not clickable. */
+  .sl-marks {
+    position: relative;
+    height: 1.7em;
+    margin-top: 0.5em;
+    pointer-events: none;
+  }
+  .sl-mark {
+    position: absolute;
+    top: 0;
+    left: calc(var(--th) / 2 + (100% - var(--th)) * var(--p) / 100);
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.78em;
     font-weight: 600;
-    letter-spacing: 0.02em;
-    color: inherit;
-    padding: 0.4em 1.15em 0.4em 1.25em;
-    background: rgba(244, 143, 177, 0.12);
-    box-shadow: inset 3px 0 0 rgba(244, 143, 177, 0.5);
-    clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
-    transition: background 0.2s ease, box-shadow 0.2s ease;
-  }
-  .sl-tab:hover { background: rgba(244, 143, 177, 0.25); }
-  .sl-tab:focus-visible { outline: 2px solid #f48fb1; outline-offset: 2px; }
-  .sl-tab.is-on {
-    background: rgba(244, 143, 177, 0.4);
-    box-shadow: inset 5px 0 0 #f48fb1;
-  }
-  .sl-hint {
-    margin: 0.5em 0 0;
-    text-align: center;
-    font-size: 0.72em;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    opacity: 0.55;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, color 0.2s ease;
   }
+  .sl-mark.is-on { opacity: 1; color: #f48fb1; }
 
   /* Extra sections inside a project (How it works, Dev / Test, etc.) */
   .section { margin-bottom: 3em; }
@@ -738,6 +745,7 @@ groups:
   }
   @media (prefers-reduced-motion: reduce) {
     .rv-on .rv { opacity: 1; transform: none; }
+    .sl-stage img { transition: none; }
   }
 </style>
 
@@ -936,20 +944,22 @@ groups:
           {% if has_media %}
           <div class="rv">
             {% if part.slider %}
+            {% assign sl_last = part.slider.size | minus: 1 %}
+            {% if sl_last < 1 %}{% assign sl_last = 1 %}{% endif %}
             <figure class="sl">
               <div class="sl-stage">
-                <div class="sl-track" tabindex="0" aria-label="Image slider">
+                {% for s in part.slider %}
+                <img{% if forloop.first %} class="is-on"{% endif %} src="{{ s.src }}" alt="{{ s.alt | default: s.caption }}" data-cap="{{ s.caption }}">
+                {% endfor %}
+              </div>
+              <div class="sl-bar">
+                <input class="sl-range" type="range" min="0" max="{{ sl_last }}" step="1" value="0" aria-label="Drag to change the image">
+                <div class="sl-marks">
                   {% for s in part.slider %}
-                  <div class="sl-slide" data-cap="{{ s.caption }}"><img src="{{ s.src }}" alt="{{ s.alt | default: s.caption }}"></div>
+                  <span class="sl-mark{% if forloop.first %} is-on{% endif %}" style="--p: {{ forloop.index0 | times: 100 | divided_by: sl_last }}">{{ s.label | default: forloop.index }}</span>
                   {% endfor %}
                 </div>
-                <button type="button" class="sl-arrow sl-prev" aria-label="Previous image">&#8249;</button>
-                <button type="button" class="sl-arrow sl-next" aria-label="Next image">&#8250;</button>
               </div>
-              <div class="sl-tabs">
-                {% for s in part.slider %}<button type="button" class="sl-tab{% if forloop.first %} is-on{% endif %}" data-to="{{ forloop.index0 }}">{{ s.label | default: forloop.index }}</button>{% endfor %}
-              </div>
-              <p class="sl-hint">Swipe or use the arrows</p>
               <figcaption>{{ part.slider.first.caption }}</figcaption>
             </figure>
             {% else %}
@@ -1086,50 +1096,29 @@ groups:
     els.forEach(function (el) { io.observe(el); });
   })();
 
-  /* Slider: swipe, arrows, labeled buttons, and the keyboard all move between slides.
-     The caption and the highlighted button follow the current slide. */
+  /* Slider bar: dragging the bar is the only way to change the image.
+     The image, the caption, and the highlighted label all follow the handle. */
   (function () {
-    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     document.querySelectorAll('.sl').forEach(function (box) {
-      var track = box.querySelector('.sl-track');
-      var slides = track.querySelectorAll('.sl-slide');
-      var tabs = box.querySelectorAll('.sl-tab');
+      var range = box.querySelector('.sl-range');
+      var imgs = box.querySelectorAll('.sl-stage img');
+      var marks = box.querySelectorAll('.sl-mark');
       var cap = box.querySelector('figcaption');
-      var n = slides.length;
-      var idx = 0;
+      if (!range || !imgs.length) return;
 
-      function mark(i) {
-        idx = i;
-        tabs.forEach(function (t, k) { t.classList.toggle('is-on', k === i); });
-        var text = slides[i].getAttribute('data-cap');
+      function update() {
+        var i = Math.round(parseFloat(range.value));
+        if (isNaN(i)) i = 0;
+        i = Math.max(0, Math.min(imgs.length - 1, i));
+        imgs.forEach(function (im, k) { im.classList.toggle('is-on', k === i); });
+        marks.forEach(function (m, k) { m.classList.toggle('is-on', k === i); });
+        var text = imgs[i].getAttribute('data-cap');
         if (cap && text) cap.textContent = text;
       }
-      function go(i) {
-        if (n < 2) return;
-        i = (i + n) % n;
-        track.scrollTo({ left: i * track.clientWidth, behavior: calm ? 'auto' : 'smooth' });
-        mark(i);
-      }
 
-      track.addEventListener('scroll', function () {
-        var i = Math.round(track.scrollLeft / track.clientWidth);
-        if (i >= 0 && i < n && i !== idx) mark(i);
-      }, { passive: true });
-
-      var prev = box.querySelector('.sl-prev');
-      var next = box.querySelector('.sl-next');
-      if (prev) prev.addEventListener('click', function () { go(idx - 1); });
-      if (next) next.addEventListener('click', function () { go(idx + 1); });
-      tabs.forEach(function (t) {
-        t.addEventListener('click', function () { go(parseInt(t.getAttribute('data-to'), 10)); });
-      });
-      track.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowRight') { e.preventDefault(); go(idx + 1); }
-        if (e.key === 'ArrowLeft') { e.preventDefault(); go(idx - 1); }
-      });
-      window.addEventListener('resize', function () {
-        track.scrollTo({ left: idx * track.clientWidth, behavior: 'auto' });
-      });
+      range.addEventListener('input', update);
+      range.addEventListener('change', update);
+      update(); /* browsers can remember the handle position after a refresh */
     });
   })();
 </script>
