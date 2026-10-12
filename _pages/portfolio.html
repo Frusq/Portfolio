@@ -16,12 +16,16 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
-        # ANY slot below can be a photo, a YouTube video, or an MP4. Use ONE of these per entry:
+        # Overview row. The first entry is the Situation text block; the others are photos, YouTube videos, or MP4s.
+        # ANY slot can be a photo, a YouTube video, or an MP4. Use ONE of these per entry:
         #   - { src: "/assets/images/robot-1.jpg", caption: "Optional caption" }
         #   - { youtube: "VIDEO_ID", caption: "Match footage" }
         #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
         overview:
-          - { src: "/assets/images/BallKnowledge.jpg" }
+          - situation: "Replace with the situation: what the challenge was and what you set out to build."
+            points:
+              - "Replace with a key goal or constraint"
+              - "Replace with what made it hard"
           - { src: "/assets/images/BallKnowledge.jpg" }
           - { src: "/assets/images/BallKnowledge.jpg" }
         parts:
@@ -318,15 +322,17 @@ groups:
   .part--small .gallery .vid-frame { border-width: 6px; }
   .shots .vid-frame { border-width: 10px; }
 
-  /* Robot overview: photos and videos shown before the parts */
+  /* Robot overview: a situation block plus photos and videos, shown before the parts */
   .overview {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.8em;
+    align-items: start;
     margin: 0 0 4.5em;
   }
   @media (max-width: 1000px) {
     .overview { grid-template-columns: repeat(2, 1fr); }
+    .overview .ov-situation { grid-column: 1 / -1; }
   }
   @media (max-width: 600px) {
     .overview { grid-template-columns: 1fr; }
@@ -350,6 +356,19 @@ groups:
     font-size: 0.85em;
     opacity: 0.8;
   }
+
+  /* Situation block that takes the place of a photo */
+  .ov-situation { padding-right: 0.6em; }
+  .ov-situation-label {
+    margin: 0 0 0.5em;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #f48fb1;
+  }
+  .ov-situation-text { margin: 0 0 1em; }
+  .ov-situation .plain-list { margin-bottom: 0; }
 
   /* Parts inside one project (master sketch, subsystems) */
   .part { margin-bottom: 4.5em; }
@@ -520,6 +539,17 @@ groups:
       {% if p.overview and p.overview.size > 0 %}
       <div class="overview">
         {% for m in p.overview %}
+        {% if m.situation %}
+        <div class="ov-situation rv">
+          <p class="ov-situation-label">{{ m.label | default: "Situation" }}</p>
+          <p class="ov-situation-text">{{ m.situation }}</p>
+          {% if m.points %}
+          <ul class="plain-list">
+            {% for pt in m.points %}<li>{{ pt }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        {% else %}
         <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
           {% if m.youtube %}
           <div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ m.youtube }}" title="{{ m.caption | default: 'Robot video' }}" loading="lazy" allowfullscreen></iframe></div>
@@ -530,6 +560,7 @@ groups:
           {% endif %}
           {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
         </figure>
+        {% endif %}
         {% endfor %}
       </div>
       {% endif %}
