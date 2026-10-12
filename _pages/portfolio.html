@@ -20,7 +20,7 @@ groups:
         # Text blocks: the first goes top left, the second goes bottom right. Any extra blocks run full width underneath.
         overview_text:
           - label: "Situation"
-            text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts meant robots were trying to use the time when they could not shoot to optimize the shifts when they could shoot.'
+            text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts mean teams are trying to use the time when they could not shoot to optimize the shifts when they could shoot.'
           - label: "Why a Turret"
             text: "A turreted shooter, specifically ones that rotate 360+ degrees, are capable of shooting projectiles from any orientation of the chassis. Due to this, playing defense against them would be much more difficult compared to a fixed shooter. Along with that, being able to pick up game pieces from the ground while the turret aims at the goal to shoot can greatly reduce dead time where the robot is not scoring, something especially important when robots can only shoot during certain periods of the game. Lastly, I wanted to capitalize on our software strengths. By analyzing previous FRC shooting games, I noticed that turrets were consistently a high level mechanism that, although not always necessary, differentiated top teams by giving them more software freedom."
         # Photos and videos. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
@@ -29,21 +29,23 @@ groups:
         #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
         # The entry with wide: true is the big one (top right, beside Situation). Every other entry stacks in the bottom-left cell, beside Why a Turret.
         # Keep exactly one wide: true entry. Delete a caption: "..." part to hide that caption.
-        # To add the second photo back, paste this line under the other photo:
+        # To add a second photo back, paste this line under the other photo:
         #   - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         overview:
           - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Autonomous Routine" }
-          - { src: "/assets/images/BallKnowledge2.PNG"}
+          - { src: "/assets/images/BallKnowledge2.PNG", caption: "Replace with a caption" }
         parts:
           - kicker: "Master Sketch"
             name: "Overall Layout and Planning"
-            size: small
             points:
               - "Replace with a key constraint it defined"
               - "Replace with how it kept the subsystems compatible"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
+            # The big image on the right. To use a video instead, delete these three lines and add  youtube: "VIDEO_ID"  or  video: "/assets/videos/clip.mp4".
+            image: /assets/images/Mastersketch_Side_View.png
+            alt: "Master sketch, side view"
+            image_caption: "Side view"
             photos:
-              - { src: "/assets/images/Mastersketch_Side_View.png", caption: "Side view" }
               - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Top view" }
               - { src: "/assets/images/Mastersketch_KrayonCAD.png", caption: "Replace with a caption" }
           - kicker: "Subsystem 1"
@@ -465,7 +467,7 @@ groups:
     letter-spacing: 0.06em;
   }
 
-  /* Smaller part (master sketch): tighter text and a smaller layout (borders stay the same) */
+  /* Smaller part (add size: small to a part): tighter text, with its photo row in two columns */
   .part--small { margin-bottom: 3.5em; }
   .part--small .part-kicker { font-size: 0.72em; }
   .page__content .part--small h4.part-title {
@@ -473,7 +475,7 @@ groups:
     font-size: 0.95em;
   }
   .part--small .project-top {
-    grid-template-columns: 1.5fr 0.8fr;
+    grid-template-columns: 1fr 1.4fr;
     gap: 2em;
     margin-bottom: 1.5em;
   }
@@ -481,12 +483,9 @@ groups:
   .part--small .situation,
   .part--small .plain-list li { font-size: 0.92em; }
   .part--small .gallery {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1em;
     margin-bottom: 0;
-  }
-  @media (max-width: 1000px) {
-    .part--small .gallery { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 800px) {
     .part--small .project-top { grid-template-columns: 1fr; gap: 1.2em; }
@@ -519,7 +518,7 @@ groups:
   }
 
   /* Photo slots: 3 across on desktop, 2 on tablet, 1 on phone.
-     Each photo keeps its own natural shape, so nothing is cropped. */
+     Every photo sits in the same 4:3 box (nothing is cropped), so the captions line up level. */
   .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -533,15 +532,20 @@ groups:
   @media (max-width: 600px) {
     .gallery { grid-template-columns: 1fr; }
   }
-  .gallery a { display: block; }
-  .gallery img {
+  .gallery figure > a {
+    display: block;
+    aspect-ratio: 4 / 3;
+  }
+  .gallery figure > a img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    box-sizing: border-box;
+    object-fit: contain;
     background-color: #fff;
     transition: transform 0.25s ease;
   }
-  .gallery a:hover img { transform: translateY(-4px); }
+  .gallery figure > a:hover img { transform: translateY(-4px); }
 
   /* Close the gap above the footer */
   .page__content { padding-bottom: 0 !important; margin-bottom: 0 !important; }
