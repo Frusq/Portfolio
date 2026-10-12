@@ -57,10 +57,13 @@ groups:
               - "Hood angle ranges from 10° to 45°, allowing the shooter to score from anywhere in the alliance zone"
               - "7\" shooter sweep radius creates tight packaging for more ball storage"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "Top Down Design"]
-            video: /assets/images/Shooter_Tracking.mov
-            loop: true
+            # When you have the shooting video, delete the image and alt lines and use these instead:
+            #   video: /assets/images/Shooter_SOTM.MOV
+            #   loop: true
+            image: /assets/images/BallKnowledge.jpg
+            alt: "Replace with a description of the photo"
             crop: true
-            image_caption: "Turret Tracking"
+            image_caption: "Replace with a caption"
             photos:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
@@ -73,9 +76,10 @@ groups:
               - "Replace with a constraint or challenge you solved"
               - "Replace with what you manufactured"
             tools: ["Onshape", "3D Printing"]
-            image: /assets/images/BallKnowledge.jpg
-            alt: "Replace with a description of the photo"
-            image_caption: "Replace with a caption"
+            video: /assets/images/Shooter_Tracking.mov
+            loop: true
+            crop: true
+            image_caption: "Turret Tracking"
             photos:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
@@ -815,8 +819,16 @@ groups:
     object-fit: cover;
     object-position: center top;
   }
+  .project-top--crop img.photo {
+    flex: 1 1 0;
+    height: 0;
+    min-height: 16em;
+    object-fit: cover;
+    object-position: center top;
+  }
   @media (max-width: 800px) {
     .project-top--crop .vid-frame { flex: none; min-height: 0; }
+    .project-top--crop img.photo { flex: none; height: auto; min-height: 0; }
     .project-top--crop .vid-frame video { position: static; height: auto; }
   }
 
