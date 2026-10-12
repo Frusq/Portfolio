@@ -19,10 +19,12 @@ groups:
         # Text blocks on the left of the overview. Add as many as you like (label + text, optional points).
         overview_text:
           - label: "Situation"
-            text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">FRC 2026 Game Challenge "Rebuilt"</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts meant robots were trying to use the time when they could not shoot to optimize the shifts when they could shoot.' 
-
+            text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">FRC 2026 Game Challenge</a> consists of 3 robots on each alliance competing to score the most points. To score points, robots must shoot 15 cm yellow balls into a scoring location called the "hub", where each ball scores one point. There are a total of 500 balls on the field at any given time, and each team can only score during their respective shift.'
           - label: "Why a Turret"
-            text: "A turreted shooter, specifically ones that rotate 360+ degrees, are capable of shooting projectiles from any orientation of the chassis. Due to this, playing defense against them would be much more difficult compared to a fixed shooter. Along with that, being able to pick up game pieces from the ground while the turret aims at the goal to shoot can greatly reduce dead time where the robot is not scoring, something especially important when robots can only shoot during certain periods of the game. Lastly, I wanted to capitalize on our software strengths. By analyzing previous FRC shooting games, I noticed that turrets were consistently a high level mechanism that, although not always necessary, differentiated top teams by giving them more software freedom."
+            text: "Replace with your reason for choosing a turret: what it let the robot do that a fixed shooter could not."
+            points:
+              - "Replace with a key advantage"
+              - "Replace with a tradeoff you accepted"
         # Photos and videos on the right. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
         #   - { src: "/assets/images/robot-1.jpg", caption: "Optional caption" }
         #   - { youtube: "VIDEO_ID", caption: "Match footage" }
@@ -30,9 +32,9 @@ groups:
         # Add  wide: true  to make an entry span the full width of the right column.
         # Delete a caption: "..." part to hide that caption.
         overview:
-          - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Autonomous Sequence" }
-          - { src: "/assets/images/BallKnowledge2.PNG"}
-          - { src: "/assets/images/BallKnowledge.jpg"}
+          - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Replace with a caption" }
+          - { src: "/assets/images/BallKnowledge2.PNG", caption: "Replace with a caption" }
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         parts:
           - kicker: "Master Sketch"
             name: "Overall Layout and Planning"
@@ -44,7 +46,7 @@ groups:
             photos:
               - { src: "/assets/images/Mastersketch_Side_View.png", caption: "Side view" }
               - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Top view" }
-              - { src: "/assets/images/Mastersketch_KrayonCAD.png", caption: "Initial Design Block CAD" }
+              - { src: "/assets/images/Mastersketch_KrayonCAD.png", caption: "Replace with a caption" }
           - kicker: "Subsystem 1"
             name: "Replace with the subsystem name"
             situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
@@ -308,17 +310,29 @@ groups:
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
   }
 
-  /* Captions under every photo and video */
+  /* Captions under every photo and video: centered, with a short pink line above */
   .ov-media figcaption,
   .shots figcaption,
   .gallery figcaption,
   .media-cap {
-    margin: 0.8em 0 0;
-    padding-left: 0.8em;
-    border-left: 3px solid #f48fb1;
+    margin: 0.9em 0 0;
+    padding: 0;
+    border: none;
+    text-align: center;
     font-size: 0.85em;
     line-height: 1.45;
     opacity: 0.9;
+  }
+  .ov-media figcaption::before,
+  .shots figcaption::before,
+  .gallery figcaption::before,
+  .media-cap::before {
+    content: "";
+    display: block;
+    width: 2.2em;
+    height: 2px;
+    margin: 0 auto 0.6em;
+    background: #f48fb1;
   }
 
   /* Main photo */
