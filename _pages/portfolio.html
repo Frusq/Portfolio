@@ -47,12 +47,11 @@ groups:
             image: /assets/images/Mastersketch_Side_View.png
             alt: "Master sketch, side view"
             image_caption: "Mastersketch side view"
-            # photos_split: true puts the first two photos in a second row on the same two columns (first under the text, second under the big image).
-            # Any photos after the first two go in a row below. Delete this line to put all photos in one row under the section.
-            photos_split: true
-            photos:
-              - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Mastersketch top view" }
-              - { src: "/assets/images/Mastersketch_KrayonCAD.png", caption: "Block CAD" }
+            # compare: one frame with two images and a button to swap between them (sketch to CAD).
+            # The captions change with the image. Any normal photos below it still work too.
+            compare:
+              before: { src: "/assets/images/Mastersketch_Top_View.png", label: "Sketch", caption: "Mastersketch top view" }
+              after: { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD", caption: "Block CAD" }
           - kicker: "Subsystem 1"
             name: "Replace with the subsystem name"
             situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
@@ -336,6 +335,7 @@ groups:
   .shots figcaption,
   .gallery figcaption,
   .pg-fig figcaption,
+  .cmp figcaption,
   .media-cap {
     display: block;
     width: 100%;
@@ -353,6 +353,7 @@ groups:
   .shots figcaption::before,
   .gallery figcaption::before,
   .pg-fig figcaption::before,
+  .cmp figcaption::before,
   .media-cap::before {
     content: "";
     display: block;
@@ -544,6 +545,78 @@ groups:
     .part-grid { grid-template-columns: 1fr; row-gap: 1.8em; }
   }
 
+  /* Sketch to CAD: one frame, two images, a button to swap between them.
+     The stage is a fixed 4:3 box with the same dark gray as the screenshots, so neither image is
+     cropped or stretched and there is no white padding. */
+  .cmp {
+    display: block !important;
+    width: 100%;
+    max-width: min(100%, 820px);
+    margin: 0 auto 3em !important;
+    padding: 0 !important;
+  }
+  .cmp-stage {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    box-sizing: border-box;
+    background: #323232;
+    border: var(--frame) solid #fff;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .cmp-stage img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    object-fit: contain;
+    background: transparent;
+    transition: opacity 0.45s ease;
+  }
+  .cmp-b { opacity: 0; }
+  .cmp[data-state="b"] .cmp-a { opacity: 0; }
+  .cmp[data-state="b"] .cmp-b { opacity: 1; }
+  .cmp-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.7em;
+    margin-top: 1.1em;
+  }
+  .cmp-tab {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.85em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: inherit;
+    padding: 0.4em 1.15em 0.4em 1.25em;
+    background: rgba(244, 143, 177, 0.12);
+    box-shadow: inset 3px 0 0 rgba(244, 143, 177, 0.5);
+    clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cmp-tab:hover { background: rgba(244, 143, 177, 0.25); }
+  .cmp-tab:focus-visible { outline: 2px solid #f48fb1; outline-offset: 2px; }
+  .cmp[data-state="a"] .cmp-tab[data-to="a"],
+  .cmp[data-state="b"] .cmp-tab[data-to="b"] {
+    background: rgba(244, 143, 177, 0.4);
+    box-shadow: inset 5px 0 0 #f48fb1;
+  }
+  .cmp-hint {
+    margin: 0.5em 0 0;
+    text-align: center;
+    font-size: 0.72em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
   /* Extra sections inside a project (How it works, Dev / Test, etc.) */
   .section { margin-bottom: 3em; }
   .section-heading {
@@ -631,6 +704,7 @@ groups:
   }
   @media (prefers-reduced-motion: reduce) {
     .rv-on .rv { opacity: 1; transform: none; }
+    .cmp-stage img { transition: none; }
   }
 </style>
 
@@ -840,6 +914,21 @@ groups:
           {% endif %}
         </div>
 
+        {% if part.compare %}
+        <figure class="cmp rv" data-state="a" data-cap-a="{{ part.compare.before.caption }}" data-cap-b="{{ part.compare.after.caption }}">
+          <div class="cmp-stage" title="Click to swap">
+            <img class="cmp-a" src="{{ part.compare.before.src }}" alt="{{ part.compare.before.caption | default: part.compare.before.label }}">
+            <img class="cmp-b" src="{{ part.compare.after.src }}" alt="{{ part.compare.after.caption | default: part.compare.after.label }}">
+          </div>
+          <div class="cmp-tabs">
+            <button type="button" class="cmp-tab" data-to="a">{{ part.compare.before.label | default: "Sketch" }}</button>
+            <button type="button" class="cmp-tab" data-to="b">{{ part.compare.after.label | default: "CAD" }}</button>
+          </div>
+          <p class="cmp-hint">Click the image to swap</p>
+          <figcaption>{{ part.compare.before.caption }}</figcaption>
+        </figure>
+        {% endif %}
+
         {% if part.photos and part.photos.size > 0 %}
         <div class="gallery">
           {% for ph in part.photos %}
@@ -958,5 +1047,26 @@ groups:
       });
     }, { threshold: 0.12 });
     els.forEach(function (el) { io.observe(el); });
+  })();
+
+  /* Sketch to CAD swap: tabs or a click on the image flip between the two images and update the caption */
+  (function () {
+    document.querySelectorAll('.cmp').forEach(function (box) {
+      var cap = box.querySelector('figcaption');
+      function show(state) {
+        box.setAttribute('data-state', state);
+        var text = box.getAttribute(state === 'b' ? 'data-cap-b' : 'data-cap-a');
+        if (cap && text) cap.textContent = text;
+      }
+      box.querySelectorAll('.cmp-tab').forEach(function (btn) {
+        btn.addEventListener('click', function () { show(btn.getAttribute('data-to')); });
+      });
+      var stage = box.querySelector('.cmp-stage');
+      if (stage) {
+        stage.addEventListener('click', function () {
+          show(box.getAttribute('data-state') === 'a' ? 'b' : 'a');
+        });
+      }
+    });
   })();
 </script>
