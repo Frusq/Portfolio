@@ -50,7 +50,7 @@ groups:
               - { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Full CAD" }
           - kicker: "Shooter"
             situation_label: "Goal"
-            Goal: "Design a robust shooter that fires consistently, continuously, and minimizes velocity drop between shots"
+            situation: "Design a robust shooter that fires consistently, continuously, and minimizes velocity drop between shots"
             points:
               - "Multiple versions to iterate on geometry and packaging"
               - "1\" compression throughout the entire shooter to maintain ball path consistency"
@@ -59,6 +59,7 @@ groups:
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "Top Down Design"]
             video: /assets/images/Shooter_Tracking.mov
             loop: true
+            crop: true
             image_caption: "Turret Tracking"
             photos:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
@@ -791,6 +792,34 @@ groups:
     .project-top--slider .sl-stage { aspect-ratio: 4 / 3; flex: none; min-height: 0; }
   }
 
+  /* A part with crop: true: the video is cut off at the bottom so it ends level with the text beside it.
+     object-position: center top keeps the top of the video and trims the bottom.
+     Use center center to trim top and bottom equally, or center bottom to trim the top.
+     To go back to the full video, delete crop: true from the part. */
+  .project-top--crop { align-items: stretch; }
+  .project-top--crop > .rv:last-child {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-top--crop .vid-frame {
+    flex: 1 1 auto;
+    position: relative;
+    min-height: 16em;
+  }
+  .project-top--crop .vid-frame video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  @media (max-width: 800px) {
+    .project-top--crop .vid-frame { flex: none; min-height: 0; }
+    .project-top--crop .vid-frame video { position: static; height: auto; }
+  }
+
   /* The slider bar. The theme styles every form input with a border, rounded corners, and a glow
      when clicked, so all of that is switched off here (including when focused or pressed). */
   .sl-bar {
@@ -1154,7 +1183,7 @@ groups:
 
         {% else %}
 
-        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}">
+        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
