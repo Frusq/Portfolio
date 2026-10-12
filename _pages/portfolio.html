@@ -146,6 +146,10 @@ groups:
     --frame: 12px;
     /* Space between the two columns of the checkerboard */
     --ovgap: 3.5em;
+    /* Widest the page gets (the top bar and footer match it) */
+    --maxw: 1400px;
+    /* Width of the left sidebar that holds the jump buttons */
+    --navw: 12.5em;
   }
 
   /* Prevent sideways scrolling */
@@ -167,7 +171,7 @@ groups:
     html { scroll-behavior: auto; }
   }
 
-  /* Full-width layout: remove the theme's side offset and width cap */
+  /* Layout: remove the theme's side offset and width cap, then center the page at --maxw */
   #main {
     max-width: none !important;
     padding-left: 0 !important;
@@ -184,7 +188,9 @@ groups:
   .page__inner-wrap {
     float: none !important;
     width: 100% !important;
-    max-width: none !important;
+    max-width: var(--maxw) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     box-sizing: border-box;
     padding-left: var(--gutter) !important;
     padding-right: var(--gutter) !important;
@@ -197,9 +203,25 @@ groups:
   /* Top bar and footer line up with the content */
   .masthead__inner-wrap,
   .page__footer footer {
-    max-width: none !important;
+    max-width: var(--maxw) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
     padding-left: var(--gutter) !important;
     padding-right: var(--gutter) !important;
+  }
+
+  /* Two columns: the jump buttons on the left, everything else on the right */
+  .page__content {
+    display: grid;
+    grid-template-columns: var(--navw) minmax(0, 1fr);
+    column-gap: 3em;
+    row-gap: 0;
+    align-items: start;
+  }
+  .page__content > * {
+    grid-column: 2;
+    min-width: 0;
   }
 
   /* Small pink uppercase label with a line, used for group headings */
@@ -252,30 +274,56 @@ groups:
   .part-tools { margin: 0 0 1.8em; }
   .project-tools { margin: 0 0 2em; }
 
-  /* Intro and jump links */
-  .lead { font-size: 1.1em; max-width: 46em; margin-bottom: 1.2em; }
+  /* Intro */
+  .lead { font-size: 1.1em; max-width: 46em; margin-bottom: 2.4em; }
 
-  /* The jump buttons stick just below the top bar as you scroll, and the button for the
-     section you are reading stays highlighted. If they slide under the top bar, raise "top". */
-  .jump {
+  /* The jump buttons: a sidebar that stays pinned on the left as you scroll.
+     The button for the section you are reading stays highlighted. */
+  .page__content > .jump {
+    grid-column: 1;
+    grid-row: 1 / span 40;
+    align-self: start;
     position: sticky;
-    top: 3.4em;
+    top: 5em;
     z-index: 20;
-    margin: 0 0 3.5em;
-    padding: 0.7em 0;
-    background: rgba(26, 26, 26, 0.94);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0.55em;
+    margin: 0;
+    padding: 0;
+  }
+  .jump .tag {
+    white-space: normal;
+    line-height: 1.3;
   }
   .jump .tag.is-current {
     background: rgba(244, 143, 177, 0.4);
     box-shadow: inset 5px 0 0 #f48fb1;
   }
 
+  /* Narrow screens have no room for a sidebar: one column, with the buttons as a pinned row on top */
+  @media (max-width: 900px) {
+    .page__content { display: block; }
+    .page__content > .jump {
+      position: sticky;
+      top: 3.4em;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      margin: 0 0 2.4em;
+      padding: 0.7em 0;
+      background: rgba(26, 26, 26, 0.94);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+    .jump .tag { white-space: nowrap; }
+  }
+
   /* Groups and projects */
   .group {
     margin-bottom: 3.5em;
-    scroll-margin-top: 7em;
+    scroll-margin-top: 3em;
   }
   .group-intro { margin: -0.4em 0 2.5em; max-width: 56em; }
   .group-blurb {
@@ -288,7 +336,7 @@ groups:
 
   .project {
     margin-bottom: 5em;
-    scroll-margin-top: 7em;
+    scroll-margin-top: 3em;
   }
   .page__content h3.project-title {
     margin: 0 0 1.2em;
@@ -716,7 +764,7 @@ groups:
      cropped, stretched, or padded, and the captions line up level. Rows wrap to fit the page.
      --rowh is the photo height: raise the numbers for bigger photos, lower them for smaller. */
   .gallery {
-    --rowh: clamp(240px, 27vw, 520px);
+    --rowh: clamp(220px, 22vw, 440px);
     display: flex;
     flex-wrap: wrap;
     gap: 1.8em;
