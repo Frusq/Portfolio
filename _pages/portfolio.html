@@ -568,6 +568,7 @@ groups:
     height: 100%;
     will-change: transform;
   }
+  /* Each slide has its own solid gray, so the color never shifts while sliding between images */
   .sl-strip img {
     flex: 0 0 100%;
     width: 100%;
@@ -576,7 +577,7 @@ groups:
     box-shadow: none !important;
     border-radius: 0;
     object-fit: contain;
-    background: transparent;
+    background: #323232;
   }
 
   /* The slider bar. The theme styles every form input with a border, rounded corners, and a glow
