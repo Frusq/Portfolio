@@ -42,13 +42,13 @@ groups:
               - "Block CAD models help to envision robot subsystems and allocate space requirements for each subsystem"
               - "Subsystems are derived from the mastersketch to keep dimensions consistent and prevent collisions in assembly"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
-            # The big image on the right. To use a video instead, delete these three lines and add  youtube: "VIDEO_ID"  or  video: "/assets/videos/clip.mp4".
-            image: /assets/images/Mastersketch_Side_View.png
-            alt: "Master sketch, side view"
-            image_caption: "Mastersketch side view"
-            photos:
-              - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Mastersketch top view" }
-              - { src: "/assets/images/Mastersketch_KrayonCAD.png", caption: "Block CAD" }
+            # slider: replaces the big image on the right with a sliding strip of images.
+            # Dragging the bar is the only way to move. Add, remove, or reorder slides freely.
+            # Each slide has a src and a label (the label is shown under the bar).
+            slider:
+              - { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch" }
+              - { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD" }
+              - { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Full CAD" }
           - kicker: "Subsystem 1"
             name: "Replace with the subsystem name"
             situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
@@ -316,44 +316,6 @@ groups:
     color: #f48fb1;
   }
 
-  /* Section progress: a line under the links that fills as you scroll, with a tick per section
-     and an end cap at the bottom */
-  .jump-progress {
-    position: relative;
-    align-self: flex-start;
-    width: 4px;
-    height: calc(100vh - 17em);
-    min-height: 14em;
-    max-height: 32em;
-    margin: 1.8em 0 0 0.5em;
-    background: rgba(244, 143, 177, 0.2);
-    pointer-events: none;
-  }
-  .jump-progress-fill {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 0;
-    background: #f48fb1;
-  }
-  .jump-tick {
-    position: absolute;
-    left: -6px;
-    width: 16px;
-    height: 3px;
-    background: rgba(244, 143, 177, 0.7);
-  }
-  .jump-progress::after {
-    content: "";
-    position: absolute;
-    left: -6px;
-    bottom: 0;
-    width: 16px;
-    height: 3px;
-    background: rgba(244, 143, 177, 0.7);
-  }
-
   /* Narrow screens have no room for a sidebar: one column, with the links as a pinned row on top */
   @media (max-width: 900px) {
     .page__content { display: block; }
@@ -371,7 +333,6 @@ groups:
       backdrop-filter: blur(6px);
     }
     .jump .tag { white-space: nowrap; }
-    .jump-progress { display: none; }
   }
 
   /* Groups and projects */
@@ -668,6 +629,129 @@ groups:
     .part-grid { grid-template-columns: 1fr; row-gap: 1.8em; }
   }
 
+  /* Image slider. The images sit side by side in a strip that follows the slider handle, so they
+     really slide. The bar is the only control: the image itself ignores clicks and swipes. The stage
+     is a fixed 4:3 box with the same dark gray as the screenshots, so no image is cropped or
+     stretched and there is no white padding. */
+  .sl {
+    --th: 24px;
+    display: block !important;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .sl-stage {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    box-sizing: border-box;
+    background: #323232;
+    border: var(--frame) solid #fff;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .sl-strip {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+  }
+  /* Each slide has its own solid gray, so the color never shifts while sliding between images */
+  .sl-strip img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    object-fit: contain;
+    background: #323232;
+  }
+
+  /* The slider bar. The theme styles every form input with a border, rounded corners, and a glow
+     when clicked, so all of that is switched off here (including when focused or pressed). */
+  .sl-bar {
+    padding: 1.3em 0 0;
+  }
+  .sl .sl-range,
+  .sl .sl-range:hover,
+  .sl .sl-range:focus,
+  .sl .sl-range:focus-visible,
+  .sl .sl-range:active {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: var(--th);
+    margin: 0;
+    padding: 0;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    cursor: pointer;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .sl-range::-webkit-slider-runnable-track {
+    height: 4px;
+    background: rgba(244, 143, 177, 0.35);
+    border: none;
+    border-radius: 0;
+  }
+  .sl-range::-moz-range-track {
+    height: 4px;
+    background: rgba(244, 143, 177, 0.35);
+    border: none;
+    border-radius: 0;
+  }
+  .sl-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: var(--th);
+    height: var(--th);
+    margin-top: calc((4px - var(--th)) / 2);
+    border: none;
+    border-radius: 0;
+    background: #f48fb1;
+    clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+    box-shadow: none;
+  }
+  .sl-range::-moz-range-thumb {
+    width: var(--th);
+    height: var(--th);
+    border: none;
+    border-radius: 0;
+    background: #f48fb1;
+    clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+    box-shadow: none;
+  }
+  .sl-range::-moz-focus-outer { border: 0; }
+
+  /* Labels under the bar. They only mark the positions; they are not clickable.
+     To remove them, delete the <div class="sl-marks"> block in the HTML. */
+  .sl-marks {
+    position: relative;
+    height: 1.7em;
+    margin-top: 0.5em;
+    pointer-events: none;
+  }
+  .sl-mark {
+    position: absolute;
+    top: 0;
+    left: calc(var(--th) / 2 + (100% - var(--th)) * var(--p) / 100);
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.78em;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, color 0.2s ease;
+  }
+  .sl-mark.is-on { opacity: 1; color: #f48fb1; }
+
   /* Extra sections inside a project (How it works, Dev / Test, etc.) */
   .section { margin-bottom: 3em; }
   .section-heading {
@@ -762,7 +846,6 @@ groups:
 
 <div class="tags jump">
   {% for g in page.groups %}<a class="tag" href="#{{ g.id }}">{{ g.name }}</a>{% endfor %}
-  <span class="jump-progress" aria-hidden="true"><span class="jump-progress-fill"></span></span>
 </div>
 
 {% for g in page.groups %}
@@ -873,9 +956,9 @@ groups:
 
       {% for part in p.parts %}
       {% assign has_media = false %}
-      {% if part.image or part.youtube or part.video %}{% assign has_media = true %}{% endif %}
+      {% if part.image or part.youtube or part.video or part.slider %}{% assign has_media = true %}{% endif %}
       {% assign split = false %}
-      {% if part.photos_split and has_media and part.photos.size > 0 %}{% assign split = true %}{% endif %}
+      {% if part.photos_split and has_media and part.photos.size > 0 and part.slider == nil %}{% assign split = true %}{% endif %}
       <div class="part{% if part.size == 'small' %} part--small{% endif %}">
         {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
         <h4 class="part-title rv">{{ part.name }}</h4>
@@ -953,6 +1036,27 @@ groups:
           </div>
           {% if has_media %}
           <div class="rv">
+            {% if part.slider %}
+            {% assign sl_last = part.slider.size | minus: 1 %}
+            {% if sl_last < 1 %}{% assign sl_last = 1 %}{% endif %}
+            <figure class="sl">
+              <div class="sl-stage">
+                <div class="sl-strip">
+                  {% for s in part.slider %}
+                  <img src="{{ s.src }}" alt="{{ s.alt | default: s.label }}">
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="sl-bar">
+                <input class="sl-range" type="range" min="0" max="{{ sl_last }}" step="0.001" value="0" aria-label="Drag to change the image">
+                <div class="sl-marks">
+                  {% for s in part.slider %}
+                  <span class="sl-mark{% if forloop.first %} is-on{% endif %}" style="--p: {{ forloop.index0 | times: 100 | divided_by: sl_last }}">{{ s.label | default: forloop.index }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            </figure>
+            {% else %}
             {% if part.youtube %}
             <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ part.youtube }}" title="{{ part.alt | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
             {% elsif part.video %}
@@ -961,6 +1065,7 @@ groups:
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
             {% endif %}
             {% if part.image_caption %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
+            {% endif %}
           </div>
           {% endif %}
         </div>
@@ -1085,6 +1190,75 @@ groups:
     els.forEach(function (el) { io.observe(el); });
   })();
 
+  /* Slider: the strip of images follows the handle while you drag, so they really slide.
+     When you let go, it glides to the nearest image. Arrow keys glide one image at a time. */
+  (function () {
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll('.sl').forEach(function (box) {
+      var range = box.querySelector('.sl-range');
+      var strip = box.querySelector('.sl-strip');
+      var marks = box.querySelectorAll('.sl-mark');
+      if (!range || !strip) return;
+
+      var last = strip.children.length - 1;
+      var cur = 0;
+      var raf = null;
+
+      function render(v) {
+        cur = v;
+        strip.style.transform = 'translateX(' + (-v * 100) + '%)';
+        var i = Math.round(v);
+        marks.forEach(function (m, k) { m.classList.toggle('is-on', k === i); });
+      }
+
+      function glideTo(target) {
+        if (raf) cancelAnimationFrame(raf);
+        if (calm) { range.value = target; render(target); return; }
+        var from = cur, start = null, dur = 450;
+        function step(ts) {
+          if (start === null) start = ts;
+          var p = Math.min(1, (ts - start) / dur);
+          var e = 1 - Math.pow(1 - p, 3);
+          var v = from + (target - from) * e;
+          range.value = v;
+          render(v);
+          if (p < 1) raf = requestAnimationFrame(step);
+        }
+        raf = requestAnimationFrame(step);
+      }
+
+      /* dragging: the images follow the handle exactly */
+      range.addEventListener('input', function () {
+        if (raf) cancelAnimationFrame(raf);
+        var v = parseFloat(range.value);
+        render(isNaN(v) ? 0 : v);
+      });
+      /* letting go: glide to the nearest image */
+      range.addEventListener('change', function () {
+        var v = parseFloat(range.value);
+        glideTo(Math.max(0, Math.min(last, Math.round(isNaN(v) ? 0 : v))));
+      });
+      /* keyboard: one image per press */
+      range.addEventListener('keydown', function (e) {
+        var i = Math.round(cur), t = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowUp') t = i + 1;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') t = i - 1;
+        if (e.key === 'Home') t = 0;
+        if (e.key === 'End') t = last;
+        if (t === null) return;
+        e.preventDefault();
+        glideTo(Math.max(0, Math.min(last, t)));
+      });
+
+      /* browsers can remember the handle position after a refresh */
+      var start = parseFloat(range.value);
+      start = isNaN(start) ? 0 : Math.max(0, Math.min(last, Math.round(start)));
+      range.value = start;
+      render(start);
+    });
+  })();
+
   /* Highlight the jump link for the section you are reading */
   (function () {
     var tags = document.querySelectorAll('.jump .tag');
@@ -1101,51 +1275,5 @@ groups:
     }
     window.addEventListener('scroll', update, { passive: true });
     update();
-  })();
-
-  /* Section progress: the line fills as you scroll through the portfolio,
-     and always shows a full line once you reach the bottom of the page */
-  (function () {
-    var track = document.querySelector('.jump-progress');
-    var fill = document.querySelector('.jump-progress-fill');
-    var groups = document.querySelectorAll('.group');
-    if (!track || !fill || !groups.length) return;
-
-    var start = 0, total = 1;
-
-    function measure() {
-      var y = window.pageYOffset || document.documentElement.scrollTop;
-      var first = groups[0].getBoundingClientRect().top + y;
-      var lastRect = groups[groups.length - 1].getBoundingClientRect();
-      var end = lastRect.bottom + y;
-      start = first;
-      total = Math.max(1, end - first);
-
-      track.querySelectorAll('.jump-tick').forEach(function (t) { t.remove(); });
-      groups.forEach(function (g) {
-        var top = g.getBoundingClientRect().top + y;
-        var pct = Math.max(0, Math.min(100, ((top - first) / total) * 100));
-        var tick = document.createElement('span');
-        tick.className = 'jump-tick';
-        tick.style.top = pct + '%';
-        track.appendChild(tick);
-      });
-    }
-
-    function update() {
-      var y = window.pageYOffset || document.documentElement.scrollTop;
-      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      var p = (y + window.innerHeight * 0.35 - start) / total;
-      /* at the very bottom of the page, always show a full line */
-      if (maxScroll > 0 && y >= maxScroll - 2) p = 1;
-      p = Math.max(0, Math.min(1, p));
-      fill.style.height = (p * 100) + '%';
-    }
-
-    measure();
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', function () { measure(); update(); });
-    window.addEventListener('load', function () { measure(); update(); });
   })();
 </script>
