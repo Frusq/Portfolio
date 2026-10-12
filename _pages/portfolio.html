@@ -16,7 +16,7 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
-        # Text blocks across the top of the overview, two side by side. Add as many as you like (label + text, optional points).
+        # Text blocks across the top of the overview: the first one takes the left third, the second takes the right two-thirds.
         overview_text:
           - label: "Situation"
             text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts meant robots were trying to use the time when they could not shoot to optimize the shifts when they could shoot.'
@@ -26,7 +26,7 @@ groups:
         #   - { src: "/assets/images/robot-1.jpg", caption: "Optional caption" }
         #   - { youtube: "VIDEO_ID", caption: "Match footage" }
         #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
-        # wide: true makes that entry the big one (left, two-thirds width, as tall as two photos).
+        # wide: true makes that entry the big one (right side, two-thirds width, as tall as two photos).
         # Delete a caption: "..." part to hide that caption.
         overview:
           - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Replace with a caption" }
@@ -138,6 +138,8 @@ groups:
     --gutter: clamp(1.2rem, 4vw, 4rem);
     /* One border thickness for every photo and video on this page */
     --frame: 12px;
+    /* Gap between the two columns of the overview. The text row and the media row share it, so their columns line up. */
+    --ovgap: 2.5em;
   }
 
   /* Prevent sideways scrolling */
@@ -379,15 +381,16 @@ groups:
     height: auto;
   }
 
-  /* Robot overview: text blocks side by side across the top, then a big video beside two stacked photos */
+  /* Robot overview: text and media use the same two columns (one third, two thirds),
+     so every edge lines up. Text on top, then two stacked photos beside the big video. */
   .overview-wrap {
     display: block;
     margin: 0 0 4.5em;
   }
   .ov-text {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3.5em;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--ovgap);
     align-items: start;
     margin-bottom: 3.2em;
   }
@@ -407,14 +410,14 @@ groups:
 
   .ov-media {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.8em;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--ovgap);
     align-items: start;
   }
-  /* The big entry (wide: true) takes the left column and spans both photo rows */
-  .ov-wide { grid-row: span 2; }
+  /* The big entry (wide: true) sits in the right two-thirds and spans both photo rows */
+  .ov-wide { grid-column: 2; grid-row: 1 / span 2; }
   @media (max-width: 1000px) {
-    .ov-media { grid-template-columns: repeat(2, 1fr); }
+    .ov-media { grid-template-columns: repeat(2, 1fr); gap: 1.8em; }
     .ov-wide { grid-column: 1 / -1; grid-row: auto; }
   }
   @media (max-width: 600px) {
