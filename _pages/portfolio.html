@@ -50,9 +50,6 @@ groups:
               - { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch" }
               - { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD" }
               - { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Full CAD" }
-            # Photo row below the section. Delete these two lines if you don't want it.
-            photos:
-              - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Mastersketch top view" }
           - kicker: "Subsystem 1"
             name: "Replace with the subsystem name"
             situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
@@ -582,11 +579,16 @@ groups:
     background: transparent;
   }
 
-  /* The slider bar */
+  /* The slider bar. The theme styles every form input with a border, rounded corners, and a glow
+     when clicked, so all of that is switched off here (including when focused or pressed). */
   .sl-bar {
     padding: 1.3em 0 0;
   }
-  .sl-range {
+  .sl .sl-range,
+  .sl .sl-range:hover,
+  .sl .sl-range:focus,
+  .sl .sl-range:focus-visible,
+  .sl .sl-range:active {
     -webkit-appearance: none;
     appearance: none;
     display: block;
@@ -594,20 +596,26 @@ groups:
     height: var(--th);
     margin: 0;
     padding: 0;
-    background: transparent;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
     cursor: pointer;
     touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
   }
-  .sl-range:focus { outline: none; }
   .sl-range::-webkit-slider-runnable-track {
     height: 4px;
     background: rgba(244, 143, 177, 0.35);
     border: none;
+    border-radius: 0;
   }
   .sl-range::-moz-range-track {
     height: 4px;
     background: rgba(244, 143, 177, 0.35);
     border: none;
+    border-radius: 0;
   }
   .sl-range::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -616,10 +624,10 @@ groups:
     height: var(--th);
     margin-top: calc((4px - var(--th)) / 2);
     border: none;
+    border-radius: 0;
     background: #f48fb1;
     clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    transition: transform 0.15s ease;
+    box-shadow: none;
   }
   .sl-range::-moz-range-thumb {
     width: var(--th);
@@ -628,15 +636,9 @@ groups:
     border-radius: 0;
     background: #f48fb1;
     clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    transition: transform 0.15s ease;
+    box-shadow: none;
   }
-  .sl-range:hover::-webkit-slider-thumb,
-  .sl-range:active::-webkit-slider-thumb { transform: scale(1.12); }
-  .sl-range:hover::-moz-range-thumb,
-  .sl-range:active::-moz-range-thumb { transform: scale(1.12); }
-  .sl-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.5); }
-  .sl-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.5); }
+  .sl-range::-moz-focus-outer { border: 0; }
 
   /* Labels under the bar. They only mark the positions; they are not clickable.
      To remove them, delete the <div class="sl-marks"> block in the HTML. */
