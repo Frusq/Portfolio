@@ -745,10 +745,13 @@ groups:
   .project-top--slider > .rv:last-child { min-width: 0; }
   .project-top--slider .sl {
     display: flex !important;
-    flex-direction: column;
+    flex-flow: column nowrap !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
     width: 100%;
     height: 100%;
   }
+  .project-top--slider .sl > * { width: 100%; box-sizing: border-box; }
   .project-top--slider .sl-stage {
     aspect-ratio: auto;
     flex: 1 1 auto;
