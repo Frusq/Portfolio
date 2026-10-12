@@ -49,12 +49,13 @@ groups:
               - { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD" }
               - { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Full CAD" }
           - kicker: "Spindexer"
-            Goal: "Prototype and design an indexing system that holds, serializes, and transitions balls from the Intake to Shooter"
+            situation_label: "Goal"
+            situation: "Prototype and design an indexing system that holds, serializes, and transitions balls from the Intake to Shooter"
             points:
               - "Replace with what you designed or modeled"
               - "Replace with a constraint or challenge you solved"
               - "Replace with what you manufactured"
-            tools: ["Onshape", "CNC Router"]
+            tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing"]
             # To make the big image a video, delete the image line and use ONE of these instead:
             #   youtube: "VIDEO_ID"
             #   video: "/assets/videos/subsystem-1.mp4"     (add  loop: true  for a silent autoplay loop)
@@ -611,8 +612,8 @@ groups:
   .part { margin-bottom: 4.5em; }
   .part:last-child { margin-bottom: 0; }
   .part-kicker {
-    margin-bottom: 0.3em;
-    font-size: 0.8em;
+    margin-bottom: 0.5em;
+    font-size: 1.3em;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
@@ -630,7 +631,7 @@ groups:
 
   /* Smaller part (add size: small to a part): tighter text */
   .part--small { margin-bottom: 3.5em; }
-  .part--small .part-kicker { font-size: 0.72em; }
+  .part--small .part-kicker { font-size: 1.05em; }
   .page__content .part--small h4.part-title {
     margin-bottom: 0.9em;
     font-size: 0.95em;
@@ -1058,7 +1059,7 @@ groups:
       {% if part.photos_split and has_media and part.photos.size > 0 and part.slider == nil %}{% assign split = true %}{% endif %}
       <div class="part{% if part.size == 'small' %} part--small{% endif %}">
         {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
-        <h4 class="part-title rv">{{ part.name }}</h4>
+        {% if part.name %}<h4 class="part-title rv">{{ part.name }}</h4>{% endif %}
 
         {% if part.tools %}
         <div class="tags part-tools rv">
