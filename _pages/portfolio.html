@@ -43,12 +43,13 @@ groups:
               - "Block CAD models help to envision robot subsystems and allocate space requirements for each subsystem"
               - "Subsystems are derived from the mastersketch to keep dimensions consistent and prevent collisions in assembly"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
-            # slider: replaces the big image on the right with a slider bar. Dragging the bar is the only way to change images.
-            # Add, remove, or reorder slides freely. Each slide has a src, a label (shown under the bar), and a caption.
+            # slider: replaces the big image on the right with a sliding strip of images.
+            # Dragging the bar is the only way to move. Add, remove, or reorder slides freely.
+            # Each slide has a src and a label (the label is shown under the bar).
             slider:
-              - { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch", caption: "Mastersketch corner view" }
-              - { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD", caption: "Block CAD" }
-              - { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Full CAD", caption: "Full CAD corner view" }
+              - { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch" }
+              - { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD" }
+              - { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Full CAD" }
             # Photo row below the section. Delete these two lines if you don't want it.
             photos:
               - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Mastersketch top view" }
@@ -335,7 +336,6 @@ groups:
   .shots figcaption,
   .gallery figcaption,
   .pg-fig figcaption,
-  .sl figcaption,
   .media-cap {
     display: block;
     width: 100%;
@@ -353,7 +353,6 @@ groups:
   .shots figcaption::before,
   .gallery figcaption::before,
   .pg-fig figcaption::before,
-  .sl figcaption::before,
   .media-cap::before {
     content: "";
     display: block;
@@ -545,9 +544,10 @@ groups:
     .part-grid { grid-template-columns: 1fr; row-gap: 1.8em; }
   }
 
-  /* Image slider with a slider bar. The bar is the only control: the image itself does nothing when
-     clicked or swiped. It fills the big-image column. The stage is a fixed 4:3 box with the same
-     dark gray as the screenshots, so no image is cropped or stretched and there is no white padding. */
+  /* Image slider. The images sit side by side in a strip that follows the slider handle, so they
+     really slide. The bar is the only control: the image itself ignores clicks and swipes. The stage
+     is a fixed 4:3 box with the same dark gray as the screenshots, so no image is cropped or
+     stretched and there is no white padding. */
   .sl {
     --th: 24px;
     display: block !important;
@@ -565,9 +565,14 @@ groups:
     overflow: hidden;
     pointer-events: none;
   }
-  .sl-stage img {
-    position: absolute;
-    inset: 0;
+  .sl-strip {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+  }
+  .sl-strip img {
+    flex: 0 0 100%;
     width: 100%;
     height: 100%;
     border: none !important;
@@ -575,10 +580,7 @@ groups:
     border-radius: 0;
     object-fit: contain;
     background: transparent;
-    opacity: 0;
-    transition: opacity 0.4s ease;
   }
-  .sl-stage img.is-on { opacity: 1; }
 
   /* The slider bar */
   .sl-bar {
@@ -636,7 +638,8 @@ groups:
   .sl-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.5); }
   .sl-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.5); }
 
-  /* Labels under the bar. They only mark the positions; they are not clickable. */
+  /* Labels under the bar. They only mark the positions; they are not clickable.
+     To remove them, delete the <div class="sl-marks"> block in the HTML. */
   .sl-marks {
     position: relative;
     height: 1.7em;
@@ -745,7 +748,6 @@ groups:
   }
   @media (prefers-reduced-motion: reduce) {
     .rv-on .rv { opacity: 1; transform: none; }
-    .sl-stage img { transition: none; }
   }
 </style>
 
@@ -948,19 +950,20 @@ groups:
             {% if sl_last < 1 %}{% assign sl_last = 1 %}{% endif %}
             <figure class="sl">
               <div class="sl-stage">
-                {% for s in part.slider %}
-                <img{% if forloop.first %} class="is-on"{% endif %} src="{{ s.src }}" alt="{{ s.alt | default: s.caption }}" data-cap="{{ s.caption }}">
-                {% endfor %}
+                <div class="sl-strip">
+                  {% for s in part.slider %}
+                  <img src="{{ s.src }}" alt="{{ s.alt | default: s.label }}">
+                  {% endfor %}
+                </div>
               </div>
               <div class="sl-bar">
-                <input class="sl-range" type="range" min="0" max="{{ sl_last }}" step="1" value="0" aria-label="Drag to change the image">
+                <input class="sl-range" type="range" min="0" max="{{ sl_last }}" step="0.001" value="0" aria-label="Drag to change the image">
                 <div class="sl-marks">
                   {% for s in part.slider %}
                   <span class="sl-mark{% if forloop.first %} is-on{% endif %}" style="--p: {{ forloop.index0 | times: 100 | divided_by: sl_last }}">{{ s.label | default: forloop.index }}</span>
                   {% endfor %}
                 </div>
               </div>
-              <figcaption>{{ part.slider.first.caption }}</figcaption>
             </figure>
             {% else %}
             {% if part.youtube %}
@@ -1096,29 +1099,72 @@ groups:
     els.forEach(function (el) { io.observe(el); });
   })();
 
-  /* Slider bar: dragging the bar is the only way to change the image.
-     The image, the caption, and the highlighted label all follow the handle. */
+  /* Slider: the strip of images follows the handle while you drag, so they really slide.
+     When you let go, it glides to the nearest image. Arrow keys glide one image at a time. */
   (function () {
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     document.querySelectorAll('.sl').forEach(function (box) {
       var range = box.querySelector('.sl-range');
-      var imgs = box.querySelectorAll('.sl-stage img');
+      var strip = box.querySelector('.sl-strip');
       var marks = box.querySelectorAll('.sl-mark');
-      var cap = box.querySelector('figcaption');
-      if (!range || !imgs.length) return;
+      if (!range || !strip) return;
 
-      function update() {
-        var i = Math.round(parseFloat(range.value));
-        if (isNaN(i)) i = 0;
-        i = Math.max(0, Math.min(imgs.length - 1, i));
-        imgs.forEach(function (im, k) { im.classList.toggle('is-on', k === i); });
+      var last = strip.children.length - 1;
+      var cur = 0;
+      var raf = null;
+
+      function render(v) {
+        cur = v;
+        strip.style.transform = 'translateX(' + (-v * 100) + '%)';
+        var i = Math.round(v);
         marks.forEach(function (m, k) { m.classList.toggle('is-on', k === i); });
-        var text = imgs[i].getAttribute('data-cap');
-        if (cap && text) cap.textContent = text;
       }
 
-      range.addEventListener('input', update);
-      range.addEventListener('change', update);
-      update(); /* browsers can remember the handle position after a refresh */
+      function glideTo(target) {
+        if (raf) cancelAnimationFrame(raf);
+        if (calm) { range.value = target; render(target); return; }
+        var from = cur, start = null, dur = 450;
+        function step(ts) {
+          if (start === null) start = ts;
+          var p = Math.min(1, (ts - start) / dur);
+          var e = 1 - Math.pow(1 - p, 3);
+          var v = from + (target - from) * e;
+          range.value = v;
+          render(v);
+          if (p < 1) raf = requestAnimationFrame(step);
+        }
+        raf = requestAnimationFrame(step);
+      }
+
+      /* dragging: the images follow the handle exactly */
+      range.addEventListener('input', function () {
+        if (raf) cancelAnimationFrame(raf);
+        var v = parseFloat(range.value);
+        render(isNaN(v) ? 0 : v);
+      });
+      /* letting go: glide to the nearest image */
+      range.addEventListener('change', function () {
+        var v = parseFloat(range.value);
+        glideTo(Math.max(0, Math.min(last, Math.round(isNaN(v) ? 0 : v))));
+      });
+      /* keyboard: one image per press */
+      range.addEventListener('keydown', function (e) {
+        var i = Math.round(cur), t = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowUp') t = i + 1;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') t = i - 1;
+        if (e.key === 'Home') t = 0;
+        if (e.key === 'End') t = last;
+        if (t === null) return;
+        e.preventDefault();
+        glideTo(Math.max(0, Math.min(last, t)));
+      });
+
+      /* browsers can remember the handle position after a refresh */
+      var start = parseFloat(range.value);
+      start = isNaN(start) ? 0 : Math.max(0, Math.min(last, Math.round(start)));
+      range.value = start;
+      render(start);
     });
   })();
 </script>
