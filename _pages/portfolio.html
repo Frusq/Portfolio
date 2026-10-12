@@ -16,15 +16,24 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
-        # Overview row. The first entry is the Situation text block; the others are photos, YouTube videos, or MP4s.
-        # ANY slot can be a photo, a YouTube video, or an MP4. Use ONE of these per entry:
+        # Text blocks on the left of the overview. Add as many as you like (label + text, optional points).
+        overview_text:
+          - label: "Situation"
+            text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">FRC 2026 Game Challenge</a> consists of 3 robots on each alliance competing to score the most points. To score points, robots must shoot 15 cm yellow balls into a scoring location called the "hub", where each ball scores one point. There are a total of 500 balls on the field at any given time, and each team can only score during their respective shift.'
+          - label: "Why a Turret"
+            text: "Replace with your reason for choosing a turret: what it let the robot do that a fixed shooter could not."
+            points:
+              - "Replace with a key advantage"
+              - "Replace with a tradeoff you accepted"
+        # Photos and videos on the right. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
         #   - { src: "/assets/images/robot-1.jpg", caption: "Optional caption" }
         #   - { youtube: "VIDEO_ID", caption: "Match footage" }
         #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
+        # Add  wide: true  to make an entry span the full width of the right column.
         overview:
-          - situation: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">FRC 2026 Game Challenge</a> consists of 3 robots on each alliance competing to score the most points. To score points, robots must shoot 15 cm yellow balls into a scoring location called the "hub", where each ball scores one point. There are a total of 500 balls on the field at any given time, and each team can only score during their respective shift.'
-          - { video: "/assets/images/BallKnowledge_Auto.MOV" }
+          - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true }
           - { src: "/assets/images/BallKnowledge2.PNG" }
+          - { src: "/assets/images/BallKnowledge.jpg" }
         parts:
           - kicker: "Master Sketch"
             name: "Overall Layout and Planning"
@@ -33,8 +42,6 @@ groups:
               - "Replace with a key constraint it defined"
               - "Replace with how it kept the subsystems compatible"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
-            image: /assets/images/BallKnowledge.jpg
-            alt: "FRC 6036 robot surrounded by yellow balls"
             photos:
               - { src: "/assets/images/Mastersketch_Side_View.png" }
               - { src: "/assets/images/Mastersketch_Top_View.png" }
@@ -50,10 +57,11 @@ groups:
             # To make the big image a video, delete the image line and use ONE of these instead:
             #   youtube: "VIDEO_ID"
             #   video: "/assets/videos/subsystem-1.mp4"     (add  loop: true  for a silent autoplay loop)
+            # Delete the image line (and don't add a video) and the text runs full width with no big picture.
             image: /assets/images/BallKnowledge.jpg
             alt: "Replace with a description of the photo"
             photos:
-              # Any photo slot can be a video too: replace a line with a youtube or video entry (see the examples at the top).
+              # Any photo slot can be a video too: replace a line with a youtube or video entry (see the examples above).
               - { src: "/assets/images/BallKnowledge.jpg" }
               - { src: "/assets/images/BallKnowledge.jpg" }
               - { src: "/assets/images/BallKnowledge.jpg" }
@@ -259,6 +267,9 @@ groups:
     align-items: start;
     margin-bottom: 3em;
   }
+  /* No big picture: the text runs full width */
+  .project-top--text { grid-template-columns: 1fr; }
+  .project-top--text > div { max-width: 56em; }
   @media (max-width: 800px) {
     .project-top { grid-template-columns: 1fr; gap: 1.5em; }
   }
@@ -286,7 +297,7 @@ groups:
   /* Every photo and video frame: same white border, square corners */
   .photo,
   .vid-frame,
-  .overview img,
+  .ov-media img,
   .shots img,
   .gallery img {
     border: var(--frame) solid #fff;
@@ -308,41 +319,63 @@ groups:
     margin-top: 1.2em;
   }
 
-  /* Video frames (YouTube and MP4), used anywhere a photo can be swapped for a video */
+  /* Video frames. MP4/MOV files fit their own shape; YouTube stays 16:9. */
   .vid-frame {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
     box-sizing: border-box;
     background: #000;
   }
-  .vid-frame iframe,
-  .vid-frame video {
+  .vid-frame--yt { aspect-ratio: 16 / 9; }
+  .vid-frame iframe {
     display: block;
     width: 100%;
     height: 100%;
     border: 0;
-    object-fit: contain;
+  }
+  .vid-frame video {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
-  /* Robot overview: a situation block plus photos and videos, shown before the parts */
-  .overview {
+  /* Robot overview: text blocks on the left, photos and videos on the right */
+  .overview-wrap {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.8em;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3.5em;
     align-items: start;
     margin: 0 0 4.5em;
   }
+  .overview-wrap--media { grid-template-columns: 1fr; }
   @media (max-width: 1000px) {
-    .overview { grid-template-columns: repeat(2, 1fr); }
-    .overview .ov-situation { grid-column: 1 / -1; }
+    .overview-wrap { grid-template-columns: 1fr; gap: 2.5em; }
+  }
+  .ov-block + .ov-block { margin-top: 2.2em; }
+  .ov-label {
+    margin: 0 0 0.6em;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #f48fb1;
+  }
+  .ov-body { margin: 0 0 1em; }
+  .ov-block .plain-list { margin-bottom: 0; }
+
+  .ov-media {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.8em;
+    align-items: start;
   }
   @media (max-width: 600px) {
-    .overview { grid-template-columns: 1fr; }
+    .ov-media { grid-template-columns: 1fr; }
   }
-  .overview figure { margin: 0; }
-  .overview a { display: block; }
-  .overview img {
+  .ov-media figure { margin: 0; }
+  .ov-wide { grid-column: 1 / -1; }
+  .ov-media a { display: block; }
+  .ov-media img {
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -351,25 +384,12 @@ groups:
     object-fit: cover;
     transition: transform 0.25s ease;
   }
-  .overview a:hover img { transform: translateY(-4px); }
-  .overview figcaption {
+  .ov-media a:hover img { transform: translateY(-4px); }
+  .ov-media figcaption {
     margin-top: 0.7em;
     font-size: 0.85em;
     opacity: 0.8;
   }
-
-  /* Situation block that takes the place of a photo */
-  .ov-situation { padding-right: 0.6em; }
-  .ov-situation-label {
-    margin: 0 0 0.5em;
-    font-size: 0.8em;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: #f48fb1;
-  }
-  .ov-situation-text { margin: 0 0 1em; }
-  .ov-situation .plain-list { margin-bottom: 0; }
 
   /* Parts inside one project (master sketch, subsystems) */
   .part { margin-bottom: 4.5em; }
@@ -404,6 +424,7 @@ groups:
     gap: 2em;
     margin-bottom: 1.5em;
   }
+  .part--small .project-top--text { grid-template-columns: 1fr; }
   .part--small .situation,
   .part--small .plain-list li { font-size: 0.92em; }
   .part--small .gallery {
@@ -530,32 +551,42 @@ groups:
 
       {% if p.summary %}<p class="project-summary rv">{{ p.summary }}</p>{% endif %}
 
-      {% if p.overview and p.overview.size > 0 %}
-      <div class="overview">
-        {% for m in p.overview %}
-        {% if m.situation %}
-        <div class="ov-situation rv">
-          <p class="ov-situation-label">{{ m.label | default: "Situation" }}</p>
-          <p class="ov-situation-text">{{ m.situation }}</p>
-          {% if m.points %}
-          <ul class="plain-list">
-            {% for pt in m.points %}<li>{{ pt }}</li>{% endfor %}
-          </ul>
-          {% endif %}
+      {% if p.overview_text or p.overview %}
+      <div class="overview-wrap{% unless p.overview_text %} overview-wrap--media{% endunless %}">
+
+        {% if p.overview_text %}
+        <div class="ov-text">
+          {% for b in p.overview_text %}
+          <div class="ov-block rv">
+            <p class="ov-label">{{ b.label | default: "Situation" }}</p>
+            <p class="ov-body">{{ b.text }}</p>
+            {% if b.points %}
+            <ul class="plain-list">
+              {% for pt in b.points %}<li>{{ pt }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          {% endfor %}
         </div>
-        {% else %}
-        <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
-          {% if m.youtube %}
-          <div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ m.youtube }}" title="{{ m.caption | default: 'Robot video' }}" loading="lazy" allowfullscreen></iframe></div>
-          {% elsif m.video %}
-          <div class="vid-frame"><video src="{{ m.video }}"{% if m.poster %} poster="{{ m.poster }}"{% endif %}{% if m.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
-          {% elsif m.src %}
-          <a href="{{ m.src }}" target="_blank" rel="noopener"><img src="{{ m.src }}" alt="{{ m.alt | default: p.title }}"></a>
-          {% endif %}
-          {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
-        </figure>
         {% endif %}
-        {% endfor %}
+
+        {% if p.overview and p.overview.size > 0 %}
+        <div class="ov-media">
+          {% for m in p.overview %}
+          <figure class="rv{% if m.wide %} ov-wide{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+            {% if m.youtube %}
+            <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ m.youtube }}" title="{{ m.caption | default: 'Robot video' }}" loading="lazy" allowfullscreen></iframe></div>
+            {% elsif m.video %}
+            <div class="vid-frame"><video src="{{ m.video }}"{% if m.poster %} poster="{{ m.poster }}"{% endif %}{% if m.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+            {% elsif m.src %}
+            <a href="{{ m.src }}" target="_blank" rel="noopener"><img src="{{ m.src }}" alt="{{ m.alt | default: p.title }}"></a>
+            {% endif %}
+            {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
+          </figure>
+          {% endfor %}
+        </div>
+        {% endif %}
+
       </div>
       {% endif %}
 
@@ -564,7 +595,7 @@ groups:
         {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
         <h4 class="part-title rv">{{ part.name }}</h4>
 
-        <div class="project-top">
+        <div class="project-top{% unless part.image or part.youtube or part.video %} project-top--text{% endunless %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
@@ -578,15 +609,17 @@ groups:
             </div>
             {% endif %}
           </div>
+          {% if part.image or part.youtube or part.video %}
           <div class="rv">
             {% if part.youtube %}
-            <div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ part.youtube }}" title="{{ part.alt | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
+            <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ part.youtube }}" title="{{ part.alt | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
             {% elsif part.video %}
             <div class="vid-frame"><video src="{{ part.video }}"{% if part.poster %} poster="{{ part.poster }}"{% endif %}{% if part.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
             {% else %}
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
             {% endif %}
           </div>
+          {% endif %}
         </div>
 
         {% if part.photos and part.photos.size > 0 %}
@@ -594,7 +627,7 @@ groups:
           {% for ph in part.photos %}
           <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
             {% if ph.youtube %}
-            <div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
+            <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
             {% elsif ph.video %}
             <div class="vid-frame"><video src="{{ ph.video }}"{% if ph.poster %} poster="{{ ph.poster }}"{% endif %}{% if ph.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
             {% else %}
@@ -631,7 +664,7 @@ groups:
         </div>
         <div class="rv">
           {% if p.youtube %}
-          <div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ p.youtube }}" title="{{ p.hero_alt | default: p.title }}" loading="lazy" allowfullscreen></iframe></div>
+          <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ p.youtube }}" title="{{ p.hero_alt | default: p.title }}" loading="lazy" allowfullscreen></iframe></div>
           {% elsif p.video %}
           <div class="vid-frame"><video src="{{ p.video }}"{% if p.poster %} poster="{{ p.poster }}"{% endif %}{% if p.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
           {% else %}
@@ -649,7 +682,7 @@ groups:
           {% for im in s.images %}
           <figure>
             {% if im.youtube %}
-            <div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ im.youtube }}" title="{{ im.caption | default: s.heading }}" loading="lazy" allowfullscreen></iframe></div>
+            <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ im.youtube }}" title="{{ im.caption | default: s.heading }}" loading="lazy" allowfullscreen></iframe></div>
             {% elsif im.video %}
             <div class="vid-frame"><video src="{{ im.video }}"{% if im.poster %} poster="{{ im.poster }}"{% endif %}{% if im.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
             {% else %}
@@ -668,7 +701,7 @@ groups:
         {% for ph in p.photos %}
         <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
           {% if ph.youtube %}
-          <div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: p.title }}" loading="lazy" allowfullscreen></iframe></div>
+          <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: p.title }}" loading="lazy" allowfullscreen></iframe></div>
           {% elsif ph.video %}
           <div class="vid-frame"><video src="{{ ph.video }}"{% if ph.poster %} poster="{{ ph.poster }}"{% endif %}{% if ph.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
           {% else %}
