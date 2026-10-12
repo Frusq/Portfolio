@@ -9,7 +9,7 @@ groups:
     name: "FRC 6036"
     blurb: "Design Captain & Drive Coach"
     role_points:
-      - "Lead prototyping, design, and manufacture timelines using Gantt charts"
+      - "Lead design subteam, prototyping, and manufacture timelines using Gantt charts"
       - "Conducted design reviews for every subsystem to ensure mechanism compatibility"
       - "Managed part procurement and inventory using spreadsheets and weekly tracking"
       - "Headed strategy team and dictated match strategy with alliance partners"
@@ -33,20 +33,20 @@ groups:
         #   - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         overview:
           - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Autonomous Routine" }
-          - { src: "/assets/images/BallKnowledge_Full_CAD.png", caption: "Full CAD Assembly" }
+          - { src: "/assets/images/BallKnowledge2.PNG", caption: "Replace with a caption" }
         parts:
           - kicker: "Master Sketch"
             name: "Overall Layout and Planning"
             points:
-              - "Mastersketch is created using multiple 2D sketches to illustrate the robot in 3D space"
-              - "Defined Chassis size, Intake deploy and roller geometry, Spindexer size and placement, Turret location, Shooter hood angle and height, etc"
-              - "Block CAD models help to envision robot subsystems and allocate space requirements for each subsystem"
-              - "Subsystems are derived from the mastersketch to keep dimensions consistent and prevent collisions in assembly"
+              - "Replace with a key constraint it defined"
+              - "Replace with how it kept the subsystems compatible"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
             # The big image on the right. To use a video instead, delete these three lines and add  youtube: "VIDEO_ID"  or  video: "/assets/videos/clip.mp4".
             image: /assets/images/Mastersketch_Side_View.png
             alt: "Master sketch, side view"
-            image_caption: "Mastersketch side view"
+            image_caption: "Side view"
+            # photos_under: true puts the photos below under the big image (right column). Delete this line to put them in a row under the whole section.
+            photos_under: true
             photos:
               - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Mastersketch top view" }
               - { src: "/assets/images/Mastersketch_KrayonCAD.png", caption: "Block CAD" }
@@ -335,7 +335,7 @@ groups:
     display: block;
     width: 100%;
     box-sizing: border-box;
-    margin: 0.55em 0 0 !important;
+    margin: 0.5em 0 0 !important;
     padding: 0 !important;
     border: none;
     text-align: center !important;
@@ -515,7 +515,8 @@ groups:
   }
 
   /* Photo rows. Every photo in a row has the same height and keeps its own width, so nothing is
-     cropped, stretched, or padded, and the captions line up level. Rows wrap to fit the page. */
+     cropped, stretched, or padded. Each photo and its caption are plain stacked blocks, so the
+     caption sits right under its photo and never makes the photo wider. Rows wrap to fit. */
   .gallery {
     --rowh: clamp(170px, 19vw, 340px);
     display: flex;
@@ -525,15 +526,19 @@ groups:
     margin-bottom: 2em;
   }
   .gallery figure {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    flex: 0 1 auto;
-    min-width: 0;
+    display: block !important;
+    width: fit-content;
     max-width: 100%;
-    margin: 0;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 0 !important;
   }
-  .gallery figure > a { display: block; }
+  .gallery figure > a {
+    display: block;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+  }
   .gallery figure > a img {
     display: block;
     width: auto;
@@ -552,8 +557,17 @@ groups:
   }
   /* Videos in a row: about the same height as the photos */
   .gallery .gal-vid { width: calc(var(--rowh) * 1.6); }
+
+  /* Photos placed under the big image (photos_under: true), smaller so two fit side by side */
+  .gallery--under {
+    --rowh: clamp(110px, 10.5vw, 200px);
+    gap: 1.2em;
+    margin: 1.8em 0 0;
+  }
+
   @media (max-width: 600px) {
-    .gallery { --rowh: auto; }
+    .gallery,
+    .gallery--under { --rowh: auto; }
     .gallery figure,
     .gallery .gal-vid { width: 100%; }
     .gallery figure > a img { width: 100%; height: auto; }
@@ -580,7 +594,7 @@ groups:
   }
 </style>
 
-<p class="lead">A selection of things I've designed and built, grouped by where I made them</p>
+<p class="lead">A selection of things I've designed and built, grouped by where I made them.</p>
 
 <div class="tags jump">
   {% for g in page.groups %}<a class="tag" href="#{{ g.id }}">{{ g.name }}</a>{% endfor %}
@@ -693,6 +707,27 @@ groups:
       {% endif %}
 
       {% for part in p.parts %}
+      {% assign has_media = false %}
+      {% if part.image or part.youtube or part.video %}{% assign has_media = true %}{% endif %}
+      {% assign under = false %}
+      {% if part.photos_under and has_media %}{% assign under = true %}{% endif %}
+      {% capture gal %}{% if part.photos and part.photos.size > 0 %}
+        <div class="gallery{% if under %} gallery--under{% endif %}">
+          {% for ph in part.photos %}
+          <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+            {% if ph.youtube %}
+            <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
+            {% elsif ph.video %}
+            <div class="vid-frame"><video src="{{ ph.video }}"{% if ph.poster %} poster="{{ ph.poster }}"{% endif %}{% if ph.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+            {% else %}
+            <a href="{{ ph.src }}" target="_blank" rel="noopener"><img src="{{ ph.src }}" alt="{{ ph.alt | default: part.name }}"></a>
+            {% endif %}
+            {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+          </figure>
+          {% endfor %}
+        </div>
+      {% endif %}{% endcapture %}
+
       <div class="part{% if part.size == 'small' %} part--small{% endif %}">
         {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
         <h4 class="part-title rv">{{ part.name }}</h4>
@@ -703,7 +738,7 @@ groups:
         </div>
         {% endif %}
 
-        <div class="project-top{% unless part.image or part.youtube or part.video %} project-top--text{% endunless %}">
+        <div class="project-top{% unless has_media %} project-top--text{% endunless %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
@@ -712,7 +747,7 @@ groups:
             </ul>
             {% endif %}
           </div>
-          {% if part.image or part.youtube or part.video %}
+          {% if has_media %}
           <div class="rv">
             {% if part.youtube %}
             <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ part.youtube }}" title="{{ part.alt | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
@@ -722,28 +757,12 @@ groups:
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
             {% endif %}
             {% if part.image_caption %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
+            {% if under %}{{ gal }}{% endif %}
           </div>
           {% endif %}
         </div>
 
-        {% if part.photos and part.photos.size > 0 %}
-        <div class="gallery">
-          {% for ph in part.photos %}
-          <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
-            {% if ph.youtube %}
-            <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
-            {% elsif ph.video %}
-            <div class="vid-frame"><video src="{{ ph.video }}"{% if ph.poster %} poster="{{ ph.poster }}"{% endif %}{% if ph.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
-            {% else %}
-            <a href="{{ ph.src }}" target="_blank" rel="noopener">
-              <img src="{{ ph.src }}" alt="{{ ph.alt | default: part.name }}">
-            </a>
-            {% endif %}
-            {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
-          </figure>
-          {% endfor %}
-        </div>
-        {% endif %}
+        {% unless under %}{{ gal }}{% endunless %}
       </div>
       {% endfor %}
 
@@ -811,9 +830,7 @@ groups:
           {% elsif ph.video %}
           <div class="vid-frame"><video src="{{ ph.video }}"{% if ph.poster %} poster="{{ ph.poster }}"{% endif %}{% if ph.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
           {% else %}
-          <a href="{{ ph.src }}" target="_blank" rel="noopener">
-            <img src="{{ ph.src }}" alt="{{ ph.alt | default: p.title }}">
-          </a>
+          <a href="{{ ph.src }}" target="_blank" rel="noopener"><img src="{{ ph.src }}" alt="{{ ph.alt | default: p.title }}"></a>
           {% endif %}
           {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
         </figure>
