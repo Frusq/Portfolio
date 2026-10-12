@@ -85,7 +85,7 @@ groups:
             crop: true
             # crop_focus: first number = left/right, second = up/down. 0% keeps the top, 100% keeps the bottom,
             # so a bigger second number cuts more off the top and shows lower down in the video.
-            crop_focus: "50% 55%"
+            crop_focus: "50% 35%"
             image_caption: "Turret Tracking"
             photos:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
@@ -825,10 +825,12 @@ groups:
     display: flex;
     flex-direction: column;
   }
+  /* min-height is the shortest the picture gets. Raise it for a taller video, even when the text is short.
+     When the text is taller than this, the video grows to match the text. */
   .project-top--crop .vid-frame {
     flex: 1 1 auto;
     position: relative;
-    min-height: 16em;
+    min-height: 28em;
   }
   .project-top--crop .vid-frame video {
     position: absolute;
@@ -841,7 +843,7 @@ groups:
   .project-top--crop img.photo {
     flex: 1 1 0;
     height: 0;
-    min-height: 16em;
+    min-height: 28em;
     object-fit: cover;
     object-position: center top;
   }
