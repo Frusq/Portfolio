@@ -161,6 +161,12 @@ groups:
     }
   }
 
+  /* Smooth scrolling when a jump button is clicked */
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
   /* Full-width layout: remove the theme's side offset and width cap */
   #main {
     max-width: none !important;
@@ -248,10 +254,29 @@ groups:
 
   /* Intro and jump links */
   .lead { font-size: 1.1em; max-width: 46em; margin-bottom: 1.2em; }
-  .jump { margin-bottom: 3.5em; }
+
+  /* The jump buttons stick just below the top bar as you scroll, and the button for the
+     section you are reading stays highlighted. If they slide under the top bar, raise "top". */
+  .jump {
+    position: sticky;
+    top: 3.4em;
+    z-index: 20;
+    margin: 0 0 3.5em;
+    padding: 0.7em 0;
+    background: rgba(26, 26, 26, 0.94);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .jump .tag.is-current {
+    background: rgba(244, 143, 177, 0.4);
+    box-shadow: inset 5px 0 0 #f48fb1;
+  }
 
   /* Groups and projects */
-  .group { margin-bottom: 3.5em; }
+  .group {
+    margin-bottom: 3.5em;
+    scroll-margin-top: 7em;
+  }
   .group-intro { margin: -0.4em 0 2.5em; max-width: 56em; }
   .group-blurb {
     margin: 0 0 0.9em;
@@ -263,7 +288,7 @@ groups:
 
   .project {
     margin-bottom: 5em;
-    scroll-margin-top: 2em;
+    scroll-margin-top: 7em;
   }
   .page__content h3.project-title {
     margin: 0 0 1.2em;
@@ -1169,5 +1194,23 @@ groups:
       range.value = start;
       render(start);
     });
+  })();
+
+  /* Highlight the jump button for the section you are reading */
+  (function () {
+    var tags = document.querySelectorAll('.jump .tag');
+    var groups = document.querySelectorAll('.group');
+    if (!tags.length || !groups.length) return;
+    function update() {
+      var current = groups[0].id;
+      groups.forEach(function (g) {
+        if (g.getBoundingClientRect().top <= 160) current = g.id;
+      });
+      tags.forEach(function (t) {
+        t.classList.toggle('is-current', t.getAttribute('href') === '#' + current);
+      });
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
   })();
 </script>
