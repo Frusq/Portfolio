@@ -20,7 +20,7 @@ groups:
         # Text blocks: the first goes top left, the second goes bottom right. Any extra blocks run full width underneath.
         overview_text:
           - label: "Situation"
-            text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts mean teams are trying to use the time when they could not shoot to optimize the shifts when they could shoot.'
+            text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts meant robots were trying to use the time when they could not shoot to optimize the shifts when they could shoot.'
           - label: "Why a Turret"
             text: "A turreted shooter, specifically ones that rotate 360+ degrees, are capable of shooting projectiles from any orientation of the chassis. Due to this, playing defense against them would be much more difficult compared to a fixed shooter. Along with that, being able to pick up game pieces from the ground while the turret aims at the goal to shoot can greatly reduce dead time where the robot is not scoring, something especially important when robots can only shoot during certain periods of the game. Lastly, I wanted to capitalize on our software strengths. By analyzing previous FRC shooting games, I noticed that turrets were consistently a high level mechanism that, although not always necessary, differentiated top teams by giving them more software freedom."
         # Photos and videos. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
@@ -240,6 +240,10 @@ groups:
     gap: 0.55em;
   }
 
+  /* Skills row: sits right under each title, above the text and big image */
+  .part-tools { margin: 0 0 1.8em; }
+  .project-tools { margin: 0 0 2em; }
+
   /* Intro and jump links */
   .lead { font-size: 1.1em; max-width: 46em; margin-bottom: 1.2em; }
   .jump { margin-bottom: 3.5em; }
@@ -316,8 +320,7 @@ groups:
   /* The theme makes every figure a flex row, which shrinks captions to their text width.
      Make figures plain blocks so each caption spans the full width of its photo. */
   .board figure,
-  .shots figure,
-  .gallery figure {
+  .shots figure {
     display: block;
     margin: 0;
   }
@@ -467,7 +470,7 @@ groups:
     letter-spacing: 0.06em;
   }
 
-  /* Smaller part (add size: small to a part): tighter text, with its photo row in two columns */
+  /* Smaller part (add size: small to a part): tighter text */
   .part--small { margin-bottom: 3.5em; }
   .part--small .part-kicker { font-size: 0.72em; }
   .page__content .part--small h4.part-title {
@@ -482,16 +485,8 @@ groups:
   .part--small .project-top--text { grid-template-columns: 1fr; }
   .part--small .situation,
   .part--small .plain-list li { font-size: 0.92em; }
-  .part--small .gallery {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1em;
-    margin-bottom: 0;
-  }
   @media (max-width: 800px) {
     .part--small .project-top { grid-template-columns: 1fr; gap: 1.2em; }
-  }
-  @media (max-width: 600px) {
-    .part--small .gallery { grid-template-columns: 1fr; }
   }
 
   /* Extra sections inside a project (How it works, Dev / Test, etc.) */
@@ -517,35 +512,50 @@ groups:
     background-color: #fff;
   }
 
-  /* Photo slots: 3 across on desktop, 2 on tablet, 1 on phone.
-     Every photo sits in the same 4:3 box (nothing is cropped), so the captions line up level. */
+  /* Photo rows. Every photo in a row has the same height and keeps its own width, so nothing is
+     cropped, stretched, or padded, and the captions line up level. Rows wrap to fit the page. */
   .gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    --rowh: clamp(170px, 19vw, 340px);
+    display: flex;
+    flex-wrap: wrap;
     gap: 1.8em;
-    align-items: start;
+    align-items: flex-start;
     margin-bottom: 2em;
   }
-  @media (max-width: 1000px) {
-    .gallery { grid-template-columns: repeat(2, 1fr); }
+  .gallery figure {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
   }
-  @media (max-width: 600px) {
-    .gallery { grid-template-columns: 1fr; }
-  }
-  .gallery figure > a {
-    display: block;
-    aspect-ratio: 4 / 3;
-  }
+  .gallery figure > a { display: block; }
   .gallery figure > a img {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: auto;
+    max-width: 100%;
+    height: var(--rowh);
     box-sizing: border-box;
     object-fit: contain;
     background-color: #fff;
     transition: transform 0.25s ease;
   }
   .gallery figure > a:hover img { transform: translateY(-4px); }
+  /* A caption never makes its photo any wider than the photo itself */
+  .gallery figcaption {
+    width: 0;
+    min-width: 100%;
+  }
+  /* Videos in a row: about the same height as the photos */
+  .gallery .gal-vid { width: calc(var(--rowh) * 1.6); }
+  @media (max-width: 600px) {
+    .gallery { --rowh: auto; }
+    .gallery figure,
+    .gallery .gal-vid { width: 100%; }
+    .gallery figure > a img { width: 100%; height: auto; }
+  }
 
   /* Close the gap above the footer */
   .page__content { padding-bottom: 0 !important; margin-bottom: 0 !important; }
@@ -685,6 +695,12 @@ groups:
         {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
         <h4 class="part-title rv">{{ part.name }}</h4>
 
+        {% if part.tools %}
+        <div class="tags part-tools rv">
+          {% for t in part.tools %}<span class="tag">{{ t }}</span>{% endfor %}
+        </div>
+        {% endif %}
+
         <div class="project-top{% unless part.image or part.youtube or part.video %} project-top--text{% endunless %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
@@ -692,11 +708,6 @@ groups:
             <ul class="plain-list">
               {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
             </ul>
-            {% endif %}
-            {% if part.tools %}
-            <div class="tags">
-              {% for t in part.tools %}<span class="tag">{{ t }}</span>{% endfor %}
-            </div>
             {% endif %}
           </div>
           {% if part.image or part.youtube or part.video %}
@@ -716,7 +727,7 @@ groups:
         {% if part.photos and part.photos.size > 0 %}
         <div class="gallery">
           {% for ph in part.photos %}
-          <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+          <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
             {% if ph.youtube %}
             <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
             {% elsif ph.video %}
@@ -736,17 +747,18 @@ groups:
 
     {% else %}
 
+      {% if p.tools %}
+      <div class="tags project-tools rv">
+        {% for t in p.tools %}<span class="tag">{{ t }}</span>{% endfor %}
+      </div>
+      {% endif %}
+
       <div class="project-top">
         <div class="rv">
           <p class="situation"><strong>Situation:</strong> {{ p.situation }}</p>
           <ul class="plain-list">
             {% for pt in p.points %}<li>{{ pt }}</li>{% endfor %}
           </ul>
-          {% if p.tools %}
-          <div class="tags">
-            {% for t in p.tools %}<span class="tag">{{ t }}</span>{% endfor %}
-          </div>
-          {% endif %}
           {% if p.links and p.links.size > 0 %}
           <div class="project-links">
             {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}
@@ -791,7 +803,7 @@ groups:
       {% if p.photos and p.photos.size > 0 %}
       <div class="gallery">
         {% for ph in p.photos %}
-        <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+        <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
           {% if ph.youtube %}
           <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: p.title }}" loading="lazy" allowfullscreen></iframe></div>
           {% elsif ph.video %}
