@@ -16,17 +16,18 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
-        # Text blocks across the top of the overview: the first one takes the narrow left column, the second the wider right column.
+        # The overview is a checkerboard: Situation (text) | big video, then photos | Why a Turret (text).
+        # Text blocks: the first goes top left, the second goes bottom right. Any extra blocks run full width underneath.
         overview_text:
           - label: "Situation"
             text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts meant robots were trying to use the time when they could not shoot to optimize the shifts when they could shoot.'
           - label: "Why a Turret"
             text: "A turreted shooter, specifically ones that rotate 360+ degrees, are capable of shooting projectiles from any orientation of the chassis. Due to this, playing defense against them would be much more difficult compared to a fixed shooter. Along with that, being able to pick up game pieces from the ground while the turret aims at the goal to shoot can greatly reduce dead time where the robot is not scoring, something especially important when robots can only shoot during certain periods of the game. Lastly, I wanted to capitalize on our software strengths. By analyzing previous FRC shooting games, I noticed that turrets were consistently a high level mechanism that, although not always necessary, differentiated top teams by giving them more software freedom."
-        # Photos and videos below the text. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
+        # Photos and videos. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
         #   - { src: "/assets/images/robot-1.jpg", caption: "Optional caption" }
         #   - { youtube: "VIDEO_ID", caption: "Match footage" }
         #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
-        # The entry with wide: true is the big one (right column). Every other entry goes in the left column, stacked, and stretches to match its height.
+        # The entry with wide: true is the big one (top right, beside Situation). Every other entry stacks in the bottom-left cell, beside Why a Turret.
         # Keep exactly one wide: true entry. Delete a caption: "..." part to hide that caption.
         overview:
           - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Replace with a caption" }
@@ -138,9 +139,8 @@ groups:
     --gutter: clamp(1.2rem, 4vw, 4rem);
     /* One border thickness for every photo and video on this page */
     --frame: 12px;
-    /* The overview's two columns. The text row and the media row share them, so every edge lines up. */
-    --ovcols: 1fr 1.4fr;
-    --ovgap: 2.5em;
+    /* Space between the two columns of the checkerboard */
+    --ovgap: 3.5em;
   }
 
   /* Prevent sideways scrolling */
@@ -302,7 +302,7 @@ groups:
   /* Every photo and video frame: same white border, square corners */
   .photo,
   .vid-frame,
-  .ov-media img,
+  .board img,
   .shots img,
   .gallery img {
     border: var(--frame) solid #fff;
@@ -312,7 +312,7 @@ groups:
 
   /* The theme makes every figure a flex row, which shrinks captions to their text width.
      Make figures plain blocks so each caption spans the full width of its photo. */
-  .ov-media figure,
+  .board figure,
   .shots figure,
   .gallery figure {
     display: block;
@@ -320,7 +320,7 @@ groups:
   }
 
   /* Captions under every photo and video: centered and tight, with a short pink line above */
-  .ov-media figcaption,
+  .board figcaption,
   .shots figcaption,
   .gallery figcaption,
   .media-cap {
@@ -336,7 +336,7 @@ groups:
     line-height: 1.3 !important;
     opacity: 0.9;
   }
-  .ov-media figcaption::before,
+  .board figcaption::before,
   .shots figcaption::before,
   .gallery figcaption::before,
   .media-cap::before {
@@ -382,22 +382,38 @@ groups:
     height: auto;
   }
 
-  /* Robot overview: text on top, then a column of stacked photos beside the big video.
-     Text and media share the same two columns (--ovcols), so every edge lines up. */
+  /* Robot overview: a checkerboard. Two equal columns; text and media alternate.
+       row 1:  Situation (text)   |  big video
+       row 2:  photos (stacked)   |  Why a Turret (text)
+     Photos keep their own shape, so nothing is stretched or cropped. */
   .overview-wrap {
     display: block;
     margin: 0 0 4.5em;
   }
-  .ov-text {
+  .board {
     display: grid;
-    grid-template-columns: var(--ovcols);
-    gap: var(--ovgap);
-    align-items: start;
-    margin-bottom: 3.2em;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--ovgap);
+    row-gap: 3.2em;
+    align-items: center;
   }
-  @media (max-width: 1000px) {
-    .ov-text { grid-template-columns: 1fr; gap: 2.2em; }
+  .cell { min-width: 0; }
+  .cell--side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8em;
   }
+  .board a { display: block; }
+  .board a img {
+    display: block;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    background-color: #fff;
+    transition: transform 0.25s ease;
+  }
+  .board a:hover img { transform: translateY(-4px); }
+
   .ov-label {
     margin: 0 0 0.6em;
     font-size: 0.8em;
@@ -409,61 +425,21 @@ groups:
   .ov-body { margin: 0 0 1em; }
   .ov-block .plain-list { margin-bottom: 0; }
 
-  .ov-media {
-    display: grid;
-    grid-template-columns: var(--ovcols);
-    column-gap: var(--ovgap);
-    align-items: stretch;
+  /* Any extra text blocks (beyond the first two) run full width underneath */
+  .ov-extra {
+    max-width: 56em;
+    margin-top: 3.2em;
   }
-  /* Left column: the photos, stacked, sharing the video's height evenly */
-  .ov-media .ov-side {
-    display: flex;
-    flex-direction: column;
-    gap: 1.4em;
-    min-width: 0;
-  }
-  .ov-media .ov-side figure {
-    display: flex !important;
-    flex-direction: column;
-    align-items: stretch !important;
-    flex: 1 1 0;
-    min-height: 0;
-    min-width: 0;
-  }
-  .ov-media .ov-side figure > a {
-    display: block;
-    position: relative;
-    width: 100%;
-    flex: 1 1 auto;
-    min-height: 6em;
-  }
-  .ov-media .ov-side figure > a img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    box-sizing: border-box;
-    background-color: #fff;
-    object-fit: cover;
-    transition: transform 0.25s ease;
-  }
-  .ov-media .ov-side figure > a:hover img { transform: translateY(-4px); }
-  .ov-media .ov-main { min-width: 0; }
 
   @media (max-width: 1000px) {
-    .ov-media { grid-template-columns: 1fr; row-gap: 1.8em; }
-    .ov-media .ov-main { order: -1; }
-    .ov-media .ov-side {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.8em;
-    }
-    .ov-media .ov-side figure { display: block !important; }
-    .ov-media .ov-side figure > a { aspect-ratio: 16 / 9; min-height: 0; }
+    .board { grid-template-columns: 1fr; row-gap: 2.2em; align-items: start; }
+    /* Stacked order on narrow screens: Situation, video, Why a Turret, photos */
+    .cell--t1 { order: 3; }
+    .cell--side { order: 4; }
+    .cell--side { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8em; }
   }
   @media (max-width: 600px) {
-    .ov-media .ov-side { grid-template-columns: 1fr; }
+    .cell--side { grid-template-columns: 1fr; }
   }
 
   /* Parts inside one project (master sketch, subsystems) */
@@ -615,28 +591,44 @@ groups:
       {% if p.summary %}<p class="project-summary rv">{{ p.summary }}</p>{% endif %}
 
       {% if p.overview_text or p.overview %}
+      {% assign t0 = p.overview_text[0] %}
+      {% assign t1 = p.overview_text[1] %}
+      {% assign side_count = 0 %}
+      {% for m in p.overview %}{% unless m.wide %}{% assign side_count = side_count | plus: 1 %}{% endunless %}{% endfor %}
       <div class="overview-wrap">
+        <div class="board">
 
-        {% if p.overview_text %}
-        <div class="ov-text">
-          {% for b in p.overview_text %}
-          <div class="ov-block rv">
-            <p class="ov-label">{{ b.label | default: "Situation" }}</p>
-            <p class="ov-body">{{ b.text }}</p>
-            {% if b.points %}
-            <ul class="plain-list">
-              {% for pt in b.points %}<li>{{ pt }}</li>{% endfor %}
-            </ul>
-            {% endif %}
+          {% if t0 %}
+          <div class="cell cell--text cell--t0">
+            <div class="ov-block rv">
+              <p class="ov-label">{{ t0.label | default: "Situation" }}</p>
+              <p class="ov-body">{{ t0.text }}</p>
+              {% if t0.points %}
+              <ul class="plain-list">
+                {% for pt in t0.points %}<li>{{ pt }}</li>{% endfor %}
+              </ul>
+              {% endif %}
+            </div>
           </div>
-          {% endfor %}
-        </div>
-        {% endif %}
+          {% endif %}
 
-        {% if p.overview and p.overview.size > 0 %}
-        <div class="ov-media">
+          {% for m in p.overview %}{% if m.wide %}
+          <div class="cell cell--media cell--main">
+            <figure class="rv">
+              {% if m.youtube %}
+              <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ m.youtube }}" title="{{ m.caption | default: 'Robot video' }}" loading="lazy" allowfullscreen></iframe></div>
+              {% elsif m.video %}
+              <div class="vid-frame"><video src="{{ m.video }}"{% if m.poster %} poster="{{ m.poster }}"{% endif %}{% if m.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+              {% elsif m.src %}
+              <a href="{{ m.src }}" target="_blank" rel="noopener"><img src="{{ m.src }}" alt="{{ m.alt | default: p.title }}"></a>
+              {% endif %}
+              {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
+            </figure>
+          </div>
+          {% endif %}{% endfor %}
 
-          <div class="ov-side">
+          {% if side_count > 0 %}
+          <div class="cell cell--media cell--side">
             {% for m in p.overview %}{% unless m.wide %}
             <figure class="rv" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
               {% if m.youtube %}
@@ -650,25 +642,35 @@ groups:
             </figure>
             {% endunless %}{% endfor %}
           </div>
+          {% endif %}
 
-          <div class="ov-main">
-            {% for m in p.overview %}{% if m.wide %}
-            <figure class="rv">
-              {% if m.youtube %}
-              <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ m.youtube }}" title="{{ m.caption | default: 'Robot video' }}" loading="lazy" allowfullscreen></iframe></div>
-              {% elsif m.video %}
-              <div class="vid-frame"><video src="{{ m.video }}"{% if m.poster %} poster="{{ m.poster }}"{% endif %}{% if m.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
-              {% elsif m.src %}
-              <a href="{{ m.src }}" target="_blank" rel="noopener"><img src="{{ m.src }}" alt="{{ m.alt | default: p.title }}"></a>
+          {% if t1 %}
+          <div class="cell cell--text cell--t1">
+            <div class="ov-block rv">
+              <p class="ov-label">{{ t1.label | default: "Why" }}</p>
+              <p class="ov-body">{{ t1.text }}</p>
+              {% if t1.points %}
+              <ul class="plain-list">
+                {% for pt in t1.points %}<li>{{ pt }}</li>{% endfor %}
+              </ul>
               {% endif %}
-              {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
-            </figure>
-            {% endif %}{% endfor %}
+            </div>
           </div>
+          {% endif %}
 
         </div>
-        {% endif %}
 
+        {% for b in p.overview_text %}{% if forloop.index > 2 %}
+        <div class="ov-block ov-extra rv">
+          <p class="ov-label">{{ b.label }}</p>
+          <p class="ov-body">{{ b.text }}</p>
+          {% if b.points %}
+          <ul class="plain-list">
+            {% for pt in b.points %}<li>{{ pt }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        {% endif %}{% endfor %}
       </div>
       {% endif %}
 
