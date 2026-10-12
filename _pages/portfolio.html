@@ -317,6 +317,32 @@ groups:
     color: #f48fb1;
   }
 
+  /* Section progress: a thin line under the links that fills as you scroll, with a tick per section */
+  .jump-progress {
+    position: relative;
+    align-self: flex-start;
+    width: 2px;
+    height: 9em;
+    margin: 1.4em 0 0 0;
+    background: rgba(244, 143, 177, 0.18);
+    pointer-events: none;
+  }
+  .jump-progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0;
+    background: #f48fb1;
+  }
+  .jump-tick {
+    position: absolute;
+    left: -3px;
+    width: 8px;
+    height: 2px;
+    background: rgba(244, 143, 177, 0.55);
+  }
+
   /* Narrow screens have no room for a sidebar: one column, with the links as a pinned row on top */
   @media (max-width: 900px) {
     .page__content { display: block; }
@@ -334,6 +360,7 @@ groups:
       backdrop-filter: blur(6px);
     }
     .jump .tag { white-space: nowrap; }
+    .jump-progress { display: none; }
   }
 
   /* Groups and projects */
@@ -847,6 +874,7 @@ groups:
 
 <div class="tags jump">
   {% for g in page.groups %}<a class="tag" href="#{{ g.id }}">{{ g.name }}</a>{% endfor %}
+  <span class="jump-progress" aria-hidden="true"><span class="jump-progress-fill"></span></span>
 </div>
 
 {% for g in page.groups %}
@@ -1276,5 +1304,47 @@ groups:
     }
     window.addEventListener('scroll', update, { passive: true });
     update();
+  })();
+
+  /* Section progress: the line fills as you scroll through the portfolio */
+  (function () {
+    var track = document.querySelector('.jump-progress');
+    var fill = document.querySelector('.jump-progress-fill');
+    var groups = document.querySelectorAll('.group');
+    if (!track || !fill || !groups.length) return;
+
+    var start = 0, total = 1;
+
+    function measure() {
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      var first = groups[0].getBoundingClientRect().top + y;
+      var lastRect = groups[groups.length - 1].getBoundingClientRect();
+      var end = lastRect.bottom + y;
+      start = first;
+      total = Math.max(1, end - first);
+
+      track.querySelectorAll('.jump-tick').forEach(function (t) { t.remove(); });
+      groups.forEach(function (g) {
+        var top = g.getBoundingClientRect().top + y;
+        var pct = Math.max(0, Math.min(100, ((top - first) / total) * 100));
+        var tick = document.createElement('span');
+        tick.className = 'jump-tick';
+        tick.style.top = pct + '%';
+        track.appendChild(tick);
+      });
+    }
+
+    function update() {
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      var p = (y + window.innerHeight * 0.35 - start) / total;
+      p = Math.max(0, Math.min(1, p));
+      fill.style.height = (p * 100) + '%';
+    }
+
+    measure();
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { measure(); update(); });
+    window.addEventListener('load', function () { measure(); update(); });
   })();
 </script>
