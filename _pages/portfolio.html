@@ -16,17 +16,17 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
-        # Text blocks on the left of the overview. Add as many as you like (label + text, optional points).
+        # Text blocks across the top of the overview, two side by side. Add as many as you like (label + text, optional points).
         overview_text:
           - label: "Situation"
             text: 'The <a href="https://www.youtube.com/watch?v=_fybREErgyM" target="_blank" rel="noopener">2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds at a time during the game. These shifts meant robots were trying to use the time when they could not shoot to optimize the shifts when they could shoot.'
           - label: "Why a Turret"
             text: "A turreted shooter, specifically ones that rotate 360+ degrees, are capable of shooting projectiles from any orientation of the chassis. Due to this, playing defense against them would be much more difficult compared to a fixed shooter. Along with that, being able to pick up game pieces from the ground while the turret aims at the goal to shoot can greatly reduce dead time where the robot is not scoring, something especially important when robots can only shoot during certain periods of the game. Lastly, I wanted to capitalize on our software strengths. By analyzing previous FRC shooting games, I noticed that turrets were consistently a high level mechanism that, although not always necessary, differentiated top teams by giving them more software freedom."
-        # Photos and videos on the right. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
+        # Photos and videos in a row below the text, three across. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
         #   - { src: "/assets/images/robot-1.jpg", caption: "Optional caption" }
         #   - { youtube: "VIDEO_ID", caption: "Match footage" }
         #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
-        # Add  wide: true  to make an entry span the full width of the right column.
+        # wide: true only matters on tablets, where it makes an entry span the full row.
         # Delete a caption: "..." part to hide that caption.
         overview:
           - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Replace with a caption" }
@@ -379,19 +379,21 @@ groups:
     height: auto;
   }
 
-  /* Robot overview: text blocks on the left, photos and videos on the right */
+  /* Robot overview: text blocks side by side across the top, photos and videos in a row below */
   .overview-wrap {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 3.5em;
-    align-items: start;
+    display: block;
     margin: 0 0 4.5em;
   }
-  .overview-wrap--media { grid-template-columns: 1fr; }
-  @media (max-width: 1000px) {
-    .overview-wrap { grid-template-columns: 1fr; gap: 2.5em; }
+  .ov-text {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3.5em;
+    align-items: start;
+    margin-bottom: 3.2em;
   }
-  .ov-block + .ov-block { margin-top: 2.2em; }
+  @media (max-width: 1000px) {
+    .ov-text { grid-template-columns: 1fr; gap: 2.2em; }
+  }
   .ov-label {
     margin: 0 0 0.6em;
     font-size: 0.8em;
@@ -405,14 +407,17 @@ groups:
 
   .ov-media {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.8em;
     align-items: start;
+  }
+  @media (max-width: 1000px) {
+    .ov-media { grid-template-columns: repeat(2, 1fr); }
+    .ov-wide { grid-column: 1 / -1; }
   }
   @media (max-width: 600px) {
     .ov-media { grid-template-columns: 1fr; }
   }
-  .ov-wide { grid-column: 1 / -1; }
   .ov-media a { display: block; }
   .ov-media img {
     display: block;
@@ -574,7 +579,7 @@ groups:
       {% if p.summary %}<p class="project-summary rv">{{ p.summary }}</p>{% endif %}
 
       {% if p.overview_text or p.overview %}
-      <div class="overview-wrap{% unless p.overview_text %} overview-wrap--media{% endunless %}">
+      <div class="overview-wrap">
 
         {% if p.overview_text %}
         <div class="ov-text">
