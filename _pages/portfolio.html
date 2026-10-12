@@ -531,7 +531,7 @@ groups:
   .cell--side {
     display: flex;
     flex-direction: column;
-    gap: 1.8em;
+    gap: 1.1em;
   }
   /* Only photo links become blocks. (The text link inside Situation must stay inline.) */
   .board figure > a { display: block; }
@@ -960,7 +960,7 @@ groups:
               {% elsif m.src %}
               <a href="{{ m.src }}" target="_blank" rel="noopener"><img src="{{ m.src }}" alt="{{ m.alt | default: p.title }}"></a>
               {% endif %}
-              {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
+              {% if m.caption != blank %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
             </figure>
           </div>
           {% endif %}{% endfor %}
@@ -976,7 +976,7 @@ groups:
               {% elsif m.src %}
               <a href="{{ m.src }}" target="_blank" rel="noopener"><img src="{{ m.src }}" alt="{{ m.alt | default: p.title }}"></a>
               {% endif %}
-              {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
+              {% if m.caption != blank %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
             </figure>
             {% endunless %}{% endfor %}
           </div>
@@ -1046,7 +1046,7 @@ groups:
             {% else %}
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
             {% endif %}
-            {% if part.image_caption %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
+            {% if part.image_caption != blank %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
           </div>
           {% for ph in part.photos %}{% if forloop.index0 < 2 %}
           <figure class="pg-fig rv{% if ph.youtube or ph.video %} gal-vid{% endif %}">
@@ -1057,7 +1057,7 @@ groups:
             {% else %}
             <a href="{{ ph.src }}" target="_blank" rel="noopener"><img src="{{ ph.src }}" alt="{{ ph.alt | default: part.name }}"></a>
             {% endif %}
-            {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+            {% if ph.caption != blank %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
           </figure>
           {% endif %}{% endfor %}
         </div>
@@ -1075,7 +1075,7 @@ groups:
               <img src="{{ ph.src }}" alt="{{ ph.alt | default: part.name }}">
             </a>
             {% endif %}
-            {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+            {% if ph.caption != blank %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
           </figure>
           {% endif %}{% endfor %}
         </div>
@@ -1122,7 +1122,7 @@ groups:
             {% else %}
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
             {% endif %}
-            {% if part.image_caption %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
+            {% if part.image_caption != blank %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
             {% endif %}
           </div>
           {% endif %}
@@ -1141,7 +1141,7 @@ groups:
               <img src="{{ ph.src }}" alt="{{ ph.alt | default: part.name }}">
             </a>
             {% endif %}
-            {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+            {% if ph.caption != blank %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
           </figure>
           {% endfor %}
         </div>
@@ -1179,7 +1179,7 @@ groups:
           {% else %}
           <img class="photo" src="{{ p.hero }}" alt="{{ p.hero_alt }}">
           {% endif %}
-          {% if p.hero_caption %}<p class="media-cap">{{ p.hero_caption }}</p>{% endif %}
+          {% if p.hero_caption != blank %}<p class="media-cap">{{ p.hero_caption }}</p>{% endif %}
         </div>
       </div>
 
@@ -1198,7 +1198,7 @@ groups:
             {% else %}
             <img src="{{ im.src }}" alt="{{ im.alt }}">
             {% endif %}
-            {% if im.caption %}<figcaption>{{ im.caption }}</figcaption>{% endif %}
+            {% if im.caption != blank %}<figcaption>{{ im.caption }}</figcaption>{% endif %}
           </figure>
           {% endfor %}
         </div>
@@ -1219,7 +1219,7 @@ groups:
             <img src="{{ ph.src }}" alt="{{ ph.alt | default: p.title }}">
           </a>
           {% endif %}
-          {% if ph.caption %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+          {% if ph.caption != blank %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
         </figure>
         {% endfor %}
       </div>
