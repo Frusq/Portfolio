@@ -43,15 +43,15 @@ groups:
               - "Block CAD models help to envision robot subsystems and allocate space requirements for each subsystem"
               - "Subsystems are derived from the mastersketch to keep dimensions consistent and prevent collisions in assembly"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
-            # compare: replaces the big image on the right with one frame holding two images and buttons to swap between them.
-            # Each side has a src, a button label, and a caption (the caption changes with the image).
-            compare:
-              before: { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch", caption: "Mastersketch corner view" }
-              after: { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Block CAD", caption: "Block CAD corner view" }
-            # Photo row below. Delete these two lines (and the photos: line) if you don't want it.
+            # slider: replaces the big image on the right with a slider. Add, remove, or reorder slides freely.
+            # Each slide has a src, a button label, and a caption (the caption changes with the slide).
+            slider:
+              - { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch", caption: "Mastersketch corner view" }
+              - { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD", caption: "Block CAD" }
+              - { src: "/assets/images/BallKnowledge_Full_CAD.png", label: "Full CAD", caption: "Full CAD Assembly" }
+            # Photo row below the section. Delete these two lines if you don't want it.
             photos:
               - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Mastersketch top view" }
-              - { src: "/assets/images/Mastersketch_KrayonCAD.png", caption: "Block CAD" }
           - kicker: "Subsystem 1"
             name: "Replace with the subsystem name"
             situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
@@ -335,7 +335,7 @@ groups:
   .shots figcaption,
   .gallery figcaption,
   .pg-fig figcaption,
-  .cmp figcaption,
+  .sl figcaption,
   .media-cap {
     display: block;
     width: 100%;
@@ -353,7 +353,7 @@ groups:
   .shots figcaption::before,
   .gallery figcaption::before,
   .pg-fig figcaption::before,
-  .cmp figcaption::before,
+  .sl figcaption::before,
   .media-cap::before {
     content: "";
     display: block;
@@ -545,28 +545,45 @@ groups:
     .part-grid { grid-template-columns: 1fr; row-gap: 1.8em; }
   }
 
-  /* Sketch to CAD: one frame, two images, a button to swap between them. It fills the big-image
-     column. The stage is a fixed 4:3 box with the same dark gray as the screenshots, so neither
-     image is cropped or stretched and there is no white padding. */
-  .cmp {
+  /* Slider: one frame, several images, swipe / arrows / labeled buttons to move between them.
+     It fills the big-image column. The stage is a fixed 4:3 box with the same dark gray as the
+     screenshots, so no image is cropped or stretched and there is no white padding. */
+  .sl {
     display: block !important;
     width: 100%;
     margin: 0 !important;
     padding: 0 !important;
   }
-  .cmp-stage {
+  .sl-stage {
     position: relative;
     aspect-ratio: 4 / 3;
     box-sizing: border-box;
     background: #323232;
     border: var(--frame) solid #fff;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
-    cursor: pointer;
     overflow: hidden;
   }
-  .cmp-stage img {
-    position: absolute;
-    inset: 0;
+  .sl-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    outline: none;
+  }
+  .sl-track::-webkit-scrollbar { display: none; }
+  .sl-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+  .sl-slide img {
+    display: block;
     width: 100%;
     height: 100%;
     border: none !important;
@@ -574,18 +591,37 @@ groups:
     border-radius: 0;
     object-fit: contain;
     background: transparent;
-    transition: opacity 0.45s ease;
   }
-  .cmp-b { opacity: 0; }
-  .cmp[data-state="b"] .cmp-a { opacity: 0; }
-  .cmp[data-state="b"] .cmp-b { opacity: 1; }
-  .cmp-tabs {
+  .sl-arrow {
+    appearance: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 2.3em;
+    height: 2.3em;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1.5em;
+    line-height: 1;
+    color: #f48fb1;
+    background: rgba(26, 26, 26, 0.72);
+    transition: background 0.2s ease;
+  }
+  .sl-arrow:hover { background: rgba(26, 26, 26, 0.95); }
+  .sl-arrow:focus-visible { outline: 2px solid #f48fb1; outline-offset: -2px; }
+  .sl-prev { left: 0.4em; }
+  .sl-next { right: 0.4em; }
+  .sl-tabs {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 0.7em;
+    gap: 0.6em;
     margin-top: 1.1em;
   }
-  .cmp-tab {
+  .sl-tab {
     appearance: none;
     border: none;
     cursor: pointer;
@@ -600,14 +636,13 @@ groups:
     clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
     transition: background 0.2s ease, box-shadow 0.2s ease;
   }
-  .cmp-tab:hover { background: rgba(244, 143, 177, 0.25); }
-  .cmp-tab:focus-visible { outline: 2px solid #f48fb1; outline-offset: 2px; }
-  .cmp[data-state="a"] .cmp-tab[data-to="a"],
-  .cmp[data-state="b"] .cmp-tab[data-to="b"] {
+  .sl-tab:hover { background: rgba(244, 143, 177, 0.25); }
+  .sl-tab:focus-visible { outline: 2px solid #f48fb1; outline-offset: 2px; }
+  .sl-tab.is-on {
     background: rgba(244, 143, 177, 0.4);
     box-shadow: inset 5px 0 0 #f48fb1;
   }
-  .cmp-hint {
+  .sl-hint {
     margin: 0.5em 0 0;
     text-align: center;
     font-size: 0.72em;
@@ -703,7 +738,6 @@ groups:
   }
   @media (prefers-reduced-motion: reduce) {
     .rv-on .rv { opacity: 1; transform: none; }
-    .cmp-stage img { transition: none; }
   }
 </style>
 
@@ -821,9 +855,9 @@ groups:
 
       {% for part in p.parts %}
       {% assign has_media = false %}
-      {% if part.image or part.youtube or part.video or part.compare %}{% assign has_media = true %}{% endif %}
+      {% if part.image or part.youtube or part.video or part.slider %}{% assign has_media = true %}{% endif %}
       {% assign split = false %}
-      {% if part.photos_split and has_media and part.photos.size > 0 and part.compare == nil %}{% assign split = true %}{% endif %}
+      {% if part.photos_split and has_media and part.photos.size > 0 and part.slider == nil %}{% assign split = true %}{% endif %}
       <div class="part{% if part.size == 'small' %} part--small{% endif %}">
         {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
         <h4 class="part-title rv">{{ part.name }}</h4>
@@ -901,18 +935,22 @@ groups:
           </div>
           {% if has_media %}
           <div class="rv">
-            {% if part.compare %}
-            <figure class="cmp" data-state="a" data-cap-a="{{ part.compare.before.caption }}" data-cap-b="{{ part.compare.after.caption }}">
-              <div class="cmp-stage" title="Click to swap">
-                <img class="cmp-a" src="{{ part.compare.before.src }}" alt="{{ part.compare.before.caption | default: part.compare.before.label }}">
-                <img class="cmp-b" src="{{ part.compare.after.src }}" alt="{{ part.compare.after.caption | default: part.compare.after.label }}">
+            {% if part.slider %}
+            <figure class="sl">
+              <div class="sl-stage">
+                <div class="sl-track" tabindex="0" aria-label="Image slider">
+                  {% for s in part.slider %}
+                  <div class="sl-slide" data-cap="{{ s.caption }}"><img src="{{ s.src }}" alt="{{ s.alt | default: s.caption }}"></div>
+                  {% endfor %}
+                </div>
+                <button type="button" class="sl-arrow sl-prev" aria-label="Previous image">&#8249;</button>
+                <button type="button" class="sl-arrow sl-next" aria-label="Next image">&#8250;</button>
               </div>
-              <div class="cmp-tabs">
-                <button type="button" class="cmp-tab" data-to="a">{{ part.compare.before.label | default: "Sketch" }}</button>
-                <button type="button" class="cmp-tab" data-to="b">{{ part.compare.after.label | default: "CAD" }}</button>
+              <div class="sl-tabs">
+                {% for s in part.slider %}<button type="button" class="sl-tab{% if forloop.first %} is-on{% endif %}" data-to="{{ forloop.index0 }}">{{ s.label | default: forloop.index }}</button>{% endfor %}
               </div>
-              <p class="cmp-hint">Click the image to swap</p>
-              <figcaption>{{ part.compare.before.caption }}</figcaption>
+              <p class="sl-hint">Swipe or use the arrows</p>
+              <figcaption>{{ part.slider.first.caption }}</figcaption>
             </figure>
             {% else %}
             {% if part.youtube %}
@@ -1048,24 +1086,50 @@ groups:
     els.forEach(function (el) { io.observe(el); });
   })();
 
-  /* Sketch to CAD swap: tabs or a click on the image flip between the two images and update the caption */
+  /* Slider: swipe, arrows, labeled buttons, and the keyboard all move between slides.
+     The caption and the highlighted button follow the current slide. */
   (function () {
-    document.querySelectorAll('.cmp').forEach(function (box) {
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.sl').forEach(function (box) {
+      var track = box.querySelector('.sl-track');
+      var slides = track.querySelectorAll('.sl-slide');
+      var tabs = box.querySelectorAll('.sl-tab');
       var cap = box.querySelector('figcaption');
-      function show(state) {
-        box.setAttribute('data-state', state);
-        var text = box.getAttribute(state === 'b' ? 'data-cap-b' : 'data-cap-a');
+      var n = slides.length;
+      var idx = 0;
+
+      function mark(i) {
+        idx = i;
+        tabs.forEach(function (t, k) { t.classList.toggle('is-on', k === i); });
+        var text = slides[i].getAttribute('data-cap');
         if (cap && text) cap.textContent = text;
       }
-      box.querySelectorAll('.cmp-tab').forEach(function (btn) {
-        btn.addEventListener('click', function () { show(btn.getAttribute('data-to')); });
-      });
-      var stage = box.querySelector('.cmp-stage');
-      if (stage) {
-        stage.addEventListener('click', function () {
-          show(box.getAttribute('data-state') === 'a' ? 'b' : 'a');
-        });
+      function go(i) {
+        if (n < 2) return;
+        i = (i + n) % n;
+        track.scrollTo({ left: i * track.clientWidth, behavior: calm ? 'auto' : 'smooth' });
+        mark(i);
       }
+
+      track.addEventListener('scroll', function () {
+        var i = Math.round(track.scrollLeft / track.clientWidth);
+        if (i >= 0 && i < n && i !== idx) mark(i);
+      }, { passive: true });
+
+      var prev = box.querySelector('.sl-prev');
+      var next = box.querySelector('.sl-next');
+      if (prev) prev.addEventListener('click', function () { go(idx - 1); });
+      if (next) next.addEventListener('click', function () { go(idx + 1); });
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () { go(parseInt(t.getAttribute('data-to'), 10)); });
+      });
+      track.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(idx + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(idx - 1); }
+      });
+      window.addEventListener('resize', function () {
+        track.scrollTo({ left: idx * track.clientWidth, behavior: 'auto' });
+      });
     });
   })();
 </script>
