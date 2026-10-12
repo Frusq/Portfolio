@@ -38,8 +38,9 @@ groups:
           - kicker: "Master Sketch"
             name: "Overall Layout and Planning"
             points:
-              - "Replace with a key constraint it defined"
-              - "Replace with how it kept the subsystems compatible"
+              - "Defined Intake deploy and roller geometry, Spindexer size and placement, Turret location, and Shooter hood angle and height"
+              - "Created Block CAD on day 1 to envision robot subsystems and allocate space"
+              - "All subsystems are derived from the mastersketch to keep dimensions consistent and prevent collisions"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
             # The big image on the right. To use a video instead, delete these three lines and add  youtube: "VIDEO_ID"  or  video: "/assets/videos/clip.mp4".
             image: /assets/images/Mastersketch_Side_View.png
@@ -578,7 +579,7 @@ groups:
   }
 </style>
 
-<p class="lead">A selection of things I've designed and built, grouped by where I made them.</p>
+<p class="lead">A selection of things I've designed and built, grouped by where I made them</p>
 
 <div class="tags jump">
   {% for g in page.groups %}<a class="tag" href="#{{ g.id }}">{{ g.name }}</a>{% endfor %}
