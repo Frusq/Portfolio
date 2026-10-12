@@ -809,6 +809,12 @@ groups:
     transition: opacity 0.2s ease, color 0.2s ease;
   }
   .sl-mark.is-on { opacity: 1; color: #f48fb1; }
+  /* First and last labels sit flush with the edges of the image, so nothing hangs outside it */
+  .sl-mark:first-child { left: 0; transform: none; }
+  .sl-mark:last-child { left: auto; right: 0; transform: none; }
+
+  /* Line the top of the bullet text up with the top of the picture beside it */
+  .project-top > .rv:first-child > :first-child { margin-top: -0.3em; }
 
   /* Extra sections inside a project (How it works, Dev / Test, etc.) */
   .section { margin-bottom: 3em; }
