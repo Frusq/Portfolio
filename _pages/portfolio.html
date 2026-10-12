@@ -16,7 +16,7 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
-        # The overview is a checkerboard: Situation (text) | big video, then photos | Why a Turret (text).
+        # The overview is a checkerboard: Situation (text) | big video, then photo | Why a Turret (text).
         # Text blocks: the first goes top left, the second goes bottom right. Any extra blocks run full width underneath.
         overview_text:
           - label: "Situation"
@@ -29,10 +29,11 @@ groups:
         #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
         # The entry with wide: true is the big one (top right, beside Situation). Every other entry stacks in the bottom-left cell, beside Why a Turret.
         # Keep exactly one wide: true entry. Delete a caption: "..." part to hide that caption.
+        # To add the second photo back, paste this line under the other photo:
+        #   - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         overview:
           - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "Replace with a caption" }
           - { src: "/assets/images/BallKnowledge2.PNG", caption: "Replace with a caption" }
-          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         parts:
           - kicker: "Master Sketch"
             name: "Overall Layout and Planning"
@@ -384,7 +385,7 @@ groups:
 
   /* Robot overview: a checkerboard. Two equal columns; text and media alternate.
        row 1:  Situation (text)   |  big video
-       row 2:  photos (stacked)   |  Why a Turret (text)
+       row 2:  photo(s)           |  Why a Turret (text)
      Photos keep their own shape, so nothing is stretched or cropped. */
   .overview-wrap {
     display: block;
@@ -403,8 +404,9 @@ groups:
     flex-direction: column;
     gap: 1.8em;
   }
-  .board a { display: block; }
-  .board a img {
+  /* Only photo links become blocks. (The text link inside Situation must stay inline.) */
+  .board figure > a { display: block; }
+  .board figure > a img {
     display: block;
     width: 100%;
     height: auto;
@@ -412,7 +414,7 @@ groups:
     background-color: #fff;
     transition: transform 0.25s ease;
   }
-  .board a:hover img { transform: translateY(-4px); }
+  .board figure > a:hover img { transform: translateY(-4px); }
 
   .ov-label {
     margin: 0 0 0.6em;
