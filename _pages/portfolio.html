@@ -742,10 +742,12 @@ groups:
      columns end at about the same place. The picture keeps its gray background (nothing is cropped).
      To go back to a fixed shape, delete this block. */
   .project-top--slider { align-items: stretch; }
-  .project-top--slider > .rv:last-child { display: flex; }
+  .project-top--slider > .rv:last-child { min-width: 0; }
   .project-top--slider .sl {
     display: flex !important;
     flex-direction: column;
+    width: 100%;
+    height: 100%;
   }
   .project-top--slider .sl-stage {
     aspect-ratio: auto;
