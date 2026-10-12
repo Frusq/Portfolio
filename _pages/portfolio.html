@@ -61,10 +61,12 @@ groups:
             video: /assets/images/Shooter_SOTM.MOV
             loop: true
             crop: true
+            # flip: true puts the picture/video on the left and the text on the right. Delete the line to go back.
+            flip: true
             # crop_focus picks which part of the video stays in view when the sides are trimmed.
             # "left center" keeps the left edge, "right center" keeps the right edge, "50% center" is the middle.
             # Try a number like "75% center" to cut the left side more (bigger number = more cut from the left).
-            crop_focus: "65% center"
+            crop_focus: "60% center"
             image_caption: "Shooting on the move"
             photos:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
@@ -812,7 +814,7 @@ groups:
   /* A part with crop: true: the video is cut off at the bottom so it ends level with the text beside it.
      object-position: center top keeps the top of the video and trims the bottom.
      Use center center to trim top and bottom equally, or center bottom to trim the top.
-     Add crop_focus: "75% center" to the part to choose which side stays in view.
+     Add crop_focus: "60% center" to the part to choose which side stays in view.
      To go back to the full video, delete crop: true from the part. */
   .project-top--crop { align-items: stretch; }
   .project-top--crop > .rv:last-child {
@@ -844,6 +846,15 @@ groups:
     .project-top--crop .vid-frame { flex: none; min-height: 0; }
     .project-top--crop img.photo { flex: none; height: auto; min-height: 0; }
     .project-top--crop .vid-frame video { position: static; height: auto; }
+  }
+
+  /* A part with flip: true: the picture or video goes on the left and the text on the right.
+     (On narrow screens the text still comes first.) */
+  .project-top--flip { grid-template-columns: 1.3fr 1fr; }
+  .project-top--flip > .rv:last-child { order: -1; }
+  @media (max-width: 800px) {
+    .project-top--flip { grid-template-columns: 1fr; }
+    .project-top--flip > .rv:last-child { order: 0; }
   }
 
   /* The slider bar. The theme styles every form input with a border, rounded corners, and a glow
@@ -1209,7 +1220,7 @@ groups:
 
         {% else %}
 
-        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}">
+        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.flip %} project-top--flip{% endif %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
