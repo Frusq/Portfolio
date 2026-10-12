@@ -83,6 +83,9 @@ groups:
             video: /assets/images/Shooter_Tracking.mov
             loop: true
             crop: true
+            # crop_focus: first number = left/right, second = up/down. 0% keeps the top, 100% keeps the bottom,
+            # so a bigger second number cuts more off the top and shows lower down in the video.
+            crop_focus: "50% 75%"
             image_caption: "Turret Tracking"
             photos:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
