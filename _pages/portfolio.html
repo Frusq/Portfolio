@@ -43,15 +43,15 @@ groups:
               - "Block CAD models help to envision robot subsystems and allocate space requirements for each subsystem"
               - "Subsystems are derived from the mastersketch to keep dimensions consistent and prevent collisions in assembly"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
-            # The big image on the right. To use a video instead, delete these three lines and add  youtube: "VIDEO_ID"  or  video: "/assets/videos/clip.mp4".
-            image: /assets/images/Mastersketch_Side_View.png
-            alt: "Master sketch, side view"
-            image_caption: "Mastersketch side view"
-            # compare: one frame with two images and a button to swap between them (sketch to CAD).
-            # The captions change with the image. Any normal photos below it still work too.
+            # compare: replaces the big image on the right with one frame holding two images and buttons to swap between them.
+            # Each side has a src, a button label, and a caption (the caption changes with the image).
             compare:
-              before: { src: "/assets/images/Mastersketch_Top_View.png", label: "Sketch", caption: "Mastersketch top view" }
-              after: { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD", caption: "Block CAD" }
+              before: { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch", caption: "Mastersketch corner view" }
+              after: { src: "/assets/images/BallKnowledge_CAD_Corner_View.png", label: "Block CAD", caption: "Block CAD corner view" }
+            # Photo row below. Delete these two lines (and the photos: line) if you don't want it.
+            photos:
+              - { src: "/assets/images/Mastersketch_Top_View.png", caption: "Mastersketch top view" }
+              - { src: "/assets/images/Mastersketch_KrayonCAD.png", caption: "Block CAD" }
           - kicker: "Subsystem 1"
             name: "Replace with the subsystem name"
             situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
@@ -545,14 +545,13 @@ groups:
     .part-grid { grid-template-columns: 1fr; row-gap: 1.8em; }
   }
 
-  /* Sketch to CAD: one frame, two images, a button to swap between them.
-     The stage is a fixed 4:3 box with the same dark gray as the screenshots, so neither image is
-     cropped or stretched and there is no white padding. */
+  /* Sketch to CAD: one frame, two images, a button to swap between them. It fills the big-image
+     column. The stage is a fixed 4:3 box with the same dark gray as the screenshots, so neither
+     image is cropped or stretched and there is no white padding. */
   .cmp {
     display: block !important;
     width: 100%;
-    max-width: min(100%, 820px);
-    margin: 0 auto 3em !important;
+    margin: 0 !important;
     padding: 0 !important;
   }
   .cmp-stage {
@@ -822,9 +821,9 @@ groups:
 
       {% for part in p.parts %}
       {% assign has_media = false %}
-      {% if part.image or part.youtube or part.video %}{% assign has_media = true %}{% endif %}
+      {% if part.image or part.youtube or part.video or part.compare %}{% assign has_media = true %}{% endif %}
       {% assign split = false %}
-      {% if part.photos_split and has_media and part.photos.size > 0 %}{% assign split = true %}{% endif %}
+      {% if part.photos_split and has_media and part.photos.size > 0 and part.compare == nil %}{% assign split = true %}{% endif %}
       <div class="part{% if part.size == 'small' %} part--small{% endif %}">
         {% if part.kicker %}<div class="part-kicker rv">{{ part.kicker }}</div>{% endif %}
         <h4 class="part-title rv">{{ part.name }}</h4>
@@ -902,6 +901,20 @@ groups:
           </div>
           {% if has_media %}
           <div class="rv">
+            {% if part.compare %}
+            <figure class="cmp" data-state="a" data-cap-a="{{ part.compare.before.caption }}" data-cap-b="{{ part.compare.after.caption }}">
+              <div class="cmp-stage" title="Click to swap">
+                <img class="cmp-a" src="{{ part.compare.before.src }}" alt="{{ part.compare.before.caption | default: part.compare.before.label }}">
+                <img class="cmp-b" src="{{ part.compare.after.src }}" alt="{{ part.compare.after.caption | default: part.compare.after.label }}">
+              </div>
+              <div class="cmp-tabs">
+                <button type="button" class="cmp-tab" data-to="a">{{ part.compare.before.label | default: "Sketch" }}</button>
+                <button type="button" class="cmp-tab" data-to="b">{{ part.compare.after.label | default: "CAD" }}</button>
+              </div>
+              <p class="cmp-hint">Click the image to swap</p>
+              <figcaption>{{ part.compare.before.caption }}</figcaption>
+            </figure>
+            {% else %}
             {% if part.youtube %}
             <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ part.youtube }}" title="{{ part.alt | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
             {% elsif part.video %}
@@ -910,24 +923,10 @@ groups:
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
             {% endif %}
             {% if part.image_caption %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
+            {% endif %}
           </div>
           {% endif %}
         </div>
-
-        {% if part.compare %}
-        <figure class="cmp rv" data-state="a" data-cap-a="{{ part.compare.before.caption }}" data-cap-b="{{ part.compare.after.caption }}">
-          <div class="cmp-stage" title="Click to swap">
-            <img class="cmp-a" src="{{ part.compare.before.src }}" alt="{{ part.compare.before.caption | default: part.compare.before.label }}">
-            <img class="cmp-b" src="{{ part.compare.after.src }}" alt="{{ part.compare.after.caption | default: part.compare.after.label }}">
-          </div>
-          <div class="cmp-tabs">
-            <button type="button" class="cmp-tab" data-to="a">{{ part.compare.before.label | default: "Sketch" }}</button>
-            <button type="button" class="cmp-tab" data-to="b">{{ part.compare.after.label | default: "CAD" }}</button>
-          </div>
-          <p class="cmp-hint">Click the image to swap</p>
-          <figcaption>{{ part.compare.before.caption }}</figcaption>
-        </figure>
-        {% endif %}
 
         {% if part.photos and part.photos.size > 0 %}
         <div class="gallery">
