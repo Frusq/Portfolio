@@ -69,10 +69,11 @@ groups:
             # Try a number like "75% center" to cut the left side more (bigger number = more cut from the left).
             crop_focus: "60% center"
             image_caption: "Shooting on the move"
+            # below: a picture or video that sits directly under the big video, inside the same column.
+            # The big video shrinks (trimming its top and bottom) so both together match the height of the text.
+            below: { src: "/assets/images/Shooter_Full_CAD", caption: "Shooter CAD Assembly" }
             # per_row: how many photos go on each line. Fewer per line = bigger photos. Delete the line to put them all on one line.
-            per_row: 2
             photos:
-              - { src: "/assets/images/Shooter_Full_CAD", caption: "Shooter CAD Assembly" }
               - { src: "/assets/images/Shooter_CNC_Plates.jpg", caption: '1/4" Routered Side Plates' }
               - { video: "/assets/images/Shooter_Full_Field.MOV", caption: "Full Field Test" }
           - kicker: "Turret"
@@ -457,6 +458,7 @@ groups:
   .board img,
   .shots img,
   .gallery img,
+  .below-fig img,
   .pg-fig img {
     border: var(--frame) solid #fff;
     border-radius: 0;
@@ -475,6 +477,7 @@ groups:
   .board figcaption,
   .shots figcaption,
   .gallery figcaption,
+  .below-fig figcaption,
   .pg-fig figcaption,
   .media-cap {
     display: block;
@@ -492,6 +495,7 @@ groups:
   .board figcaption::before,
   .shots figcaption::before,
   .gallery figcaption::before,
+  .below-fig figcaption::before,
   .pg-fig figcaption::before,
   .media-cap::before {
     content: "";
@@ -506,6 +510,7 @@ groups:
      so all of that is zeroed here. To change the gap, edit the 0.55em margin in the caption rule above. */
   .board figure > a,
   .gallery figure > a,
+  .below-fig > a,
   .pg-fig > a,
   .shots figure > a {
     display: block;
@@ -515,6 +520,7 @@ groups:
   }
   .board figure img,
   .gallery figure img,
+  .below-fig img,
   .pg-fig img,
   .shots figure img,
   .photo,
@@ -526,6 +532,7 @@ groups:
   }
   .board figure,
   .gallery figure,
+  .below-fig,
   .pg-fig,
   .shots figure,
   .sl {
@@ -855,6 +862,30 @@ groups:
     .project-top--crop .vid-frame { flex: none; min-height: 0; }
     .project-top--crop img.photo { flex: none; height: auto; min-height: 0; }
     .project-top--crop .vid-frame video { position: static; height: auto; }
+  }
+
+  /* A part with below: a second picture sits under the big one. The big video gives up height to it
+     (trimming its top and bottom) so the whole column ends level with the text. */
+  .below-fig {
+    display: block !important;
+    flex: none;
+    margin: 1.8em 0 0 !important;
+    padding: 0 !important;
+  }
+  .below-fig > a { display: block; }
+  .below-fig img {
+    display: block;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    background-color: #fff;
+  }
+  .below-fig figcaption { margin-top: 0.55em !important; }
+  .project-top--below .vid-frame { min-height: 14em; }
+  .project-top--below .below-fig .vid-frame { min-height: 0; flex: none; position: static; }
+  .project-top--below .below-fig .vid-frame video { position: static; height: auto; object-fit: initial; }
+  @media (max-width: 800px) {
+    .project-top--below .vid-frame { min-height: 0; }
   }
 
   /* A part with flip: true: the picture or video goes on the left and the text on the right.
@@ -1228,7 +1259,7 @@ groups:
 
         {% else %}
 
-        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.flip %} project-top--flip{% endif %}">
+        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.flip %} project-top--flip{% endif %}{% if part.below %} project-top--below{% endif %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
@@ -1268,6 +1299,16 @@ groups:
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}"{% if part.crop_focus %} style="object-position: {{ part.crop_focus }}"{% endif %}>
             {% endif %}
             {% if part.image_caption != blank %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
+            {% if part.below %}
+            <figure class="below-fig">
+              {% if part.below.video %}
+              <div class="vid-frame"><video src="{{ part.below.video }}"{% if part.below.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+              {% else %}
+              <a href="{{ part.below.src }}" target="_blank" rel="noopener"><img src="{{ part.below.src }}" alt="{{ part.below.alt | default: part.below.caption }}"></a>
+              {% endif %}
+              {% if part.below.caption != blank %}<figcaption>{{ part.below.caption }}</figcaption>{% endif %}
+            </figure>
+            {% endif %}
             {% endif %}
           </div>
           {% endif %}
