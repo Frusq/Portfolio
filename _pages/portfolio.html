@@ -94,7 +94,7 @@ groups:
             # so a bigger second number cuts more off the top and shows lower down in the video.
             crop_focus: "50% 35%"
             image_caption: "Turret Tracking (Real Time Speed)"
-            # photos_key: a numbered list that sits to the RIGHT of the picture in the row below.
+            # photos_key: a numbered list that sits UNDER the photo row, in a 3 x 3 grid.
             # Use it for a labeled diagram: number the parts in the picture, then list what each number is here.
             # (Works when the photos are on one line, so don't use it together with per_row.)
             photos_key:
@@ -1061,47 +1061,37 @@ groups:
     width: 0;
     min-width: 100%;
   }
-  /* A numbered key beside a photo row (add photos_key to a part). The numbers are pink and match
+  /* A numbered key under a photo row (add photos_key to a part). The numbers are pink and match
      the numbers drawn on the picture. */
-  .gallery-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1.8fr) minmax(15em, 1fr);
-    column-gap: 2em;
-    align-items: center;
-    margin-bottom: 2em;
-  }
-  .gallery-row .gallery { margin-bottom: 0; }
+  .gallery-row { margin-bottom: 2em; }
+  .gallery-row .gallery { margin-bottom: 1.2em; }
+  /* 3 x 3 grid under the picture, reading down each column: 1-3, 4-6, 7-9 */
   .photo-key {
     list-style: none !important;
     margin: 0 !important;
-    padding: 1.1em 1.3em !important;
+    padding: 0.5em 1.4em !important;
     counter-reset: key;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    column-gap: 2em;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 10px;
   }
-  .photo-key::before {
-    content: "Key";
-    display: block;
-    margin-bottom: 0.8em;
-    font-size: 0.72em;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #f48fb1;
-  }
   .photo-key li {
     counter-increment: key;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.8em;
     margin: 0 !important;
-    padding: 0.42em 0 !important;
-    font-size: 0.88em;
+    padding: 0.6em 0 !important;
+    font-size: 0.9em;
     line-height: 1.3;
     border-top: 1px solid rgba(255, 255, 255, 0.07);
   }
-  .photo-key li:first-child { border-top: 0; }
+  .photo-key li:nth-child(3n+1) { border-top: 0; }
   .photo-key li::before {
     content: counter(key);
     flex: 0 0 1.7em;
@@ -1115,7 +1105,9 @@ groups:
     background: #f48fb1;
   }
   @media (max-width: 800px) {
-    .gallery-row { grid-template-columns: 1fr; row-gap: 1.4em; }
+    .photo-key { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
+    .photo-key li:nth-child(3n+1) { border-top: 1px solid rgba(255, 255, 255, 0.07); }
+    .photo-key li:first-child { border-top: 0; }
   }
   /* Phones: one picture per row, full width */
   @media (max-width: 600px) {
