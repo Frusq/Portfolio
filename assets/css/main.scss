@@ -146,3 +146,13 @@ a:hover,
   font-size: 0.9em;
   opacity: 0.8;
 }
+
+/* Highlighted (selected) text on every page: pink with dark letters instead of the theme's black */
+::selection {
+  background: #f48fb1;
+  color: #1a1a1a;
+}
+::-moz-selection {
+  background: #f48fb1;
+  color: #1a1a1a;
+}
