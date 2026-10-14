@@ -1061,12 +1061,12 @@ groups:
     width: 0;
     min-width: 100%;
   }
-  /* A numbered key to the left of a photo row (add photos_key to a part). The numbers are pink and match
+  /* A numbered key beside a photo row (add photos_key to a part). The numbers are pink and match
      the numbers drawn on the picture. */
   .gallery-row {
     display: grid;
-    grid-template-columns: minmax(0, 1.7fr) minmax(14em, 1fr);
-    column-gap: 2.2em;
+    grid-template-columns: minmax(0, 1.8fr) minmax(15em, 1fr);
+    column-gap: 2em;
     align-items: center;
     margin-bottom: 2em;
   }
@@ -1074,24 +1074,45 @@ groups:
   .photo-key {
     list-style: none !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 1.1em 1.3em !important;
     counter-reset: key;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+  }
+  .photo-key::before {
+    content: "Key";
+    display: block;
+    margin-bottom: 0.8em;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #f48fb1;
   }
   .photo-key li {
     counter-increment: key;
-    position: relative;
-    margin: 0 0 0.7em !important;
-    padding-left: 1.9em;
-    font-size: 0.95em;
-    line-height: 1.35;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8em;
+    margin: 0 !important;
+    padding: 0.42em 0 !important;
+    font-size: 0.88em;
+    line-height: 1.3;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
   }
-  .photo-key li:last-child { margin-bottom: 0 !important; }
+  .photo-key li:first-child { border-top: 0; }
   .photo-key li::before {
     content: counter(key);
-    position: absolute;
-    left: 0;
+    flex: 0 0 1.7em;
+    height: 1.7em;
+    line-height: 1.7em;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 0.85em;
     font-weight: 700;
-    color: #f48fb1;
+    color: #1b1b1b;
+    background: #f48fb1;
   }
   @media (max-width: 800px) {
     .gallery-row { grid-template-columns: 1fr; row-gap: 1.4em; }
