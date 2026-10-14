@@ -147,12 +147,13 @@ a:hover,
   opacity: 0.8;
 }
 
-/* Highlighted (selected) text on every page: pink with dark letters instead of the theme's black */
+/* Highlighted (selected) text on every page: the highlight color is whatever the visitor's computer
+   uses by default (usually its accent color), and the letters stay white */
 ::selection {
-  background: #f48fb1;
-  color: #1a1a1a;
+  background: Highlight;
+  color: #fff;
 }
 ::-moz-selection {
-  background: #f48fb1;
-  color: #1a1a1a;
+  background: Highlight;
+  color: #fff;
 }
