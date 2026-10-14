@@ -150,10 +150,10 @@ a:hover,
 /* Highlighted (selected) text on every page: a normal blue highlight with white letters instead of the
    theme's black. To change the color, edit the #2f6fed in both places. */
 ::selection {
-  background: #2f6fed !important;
+  background: #f48fb1 !important;
   color: #fff !important;
 }
 ::-moz-selection {
-  background: #2f6fed !important;
+  background: #f48fb1 !important;
   color: #fff !important;
 }
