@@ -147,13 +147,13 @@ a:hover,
   opacity: 0.8;
 }
 
-/* Highlighted (selected) text on every page: the highlight color is whatever the visitor's computer
-   uses by default (usually its accent color), and the letters stay white */
+/* Highlighted (selected) text on every page: a normal blue highlight with white letters instead of the
+   theme's black. To change the color, edit the #2f6fed in both places. */
 ::selection {
-  background: Highlight;
-  color: #fff;
+  background: #2f6fed !important;
+  color: #fff !important;
 }
 ::-moz-selection {
-  background: Highlight;
-  color: #fff;
+  background: #2f6fed !important;
+  color: #fff !important;
 }
