@@ -69,6 +69,8 @@ groups:
             # Try a number like "75% center" to cut the left side more (bigger number = more cut from the left).
             crop_focus: "60% center"
             image_caption: "Shooting on the move"
+            # per_row: how many photos go on each line. Fewer per line = bigger photos. Delete the line to put them all on one line.
+            per_row: 2
             photos:
               - { src: "/assets/images/Shooter_Full_CAD.PNG", caption: "Shooter CAD Assembly" }
               - { src: "/assets/images/Shooter_CNC_Plates.jpg", caption: '1/4" Routered Side Plates' }
@@ -1272,8 +1274,11 @@ groups:
         </div>
 
         {% if part.photos and part.photos.size > 0 %}
+        {% assign per_row = part.per_row | default: part.photos.size %}
         <div class="gallery">
           {% for ph in part.photos %}
+          {% assign col = forloop.index0 | modulo: per_row %}
+          {% if col == 0 and forloop.first == false %}</div><div class="gallery">{% endif %}
           <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
             {% if ph.youtube %}
             <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: part.name }}" loading="lazy" allowfullscreen></iframe></div>
@@ -1463,7 +1468,7 @@ groups:
   /* Photo rows: read each picture's shape and give it a share of the row that matches, so every
      picture in the row ends up the same height and the whole row fits on one line. */
   (function () {
-    var MAXH = 440; /* tallest a row may get, in pixels */
+    var MAXH = 600; /* tallest a row may get, in pixels */
     var galleries = document.querySelectorAll('.gallery');
     if (!galleries.length) return;
 
