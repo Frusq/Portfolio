@@ -977,13 +977,14 @@ groups:
     background-color: #fff;
   }
 
-  /* Photo rows. Every photo in a row has the same height and keeps its own width, so nothing is
-     cropped, stretched, or padded, and the captions line up level. Rows wrap to fit the page.
-     --rowh is the photo height: raise the numbers for bigger photos, lower them for smaller. */
+  /* Photo rows. Every photo and video in a row sits side by side on ONE line, all exactly the same
+     height. Each one gets a share of the width that matches its own shape (wide ones get more, tall
+     ones get less), so nothing is cropped, stretched, or padded and the captions line up level.
+     A small script at the bottom of the page reads each picture's shape and sets the shares.
+     --maxh is the tallest the row is allowed to get (raise it for bigger photos, lower it for smaller). */
   .gallery {
-    --rowh: clamp(220px, 22vw, 440px);
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 1.8em;
     align-items: flex-start;
     margin-bottom: 2em;
@@ -992,35 +993,33 @@ groups:
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
-    flex: 0 1 auto;
+    flex: 1.5 1 24px;
     min-width: 0;
-    max-width: 100%;
+    width: auto;
     margin: 0;
   }
   .gallery figure > a { display: block; }
   .gallery figure > a img {
     display: block;
-    width: auto;
-    max-width: 100%;
-    height: var(--rowh);
+    width: 100%;
+    height: auto;
     box-sizing: border-box;
-    object-fit: contain;
     background-color: #fff;
     transition: transform 0.25s ease;
   }
   .gallery figure > a:hover img { transform: translateY(-4px); }
+  .gallery .gal-vid { width: auto; }
+  .gallery .vid-frame video { width: 100%; height: auto; }
   /* A caption never makes its photo any wider than the photo itself */
   .gallery figcaption {
     width: 0;
     min-width: 100%;
   }
-  /* Videos in a row: about the same height as the photos */
-  .gallery .gal-vid { width: calc(var(--rowh) * 1.6); }
+  /* Phones: one picture per row, full width */
   @media (max-width: 600px) {
-    .gallery { --rowh: auto; }
+    .gallery { flex-direction: column; max-width: none !important; }
     .gallery figure,
-    .gallery .gal-vid { width: 100%; }
-    .gallery figure > a img { width: 100%; height: auto; }
+    .gallery .gal-vid { flex: none !important; width: 100%; }
   }
 
   /* Close the gap above the footer */
@@ -1459,6 +1458,51 @@ groups:
       range.value = start;
       render(start);
     });
+  })();
+
+  /* Photo rows: read each picture's shape and give it a share of the row that matches, so every
+     picture in the row ends up the same height and the whole row fits on one line. */
+  (function () {
+    var MAXH = 440; /* tallest a row may get, in pixels */
+    var galleries = document.querySelectorAll('.gallery');
+    if (!galleries.length) return;
+
+    function shape(fig) {
+      var m = fig.querySelector('img, video');
+      if (m) {
+        var w = m.naturalWidth || m.videoWidth, h = m.naturalHeight || m.videoHeight;
+        if (w && h) return w / h;
+        return 1.5;
+      }
+      if (fig.querySelector('iframe')) return 16 / 9;
+      return 1.5;
+    }
+
+    function layout(g) {
+      var figs = Array.prototype.slice.call(g.children).filter(function (el) { return el.tagName === 'FIGURE'; });
+      if (!figs.length) return;
+      if (window.innerWidth <= 600) {
+        figs.forEach(function (f) { f.style.flex = ''; });
+        g.style.maxWidth = '';
+        return;
+      }
+      var total = 0;
+      figs.forEach(function (f) {
+        var r = shape(f);
+        f.style.flex = r + ' 1 24px';
+        total += r;
+      });
+      var gap = parseFloat(getComputedStyle(g).columnGap) || 0;
+      g.style.maxWidth = (total * MAXH + figs.length * 24 + (figs.length - 1) * gap) + 'px';
+    }
+
+    galleries.forEach(function (g) {
+      layout(g);
+      g.querySelectorAll('img').forEach(function (i) { i.addEventListener('load', function () { layout(g); }); });
+      g.querySelectorAll('video').forEach(function (v) { v.addEventListener('loadedmetadata', function () { layout(g); }); });
+    });
+    window.addEventListener('load', function () { galleries.forEach(layout); });
+    window.addEventListener('resize', function () { galleries.forEach(layout); });
   })();
 
   /* Highlight the jump link for the section you are reading */
