@@ -94,9 +94,21 @@ groups:
             # so a bigger second number cuts more off the top and shows lower down in the video.
             crop_focus: "50% 35%"
             image_caption: "Turret Tracking (Real Time Speed)"
+            # photos_key: a numbered list that sits to the LEFT of the first picture in the row below.
+            # Use it for a labeled diagram: number the parts in the picture, then list what each number is here.
+            # (Works when the photos are on one line, so don't use it together with per_row.)
+            photos_key:
+              - "X-Contact bearing"
+              - "Main turret plate, clamps outer race of bearing"
+              - "Outer race bearing clamp"
+              - "10dp CNC routered spur gear"
+              - "Inner race bearing clamp"
+              - "Inner race bearing clamp"
+              - "Plate acting as a standoff"
+              - "3D printed gear guard"
+              - "3D printed herringbone encoder gears"
             photos:
-              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+              - { src: "/assets/images/Turret_Section_View.png", caption: "Turret Section View" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
           - kicker: "Spindexer"
             situation_label: "Goal"
@@ -1050,6 +1062,41 @@ groups:
     width: 0;
     min-width: 100%;
   }
+  /* A numbered key to the left of a photo row (add photos_key to a part). The numbers are pink and match
+     the numbers drawn on the picture. */
+  .gallery-row {
+    display: grid;
+    grid-template-columns: minmax(12em, 17em) minmax(0, 1fr);
+    column-gap: 2.2em;
+    align-items: center;
+    margin-bottom: 2em;
+  }
+  .gallery-row .gallery { margin-bottom: 0; }
+  .photo-key {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    counter-reset: key;
+  }
+  .photo-key li {
+    counter-increment: key;
+    position: relative;
+    margin: 0 0 0.7em !important;
+    padding-left: 1.9em;
+    font-size: 0.95em;
+    line-height: 1.35;
+  }
+  .photo-key li:last-child { margin-bottom: 0 !important; }
+  .photo-key li::before {
+    content: counter(key);
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: #f48fb1;
+  }
+  @media (max-width: 800px) {
+    .gallery-row { grid-template-columns: 1fr; row-gap: 1.4em; }
+  }
   /* Phones: one picture per row, full width */
   @media (max-width: 600px) {
     .gallery { flex-direction: column; max-width: none !important; }
@@ -1318,6 +1365,8 @@ groups:
 
         {% if part.photos and part.photos.size > 0 %}
         {% assign per_row = part.per_row | default: part.photos.size %}
+        {% if part.photos_key %}<div class="gallery-row">
+          <ol class="photo-key rv">{% for k in part.photos_key %}<li>{{ k }}</li>{% endfor %}</ol>{% endif %}
         <div class="gallery">
           {% for ph in part.photos %}
           {% assign col = forloop.index0 | modulo: per_row %}
@@ -1336,6 +1385,7 @@ groups:
           </figure>
           {% endfor %}
         </div>
+        {% if part.photos_key %}</div>{% endif %}
         {% endif %}
 
         {% endif %}
