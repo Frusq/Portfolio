@@ -127,7 +127,7 @@ groups:
             # Add or delete blocks as you like, in the order you want people to cycle through them.
             # designs_title is the heading above the carousel (delete the line for no heading).
             # Optional:  designs_ratio: "16 / 10"  sets the shape of the picture box (width / height).
-            designs_title: "Pudding Cone Designs"
+            designs_title: "Spindexer Cone Designs (The ones I could find in CAD)"
             designs_ratio: "16 / 10"
             designs:
               - src: "/assets/images/Spindexer_Cone_1.png"
@@ -1188,13 +1188,13 @@ groups:
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 2.6em;
-    height: 2.6em;
+    width: 1.9em;
+    height: 1.9em;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(20, 20, 20, 0.72);
     color: #fff;
-    font-size: 1.5em;
+    font-size: 1.15em;
     line-height: 1;
     padding: 0 0 0.1em;
     cursor: pointer;
@@ -1782,7 +1782,10 @@ groups:
         thumbs.forEach(function (el, j) { el.classList.toggle('is-on', j === i); });
         if (cur) cur.textContent = i + 1;
         var t = thumbs[i];
-        if (t && strip) strip.scrollTo({ left: t.offsetLeft - (strip.clientWidth - t.offsetWidth) / 2, behavior: 'smooth' });
+        if (t && strip) {
+          var off = t.getBoundingClientRect().left - strip.getBoundingClientRect().left + strip.scrollLeft;
+          strip.scrollTo({ left: off - (strip.clientWidth - t.offsetWidth) / 2, behavior: 'smooth' });
+        }
       }
 
       var prev = box.querySelector('.dz-prev'), next = box.querySelector('.dz-next');
