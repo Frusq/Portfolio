@@ -1211,8 +1211,9 @@ groups:
     gap: 0.6em;
     margin-top: 0.8em;
     overflow-x: auto;
-    padding-bottom: 0.3em;
+    scrollbar-width: none; /* hide the scroll bar; the row still scrolls with swipes, the arrows and clicks */
   }
+  .dz-thumbs::-webkit-scrollbar { display: none; }
   .dz-thumb {
     flex: 0 0 auto;
     width: 6.2em;
