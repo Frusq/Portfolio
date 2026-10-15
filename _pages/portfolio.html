@@ -118,6 +118,15 @@ groups:
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing"]
             # text_image: a picture under the bullets, in the text column (src and caption).
             text_image: { src: "/assets/images/Kraken_X60_Motor_Curve.png", caption: "Kraken X60 Motor Curve" }
+            # calc: a small calculation box under the picture, one row per step.
+            #   label   what the step is        math   the arithmetic        result   the answer
+            # note (optional) is a line of small text under the rows. Add or delete rows freely.
+            calc_title: "Center Wheel RPS Calculation"
+            calc:
+              - { label: "Motor speed at 6 V", math: "from the motor curve", result: "≈ 3000 RPM" }
+              - { label: "Gear reduction 4:1", math: "3000 ÷ 4", result: "750 RPM" }
+              - { label: "Convert to revolutions per second", math: "750 ÷ 60", result: "12.5 ≈ 13 RPS" }
+            calc_note: "750 RPM is slightly higher than a DeWalt drill on setting 1."
             video: /assets/images/Spindexer_Initial_Test.MOV
             loop: true
             image_caption: "Spindexer Initial Testing"
@@ -147,7 +156,7 @@ groups:
               - src: "/assets/images/Spindexer_Cone_4.png"
                 title: "Bigger 3D Printed Wheel with 3D Printed Cone (Not Pictured)"
                 thought: "Provide slight compression on the balls at all times in the spindexer, using friction to move the balls."
-                problem: "Compression from the wheel made it hard for balls to fully seat inside the spindexer. Caused many jams at the exit due to balls not touching the bottom. Shaft wobbled due to length and only being supported at the base"
+                problem: "Compression from the wheel made it hard for balls to fully seat inside the spindexer. Caused many jams at the exit due to balls not touching the bottom."
               - src: "/assets/images/Spindexer_Cone_5.png"
                 title: "Rubber Molded Center Wheel (Untested)"
                 thought: "Create custom durometer wheels that could be extremely soft and provide better grip on the balls"
@@ -532,6 +541,7 @@ groups:
   .gallery figcaption,
   .below-fig figcaption,
   .pg-fig figcaption,
+  .text-fig figcaption,
   .media-cap {
     display: block;
     width: 100%;
@@ -550,6 +560,7 @@ groups:
   .gallery figcaption::before,
   .below-fig figcaption::before,
   .pg-fig figcaption::before,
+  .text-fig figcaption::before,
   .media-cap::before {
     content: "";
     display: block;
@@ -1152,7 +1163,35 @@ groups:
   /* A picture under the bullets (add text_image: to a part) */
   .text-fig { margin: 1.2em 0 0 !important; max-width: 100%; display: block !important; }
   .text-fig img { display: block; width: 100%; height: auto; border-radius: 8px; }
-  .text-fig figcaption { margin-top: 0.6em; text-align: left; }
+  /* A calculation box (add calc: to a part): one row per step, with the answer on the right */
+  .calc {
+    margin: 1.4em 0 0;
+    padding: 1em 1.2em 1.1em;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+  }
+  .calc-title {
+    margin-bottom: 0.5em;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #f48fb1;
+  }
+  .calc-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 1em;
+    align-items: baseline;
+    padding: 0.55em 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .calc-label { grid-column: 1; font-size: 0.9em; line-height: 1.3; }
+  .calc-math { grid-column: 1; grid-row: 2; font-size: 0.8em; color: #9a9a9a; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .calc-result { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-weight: 700; font-size: 1em; color: #fff; text-align: right; white-space: nowrap; }
+  .calc-row:last-of-type .calc-result { color: #f48fb1; }
+  .calc-note { margin: 0.7em 0 0 !important; padding-top: 0.7em; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8em; line-height: 1.4; color: #9a9a9a; }
   /* Design carousel (add designs: to a part). Picture and thumbnails on the left, a note on the right. */
   .dz {
     display: grid;
@@ -1516,6 +1555,19 @@ groups:
               <a href="{{ part.text_image.src }}" target="_blank" rel="noopener"><img src="{{ part.text_image.src }}" alt="{{ part.text_image.alt | default: part.text_image.caption }}"></a>
               {% if part.text_image.caption != blank %}<figcaption>{{ part.text_image.caption }}</figcaption>{% endif %}
             </figure>
+            {% endif %}
+            {% if part.calc %}
+            <div class="calc">
+              {% if part.calc_title != blank %}<div class="calc-title">{{ part.calc_title }}</div>{% endif %}
+              {% for c in part.calc %}
+              <div class="calc-row">
+                <div class="calc-label">{{ c.label }}</div>
+                <div class="calc-math">{{ c.math }}</div>
+                <div class="calc-result">{{ c.result }}</div>
+              </div>
+              {% endfor %}
+              {% if part.calc_note != blank %}<p class="calc-note">{{ part.calc_note }}</p>{% endif %}
+            </div>
             {% endif %}
           </div>
           {% if has_media %}
