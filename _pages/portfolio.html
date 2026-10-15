@@ -54,7 +54,7 @@ groups:
             points:
               - "Multiple versions to iterate on geometry and packaging"
               - "1\" compression throughout the entire shooter to maintain ball path consistency"
-              - "Flywheel geared 1.5:1 to so the target speed opreates at nearly peak motor power, reducing recovery time between shots"
+              - "Flywheel geared 1.5:1 so the target speed operates at nearly peak motor power, reducing recovery time between shots"
               - "Hood angle ranges from 10° to 45°, allowing the shooter to score from anywhere in the alliance zone"
               - "7\" shooter sweep radius creates tight packaging for more ball storage"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "Top Down Design"]
@@ -127,9 +127,12 @@ groups:
               - { label: "Motor no-load speed at 6 V", math: "6000 RPM at 12 V × (6 ÷ 12)", result: "≈ 3000 RPM" }
               - { label: "Gear reduction 4:1", math: "3000 ÷ 4", result: "750 RPM" }
               - { label: "Convert to revolutions per second", math: "750 ÷ 60", result: "12.5 ≈ 13 RPS" }
-            calc_note: "No-load numbers. With balls in the wheel the real speed will be somewhat lower. For comparison, 750 RPM falls between the two speed settings of a DeWalt DCD793 drill (0-450 and 0-1650 RPM)."
+            calc_note: "No-load numbers. With balls in the wheel the real speed will be somewhat lower."
             video: /assets/images/Spindexer_Initial_Test.MOV
             loop: true
+            # crop: true stretches the video to the same height as the text, so the calculation box lines up with it.
+            crop: true
+            crop_focus: "50% center"
             image_caption: "Spindexer Initial Testing"
             # designs: a carousel. One CAD screenshot per design, with a short note beside it.
             #   src    the screenshot
@@ -1164,6 +1167,14 @@ groups:
   /* A picture under the bullets (add text_image: to a part) */
   .text-fig { margin: 1.2em 0 0 !important; max-width: 100%; display: block !important; }
   .text-fig img { display: block; width: 100%; height: auto; border-radius: 8px; }
+  /* With a calc box next to a cropped video: the box drops to the bottom of the text column, and the column
+     leaves room for the caption under the video, so the box ends level with the bottom of the video. */
+  .project-top--calc > .rv:first-child { display: flex; flex-direction: column; padding-bottom: 1.88em; }
+  .project-top--calc .calc { margin-top: auto; }
+  .project-top--calc .plain-list { margin-bottom: 1.4em; }
+  @media (max-width: 800px) {
+    .project-top--calc > .rv:first-child { padding-bottom: 0; }
+  }
   /* A calculation box (add calc: to a part): one row per step, with the answer on the right */
   .calc {
     margin: 1.4em 0 0;
@@ -1543,7 +1554,7 @@ groups:
 
         {% else %}
 
-        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.flip %} project-top--flip{% endif %}{% if part.below %} project-top--below{% endif %}">
+        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.flip %} project-top--flip{% endif %}{% if part.below %} project-top--below{% endif %}{% if part.calc %} project-top--calc{% endif %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
