@@ -215,6 +215,8 @@ groups:
               - "Sensors"
             alt: "Replace with a description of the photo"
             image_caption: "Climb Components"
+            # photos_feature: true = first photo big on the left, the others stacked on the right (everything bigger).
+            photos_feature: true
             photos:
               - { src: "/assets/images/Reefscape_Cages.png", caption: "Climb Structure" }
               - { video: "/assets/images/Climb_Dyneema_Snap.MOV", caption: "Dyneema Snapped (Switched to stronger Dyneema)" }
@@ -1225,6 +1227,20 @@ groups:
     width: 0;
     min-width: 100%;
   }
+  /* photos_feature: true on a part: the first photo is big on the left and the rest are stacked on the right,
+     so every picture and video gets bigger. Delete photos_feature to go back to one row. */
+  .gallery--feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 1.8em;
+    align-items: start;
+  }
+  .gallery--feature figure { flex: none !important; width: auto !important; }
+  .gallery--feature figure:first-child { grid-column: 1; grid-row: 1 / span 6; }
+  .gallery--feature figure:not(:first-child) { grid-column: 2; }
+  @media (max-width: 600px) {
+    .gallery--feature { display: flex; }
+  }
   /* A numbered key under a photo row (add photos_key to a part). The numbers are pink and match
      the numbers drawn on the picture. */
   .gallery-row { margin-bottom: 2em; }
@@ -1831,7 +1847,7 @@ groups:
         {% if part.photos and part.photos.size > 0 %}
         {% assign per_row = part.per_row | default: part.photos.size %}
         {% if part.photos_key %}<div class="gallery-row">{% endif %}
-        <div class="gallery">
+        <div class="gallery{% if part.photos_feature %} gallery--feature{% endif %}">
           {% for ph in part.photos %}
           {% assign col = forloop.index0 | modulo: per_row %}
           {% if col == 0 and forloop.first == false %}</div><div class="gallery">{% endif %}
