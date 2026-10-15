@@ -193,6 +193,7 @@ groups:
               - "Design prevents coral from getting stuck by sloping walls to straighten coral"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "Manufacture Drawings"]
             youtube: "7SpTFTnyQUA"
+            media_wide: true
             alt: "Replace with a description of the photo"
             image_caption: "Coral Cycles at Competition"
             photos:
@@ -507,6 +508,10 @@ groups:
   }
 
   .project-top--text { grid-template-columns: 1fr; }
+  .project-top--wide { grid-template-columns: 1fr 1.8fr; gap: 3em; }
+  @media (max-width: 800px) {
+    .project-top--wide { grid-template-columns: 1fr; gap: 1.5em; }
+  }
   .project-top--text > div { max-width: 56em; }
   @media (max-width: 800px) {
     .project-top { grid-template-columns: 1fr; gap: 1.5em; }
@@ -635,11 +640,11 @@ groups:
     box-sizing: border-box;
     background: #000;
   }
-  .vid-frame--yt { aspect-ratio: 16 / 9; }
   .vid-frame iframe {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
     border: 0;
   }
   .vid-frame video {
@@ -1617,7 +1622,7 @@ groups:
 
         {% else %}
 
-        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.fit %} project-top--fit{% endif %}{% if part.flip %} project-top--flip{% endif %}{% if part.below %} project-top--below{% endif %}{% if part.calc %} project-top--calc{% endif %}">
+        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.fit %} project-top--fit{% endif %}{% if part.media_wide %} project-top--wide{% endif %}{% if part.flip %} project-top--flip{% endif %}{% if part.below %} project-top--below{% endif %}{% if part.calc %} project-top--calc{% endif %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
