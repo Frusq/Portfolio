@@ -133,7 +133,7 @@ groups:
             designs:
               - src: "/assets/images/Spindexer_Cone_1.png"
                 title: "TPU Star"
-                thought: "The stars fins create slots for the balls to fall into, allowing them to be actively moved along. TPU filamentwas chosen to dampen bouncing since it is flexible."
+                thought: "The star's fins create slots for the balls to fall into, allowing them to be actively moved along. TPU filament was chosen to dampen bouncing since it is flexible."
                 problem: "The fins caused balls to get hit upwards instead of falling in. Having a predetermined amount of slots reduced chances balls could slot into the spindexer."
               - src: "/assets/images/Spindexer_Cone_2.png"
                 title: "TPU Fin Wheel"
@@ -150,11 +150,11 @@ groups:
               - src: "/assets/images/Spindexer_Cone_5.png"
                 title: "Rubber Molded Center Wheel (Untested)"
                 thought: "Create custom durometer wheels that could be extremely soft and provide better grip on the balls"
-                problem: "The mold was hard to seal and leaked. The rubber was also too soft and didnt hold form."
+                problem: "The mold was hard to seal and leaked. The rubber was also too soft and didn't hold form."
               - src: "/assets/images/Spindexer_Cone_6.png"
                 title: "First 3D Printed Cone (Used at 1st Event)"
                 thought: "Follow the shape of the ball, allowing it to fully seat while keeping constant contact. Top was rounded to mimic previous cone design but shorter."
-                problem: "Bottom curve was too aggresive and caused balls to be lifted out of the spindexer, creating jams."
+                problem: "Bottom curve was too aggressive and caused balls to be lifted out of the spindexer, creating jams."
               - src: "/assets/images/Spindexer_Cone_7.png"
                 title: "Second 3D Printed Cone (Used at 2nd Event)"
                 thought: "Created a more subtle bottom curve. Also added grip tape to the cone to improve friction between balls and cone and reduce balls lifting."
@@ -168,8 +168,8 @@ groups:
                 thought: "The theory was to create something that actively pushed balls downward to while keeping the cone design"
                 problem: "Did not believe the helix extrusions were enough to make any significant change. Decided to abandon the 'cone' designs"
               - src: "/assets/images/Spindexer_Cone_10.png"
-                title: "Design 10: TPU Pudding (Used at World Championships)"
-                thought: "Pudding actively design forced balls downward, increasing the speed at which the spindexer could intake balls. TPU was chosen to allow slight compliance and create some compression between the pudding and balls"
+                title: "TPU Pudding (Used at World Championships)"
+                thought: "The pudding's design actively forced balls downward, increasing the speed at which the spindexer could intake balls. TPU was chosen to allow slight compliance and create some compression between the pudding and balls"
                 problem: "Became worse at higher speeds, and did not have as much grip due to the pudding shape. Overall the best design."
           - kicker: "Subsystem 2"
             name: "Replace with the subsystem name"
@@ -1151,8 +1151,8 @@ groups:
   /* Design carousel (add designs: to a part). Picture and thumbnails on the left, a note on the right. */
   .dz {
     display: grid;
-    grid-template-columns: minmax(0, 1.7fr) minmax(15em, 1fr);
-    gap: 2em;
+    grid-template-columns: minmax(0, 1.45fr) minmax(17em, 1fr);
+    gap: 1.6em;
     align-items: stretch;
     margin: 0 0 2em;
     outline: none;
@@ -1244,7 +1244,7 @@ groups:
   /* All notes share one grid cell, so the box stays as tall as the longest note and nothing jumps. */
   .dz-side {
     display: grid;
-    padding: 1.2em 1.4em;
+    padding: 1.3em 1.5em 1.4em;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 10px;
@@ -1252,22 +1252,31 @@ groups:
   .dz-note { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; }
   .dz-note.is-on { opacity: 1; visibility: visible; }
   .dz-kick {
-    font-size: 0.72em;
+    font-size: 0.7em;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #f48fb1;
   }
-  .dz-title { margin: 0.4em 0 0.9em !important; font-size: 1.15em; line-height: 1.25; }
-  .dz-label {
-    margin: 1em 0 0.25em;
-    font-size: 0.72em;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #9a9a9a;
+  .dz-title {
+    margin: 0.35em 0 1em !important;
+    padding-bottom: 0.8em;
+    font-size: 1.08em;
+    line-height: 1.25;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  .dz-note p { margin: 0 !important; font-size: 0.92em; line-height: 1.5; }
+  /* Thought process and Problem: each is a short block with a colored bar down its left side */
+  .dz-sec { margin: 0 0 1em; padding-left: 0.9em; border-left: 3px solid #f48fb1; }
+  .dz-sec:last-child { margin-bottom: 0; }
+  .dz-label {
+    margin: 0 0 0.3em;
+    font-size: 0.68em;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f48fb1;
+  }
+  .dz-note p { margin: 0 !important; font-size: 0.88em; line-height: 1.5; color: #d6d6d6; }
   @media (max-width: 800px) {
     .dz { grid-template-columns: 1fr; gap: 1.2em; }
   }
@@ -1566,8 +1575,8 @@ groups:
             <div class="dz-note{% if forloop.first %} is-on{% endif %}" aria-live="polite">
               <div class="dz-kick">Design {{ forloop.index }} of {{ part.designs.size }}</div>
               {% if d.title != blank %}<h5 class="dz-title">{{ d.title }}</h5>{% endif %}
-              {% if d.thought != blank %}<div class="dz-label">Thought process</div><p>{{ d.thought }}</p>{% endif %}
-              {% if d.problem != blank %}<div class="dz-label">Problem</div><p>{{ d.problem }}</p>{% endif %}
+              {% if d.thought != blank %}<div class="dz-sec"><div class="dz-label">Thought process</div><p>{{ d.thought }}</p></div>{% endif %}
+              {% if d.problem != blank %}<div class="dz-sec dz-sec--problem"><div class="dz-label">Problem</div><p>{{ d.problem }}</p></div>{% endif %}
             </div>
             {% endfor %}
           </div>
