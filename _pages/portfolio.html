@@ -205,10 +205,16 @@ groups:
               - "Spring loaded one-way latch to securely hold the cage in and prevent slipping"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "DFM", ]
             image: /assets/images/Climb_CAD_Labeled.png
+            # image_key: a numbered key under the bullet points. Number the parts in the picture, then list what each number is here.
+            image_key:
+              - "Structure"
+              - "End effector"
+              - "Winch"
+              - "Sensors"
             alt: "Replace with a description of the photo"
             image_caption: "Climb Components"
             photos:
-              - { src: "/assets/images/Reefscape_Cages.png", caption: "Reefscape Cages: Shallow (High) and Deep (Low)" }
+              - { src: "/assets/images/Reefscape_Cages.png", caption: "Climb Structure" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
       - title: 'FRC 2025 Robot "Replace with the robot name"'
@@ -1288,6 +1294,48 @@ groups:
   .calc-result { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-weight: 700; font-size: 1em; color: #fff; text-align: right; white-space: nowrap; }
   .calc-row:last-of-type .calc-result { color: #f48fb1; }
   .calc-note { margin: 0.7em 0 0 !important; padding-top: 0.7em; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8em; line-height: 1.4; color: #9a9a9a; }
+  /* A numbered key under the bullets (add image_key: to a part). Two columns, reading down: 1-2, then 3-4. */
+  .image-key {
+    list-style: none !important;
+    margin: 1.6em 0 0 !important;
+    padding: 0.3em 1.2em !important;
+    counter-reset: ikey;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: column;
+    column-gap: 1.6em;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+  }
+  .image-key li {
+    counter-increment: ikey;
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    margin: 0 !important;
+    padding: 0.55em 0 !important;
+    font-size: 0.9em;
+    line-height: 1.3;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .image-key li.ik-first { border-top: 0; }
+  .image-key li::before {
+    content: counter(ikey);
+    flex: 0 0 1.7em;
+    height: 1.7em;
+    line-height: 1.7em;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 0.85em;
+    font-weight: 700;
+    color: #1b1b1b;
+    background: #f48fb1;
+  }
+  @media (max-width: 600px) {
+    .image-key { grid-template-columns: 1fr; grid-template-rows: none !important; grid-auto-flow: row; }
+    .image-key li.ik-first:not(:first-child) { border-top: 1px solid rgba(255, 255, 255, 0.07); }
+  }
   /* Design carousel (add designs: to a part). Picture and thumbnails on the left, a note on the right. */
   .dz {
     display: grid;
@@ -1607,6 +1655,10 @@ groups:
               {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
             </ul>
             {% endif %}
+            {% if part.image_key %}
+            {% assign ik_rows = part.image_key.size | plus: 1 | divided_by: 2 %}
+            <ol class="image-key" style="grid-template-rows: repeat({{ ik_rows }}, auto)">{% for k in part.image_key %}<li{% assign ik_pos = forloop.index0 | modulo: ik_rows %}{% if ik_pos == 0 %} class="ik-first"{% endif %}>{{ k }}</li>{% endfor %}</ol>
+            {% endif %}
           </div>
           <div class="rv">
             {% if part.youtube %}
@@ -1660,6 +1712,10 @@ groups:
             <ul class="plain-list">
               {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
             </ul>
+            {% endif %}
+            {% if part.image_key %}
+            {% assign ik_rows = part.image_key.size | plus: 1 | divided_by: 2 %}
+            <ol class="image-key" style="grid-template-rows: repeat({{ ik_rows }}, auto)">{% for k in part.image_key %}<li{% assign ik_pos = forloop.index0 | modulo: ik_rows %}{% if ik_pos == 0 %} class="ik-first"{% endif %}>{{ k }}</li>{% endfor %}</ol>
             {% endif %}
             {% if part.text_image %}
             <figure class="text-fig">
