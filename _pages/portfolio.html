@@ -215,10 +215,12 @@ groups:
               - "Sensors"
             alt: "Replace with a description of the photo"
             image_caption: "Climb Components"
-            # The photos sit on one line and are sized to the same height automatically. (photos_feature: true would stack them instead.)
+            # The photos sit on one line and are sized to the same height automatically.
+            # photos_fill: true stretches the row to the full page width (the photos get bigger and taller). Delete it for a smaller row.
+            photos_fill: true
             photos:
-              - { video: "/assets/images/Clinb_Dyneema_Snap.MOV", loop: true, caption: "Dyneema Snapped (Switched to stronger Dyneema)" }
-              - { video: "/assets/images/Climb_Latch_Test.MOV", loop:true, caption: "Testing One-way Latch" }
+              - { video: "/assets/images/Climb_Video.MOV", loop: true, caption: "Climb Video" }
+              - { video: "/assets/images/Climb_Latch_Test.MOV", loop: true, caption: "Testing One-way Latch" }
       - title: 'FRC 2025 Robot "Replace with the robot name"'
         summary: "Replace with one line about this robot"
         # overview: the Situation (left) beside a big picture or video (right), like on the Ball Knowledge robot.
@@ -1845,7 +1847,7 @@ groups:
         {% if part.photos and part.photos.size > 0 %}
         {% assign per_row = part.per_row | default: part.photos.size %}
         {% if part.photos_key %}<div class="gallery-row">{% endif %}
-        <div class="gallery{% if part.photos_feature %} gallery--feature{% endif %}">
+        <div class="gallery{% if part.photos_feature %} gallery--feature{% endif %}{% if part.photos_fill %} gallery--fill{% endif %}">
           {% for ph in part.photos %}
           {% assign col = forloop.index0 | modulo: per_row %}
           {% if col == 0 and forloop.first == false %}</div><div class="gallery">{% endif %}
@@ -2154,6 +2156,7 @@ groups:
         f.style.flex = r + ' 1 24px';
         total += r;
       });
+      if (g.classList.contains('gallery--fill')) { g.style.maxWidth = ''; return; }
       var gap = parseFloat(getComputedStyle(g).columnGap) || 0;
       g.style.maxWidth = (total * MAXH + figs.length * 24 + (figs.length - 1) * gap) + 'px';
     }
