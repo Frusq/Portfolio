@@ -124,23 +124,42 @@ groups:
             #   src    the screenshot
             #   title  short name for the design, e.g. "Version 3: Straight walls"
             #   why    why we made this design
-            #   test   how we tested it and what we learned
-            # Add as many as you like, in the order you want people to cycle through them.
+            # Add or delete blocks as you like, in the order you want people to cycle through them.
+            # designs_title is the heading above the carousel (delete the line for no heading).
             # Optional:  designs_ratio: "16 / 10"  sets the shape of the picture box (width / height).
+            designs_title: "Spindexer Cone Designs (The ones I could find in CAD)"
             designs_ratio: "16 / 10"
             designs:
-              - src: "/assets/images/BallKnowledge.jpg"
+              - src: "/assets/images/Spindexer_Cone_1.png"
                 title: "Design 1: Replace with a name"
                 why: "Replace with why we decided to make a design like this."
-                test: "Replace with how we tested it and what we learned."
-              - src: "/assets/images/BallKnowledge.jpg"
+              - src: "/assets/images/Spindexer_Cone_2.png"
                 title: "Design 2: Replace with a name"
                 why: "Replace with why we decided to make a design like this."
-                test: "Replace with how we tested it and what we learned."
-              - src: "/assets/images/BallKnowledge.jpg"
+              - src: "/assets/images/Spindexer_Cone_3.png"
                 title: "Design 3: Replace with a name"
                 why: "Replace with why we decided to make a design like this."
-                test: "Replace with how we tested it and what we learned."
+              - src: "/assets/images/Spindexer_Cone_4.png"
+                title: "Design 4: Replace with a name"
+                why: "Replace with why we decided to make a design like this."
+              - src: "/assets/images/Spindexer_Cone_5.png"
+                title: "Design 5: Replace with a name"
+                why: "Replace with why we decided to make a design like this."
+              - src: "/assets/images/Spindexer_Cone_6.png"
+                title: "Design 6: Replace with a name"
+                why: "Replace with why we decided to make a design like this."
+              - src: "/assets/images/Spindexer_Cone_7.png"
+                title: "Design 7: Replace with a name"
+                why: "Replace with why we decided to make a design like this."
+              - src: "/assets/images/Spindexer_Cone_8.png"
+                title: "Design 8: Replace with a name"
+                why: "Replace with why we decided to make a design like this."
+              - src: "/assets/images/Spindexer_Cone_9.png"
+                title: "Design 9: Replace with a name"
+                why: "Replace with why we decided to make a design like this."
+              - src: "/assets/images/Spindexer_Cone_10.png"
+                title: "Design 10: Replace with a name"
+                why: "Replace with why we decided to make a design like this."
             photos:
               # Any photo slot can be a video too: replace a line with a youtube or video entry (see the examples above).
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
@@ -1135,6 +1154,7 @@ groups:
     margin: 0 0 2em;
     outline: none;
   }
+  .dz-heading { margin: 1.6em 0 0.8em !important; }
   .dz-stage {
     position: relative;
     width: 100%;
@@ -1517,6 +1537,7 @@ groups:
         </div>
 
         {% if part.designs and part.designs.size > 0 %}
+        {% if part.designs_title != blank %}<h4 class="dz-heading rv">{{ part.designs_title }}</h4>{% endif %}
         <div class="dz rv" data-dz tabindex="0" role="region" aria-roledescription="carousel" aria-label="{{ part.kicker | default: part.name }} designs">
           <div class="dz-main">
             <div class="dz-stage" style="aspect-ratio: {{ part.designs_ratio | default: '16 / 10' }}">
@@ -1543,7 +1564,6 @@ groups:
               <div class="dz-kick">Design {{ forloop.index }} of {{ part.designs.size }}</div>
               {% if d.title != blank %}<h5 class="dz-title">{{ d.title }}</h5>{% endif %}
               {% if d.why != blank %}<div class="dz-label">Why we made it</div><p>{{ d.why }}</p>{% endif %}
-              {% if d.test != blank %}<div class="dz-label">How we tested it</div><p>{{ d.test }}</p>{% endif %}
             </div>
             {% endfor %}
           </div>
