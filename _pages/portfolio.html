@@ -219,7 +219,7 @@ groups:
             # photos_fill: true stretches the row to the full page width (the photos get bigger and taller). Delete it for a smaller row.
             photos_fill: true
             photos:
-              - { video: "/assets/images/Climb_Video.MOV", loop: true, caption: "Climb Video" }
+              - { video: "/assets/images/Clinb_Video.MOV", loop: true, caption: "Climb Video" }
               - { video: "/assets/images/Climb_Latch_Test.MOV", loop: true, caption: "Testing One-way Latch" }
       - title: 'FRC 2025 Robot "Replace with the robot name"'
         summary: "Replace with one line about this robot"
@@ -2136,7 +2136,7 @@ groups:
       if (m) {
         var w = m.naturalWidth || m.videoWidth, h = m.naturalHeight || m.videoHeight;
         if (w && h) return w / h;
-        return 1.5;
+        return m.tagName === 'VIDEO' ? 9 / 16 : 1.5; /* video not loaded yet: assume a phone video */
       }
       if (fig.querySelector('iframe')) return 16 / 9;
       return 1.5;
