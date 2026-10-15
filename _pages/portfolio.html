@@ -205,7 +205,9 @@ groups:
               - "Spring loaded one-way latch to securely hold the cage in and prevent slipping"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "DFM", ]
             image: /assets/images/Climb_CAD_Labeled.png
-            # image_key: a numbered key under the bullet points. Number the parts in the picture, then list what each number is here.
+            # fit: true makes the picture as tall as the text beside it (the whole picture stays visible, on a gray background).
+            fit: true
+            # image_key: a numbered key under the big picture. Number the parts in the picture, then list what each number is here.
             image_key:
               - "Structure"
               - "End effector"
@@ -215,8 +217,8 @@ groups:
             image_caption: "Climb Components"
             photos:
               - { src: "/assets/images/Reefscape_Cages.png", caption: "Climb Structure" }
-              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+              - { video: "/assets/images/Climb_Dyneema_Snap.MOV", caption: "Dyneema Snapped (Switched to stronger Dyneema)" }
+              - { video: "/assets/images/CLimb_Latch_Test.MOV", caption: "Testing One-way Latch" }
       - title: 'FRC 2025 Robot "Replace with the robot name"'
         summary: "Replace with one line about this robot"
         # overview: the Situation (left) beside a big picture or video (right), like on the Ball Knowledge robot.
@@ -1022,6 +1024,23 @@ groups:
     .project-top--crop .vid-frame video { position: static; height: auto; }
   }
 
+  /* A part with fit: true: the picture grows or shrinks to the height of the text beside it. The whole picture stays
+     visible (nothing is cropped); any extra room is filled with the same dark gray as the screenshots.
+     To go back to the picture's own shape, delete fit: true from the part. */
+  .project-top--fit { align-items: stretch; }
+  .project-top--fit > .rv:last-child { min-width: 0; display: flex; flex-direction: column; }
+  .project-top--fit img.photo {
+    flex: 1 1 0;
+    height: 0;
+    min-height: 14em;
+    object-fit: contain;
+    object-position: center;
+    background: #323232;
+  }
+  @media (max-width: 800px) {
+    .project-top--fit img.photo { flex: none; height: auto; min-height: 0; }
+  }
+
   /* A part with below: a second picture sits under the big one. The big video gives up height to it
      (trimming its top and bottom) so the whole column ends level with the text. */
   .below-fig {
@@ -1294,16 +1313,14 @@ groups:
   .calc-result { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-weight: 700; font-size: 1em; color: #fff; text-align: right; white-space: nowrap; }
   .calc-row:last-of-type .calc-result { color: #f48fb1; }
   .calc-note { margin: 0.7em 0 0 !important; padding-top: 0.7em; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8em; line-height: 1.4; color: #9a9a9a; }
-  /* A numbered key under the bullets (add image_key: to a part). Two columns, reading down: 1-2, then 3-4. */
+  /* A numbered key under the big picture (add image_key: to a part). Two columns of numbered chips, reading across: 1 2 / 3 4. */
   .image-key {
     list-style: none !important;
-    margin: 1.6em 0 0 !important;
-    padding: 0.3em 1.2em !important;
+    margin: 0.9em 0 0 !important;
+    padding: 0.2em 0.4em !important;
     counter-reset: ikey;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-flow: column;
-    column-gap: 1.6em;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 10px;
@@ -1312,14 +1329,14 @@ groups:
     counter-increment: ikey;
     display: flex;
     align-items: center;
-    gap: 0.8em;
+    justify-content: flex-start;
+    gap: 0.7em;
     margin: 0 !important;
-    padding: 0.55em 0 !important;
-    font-size: 0.9em;
-    line-height: 1.3;
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    padding: 0.55em 0.9em !important;
+    font-size: 0.88em;
+    line-height: 1.25;
+    white-space: nowrap;
   }
-  .image-key li.ik-first { border-top: 0; }
   .image-key li::before {
     content: counter(ikey);
     flex: 0 0 1.7em;
@@ -1331,10 +1348,6 @@ groups:
     font-weight: 700;
     color: #1b1b1b;
     background: #f48fb1;
-  }
-  @media (max-width: 600px) {
-    .image-key { grid-template-columns: 1fr; grid-template-rows: none !important; grid-auto-flow: row; }
-    .image-key li.ik-first:not(:first-child) { border-top: 1px solid rgba(255, 255, 255, 0.07); }
   }
   /* Design carousel (add designs: to a part). Picture and thumbnails on the left, a note on the right. */
   .dz {
@@ -1655,10 +1668,6 @@ groups:
               {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
             </ul>
             {% endif %}
-            {% if part.image_key %}
-            {% assign ik_rows = part.image_key.size | plus: 1 | divided_by: 2 %}
-            <ol class="image-key" style="grid-template-rows: repeat({{ ik_rows }}, auto)">{% for k in part.image_key %}<li{% assign ik_pos = forloop.index0 | modulo: ik_rows %}{% if ik_pos == 0 %} class="ik-first"{% endif %}>{{ k }}</li>{% endfor %}</ol>
-            {% endif %}
           </div>
           <div class="rv">
             {% if part.youtube %}
@@ -1669,6 +1678,9 @@ groups:
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}">
             {% endif %}
             {% if part.image_caption != blank %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
+            {% if part.image_key %}
+            <ol class="image-key">{% for k in part.image_key %}<li>{{ k }}</li>{% endfor %}</ol>
+            {% endif %}
           </div>
           {% for ph in part.photos %}{% if forloop.index0 < 2 %}
           <figure class="pg-fig rv{% if ph.youtube or ph.video %} gal-vid{% endif %}">
@@ -1705,17 +1717,13 @@ groups:
 
         {% else %}
 
-        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.flip %} project-top--flip{% endif %}{% if part.below %} project-top--below{% endif %}{% if part.calc %} project-top--calc{% endif %}">
+        <div class="project-top{% unless has_media %} project-top--text{% endunless %}{% if part.slider %} project-top--slider{% endif %}{% if part.crop %} project-top--crop{% endif %}{% if part.fit %} project-top--fit{% endif %}{% if part.flip %} project-top--flip{% endif %}{% if part.below %} project-top--below{% endif %}{% if part.calc %} project-top--calc{% endif %}">
           <div class="rv">
             {% if part.situation %}<p class="situation"><strong>{{ part.situation_label | default: "Situation" }}:</strong> {{ part.situation }}</p>{% endif %}
             {% if part.points %}
             <ul class="plain-list">
               {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
             </ul>
-            {% endif %}
-            {% if part.image_key %}
-            {% assign ik_rows = part.image_key.size | plus: 1 | divided_by: 2 %}
-            <ol class="image-key" style="grid-template-rows: repeat({{ ik_rows }}, auto)">{% for k in part.image_key %}<li{% assign ik_pos = forloop.index0 | modulo: ik_rows %}{% if ik_pos == 0 %} class="ik-first"{% endif %}>{{ k }}</li>{% endfor %}</ol>
             {% endif %}
             {% if part.text_image %}
             <figure class="text-fig">
@@ -1768,6 +1776,9 @@ groups:
             <img class="photo" src="{{ part.image }}" alt="{{ part.alt }}"{% if part.crop_focus %} style="object-position: {{ part.crop_focus }}"{% endif %}>
             {% endif %}
             {% if part.image_caption != blank %}<p class="media-cap">{{ part.image_caption }}</p>{% endif %}
+            {% if part.image_key %}
+            <ol class="image-key">{% for k in part.image_key %}<li>{{ k }}</li>{% endfor %}</ol>
+            {% endif %}
             {% if part.below %}
             <figure class="below-fig">
               {% if part.below.video %}
