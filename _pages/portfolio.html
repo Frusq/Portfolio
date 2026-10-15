@@ -47,6 +47,8 @@ groups:
               - "Hood angle ranges from 10° to 45°, allowing the shooter to score from anywhere in the alliance zone"
               - "7\" shooter sweep radius creates tight packaging for more ball storage"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "Top Down Design"]
+            links:
+              - { label: "Turret + Shooter Writeup", url: "https://docs.google.com/document/d/1FxWLisEUNwR247Z7vxXFbnLYgekHJ4gTlUjwhWd6gig/edit?tab=t.0" }
             video: /assets/images/Shooter_SOTM.MOV
             loop: true
             crop: true
@@ -66,6 +68,8 @@ groups:
               - "In-house fabricated 100tooth 10DP plate gear on CNC router, 5 thou tolerance added to improve meshing"
               - "Custom 3D energy chain allows 500° of rotation and protects wires from damage"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "DFM"]
+            links:
+              - { label: "Turret + Shooter Writeup", url: "https://docs.google.com/document/d/1FxWLisEUNwR247Z7vxXFbnLYgekHJ4gTlUjwhWd6gig/edit?tab=t.0" }
             video: /assets/images/Shooter_Tracking.mov
             loop: true
             crop: true
@@ -161,6 +165,8 @@ groups:
               - "Winch powered spool mounted with a ratchet to prevent backdrive even when motor is disabled"
               - "Spring loaded one-way latch to securely hold the cage in and prevent slipping"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "DFM", ]
+            links:
+              - { label: "Climb Writeup", url: "https://docs.google.com/document/d/1hFHpd71K7PoAWTIDjOn8aJtg1DqiGmXP0TvP_U8fvc4/edit?tab=t.0" }
             image: /assets/images/Climb_CAD_Labeled.png
             fit: true
             image_key:
@@ -195,7 +201,7 @@ groups:
             youtube: "7SpTFTnyQUA"
             media_wide: true
             alt: "Replace with a description of the photo"
-            image_caption: "Coral Cycles at Competition"
+            image_caption: "Coral Cycles at Competition (2:04)"
             photos:
               - { src: "/assets/images/Stingray_Funnel_V1.png", caption: "Funnel V1" }
               - { src: "/assets/images/Stingray_Funnel_V2.png", caption: "Funnel V2" }
@@ -269,7 +275,8 @@ groups:
         hero: /assets/images/LaptopStand.jpg
         hero_alt: "Black folding laptop stand"
         hero_caption: "Replace with a caption"
-        links: []
+        links:
+          - { label: "Laptop Stand Writeup", url: "https://docs.google.com/document/d/1nHRWDHVTQYtWi7QFnWdErO_pv7UFWMy4Y9YqVHxRpmA/edit?tab=t.0" }
         sections: []
         photos:
           - { src: "/assets/images/LaptopStand.jpg", caption: "Replace with a caption" }
@@ -630,8 +637,26 @@ groups:
   .project-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.8em 1.6em;
-    margin-top: 1.2em;
+    gap: 0.8em 1em;
+    margin: 1.4em 0 0;
+  }
+  .project-links a {
+    display: inline-block;
+    padding: 0.5em 1.15em;
+    font-size: 0.9em;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #f48fb1;
+    text-decoration: none;
+    border: 1px solid rgba(244, 143, 177, 0.55);
+    border-radius: 999px;
+    background: rgba(244, 143, 177, 0.07);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .project-links a:hover {
+    color: #1b1b1b;
+    background: #f48fb1;
+    transform: translateY(-2px);
   }
 
   .vid-frame {
@@ -1573,6 +1598,9 @@ groups:
               {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
             </ul>
             {% endif %}
+            {% if part.links and part.links.size > 0 %}
+            <div class="project-links">{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}</div>
+            {% endif %}
           </div>
           <div class="rv">
             {% if part.youtube %}
@@ -1629,6 +1657,9 @@ groups:
             <ul class="plain-list">
               {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
             </ul>
+            {% endif %}
+            {% if part.links and part.links.size > 0 %}
+            <div class="project-links">{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}</div>
             {% endif %}
             {% if part.text_image %}
             <figure class="text-fig">
