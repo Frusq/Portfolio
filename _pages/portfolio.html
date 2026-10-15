@@ -117,6 +117,8 @@ groups:
               - "Replace with a constraint or challenge you solved"
               - "Replace with what you manufactured"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing"]
+            # text_image: a picture under the bullets, in the text column (src and caption).
+            text_image: { src: "/assets/images/Kraken_X60_Motor_Curve.png", caption: "Kraken X60 (FOC) motor curve" }
             video: /assets/images/Spindexer_Initial_Test.MOV
             loop: true
             image_caption: "Spindexer Initial Testing"
@@ -1148,6 +1150,10 @@ groups:
     .photo-key li:nth-child(3n+1) { border-top: 1px solid rgba(255, 255, 255, 0.07); }
     .photo-key li:first-child { border-top: 0; }
   }
+  /* A picture under the bullets (add text_image: to a part) */
+  .text-fig { margin: 1.2em 0 0 !important; max-width: 100%; display: block !important; }
+  .text-fig img { display: block; width: 100%; height: auto; border-radius: 8px; }
+  .text-fig figcaption { margin-top: 0.6em; text-align: left; }
   /* Design carousel (add designs: to a part). Picture and thumbnails on the left, a note on the right. */
   .dz {
     display: grid;
@@ -1505,6 +1511,12 @@ groups:
             <ul class="plain-list">
               {% for pt in part.points %}<li>{{ pt }}</li>{% endfor %}
             </ul>
+            {% endif %}
+            {% if part.text_image %}
+            <figure class="text-fig">
+              <a href="{{ part.text_image.src }}" target="_blank" rel="noopener"><img src="{{ part.text_image.src }}" alt="{{ part.text_image.alt | default: part.text_image.caption }}"></a>
+              {% if part.text_image.caption != blank %}<figcaption>{{ part.text_image.caption }}</figcaption>{% endif %}
+            </figure>
             {% endif %}
           </div>
           {% if has_media %}
