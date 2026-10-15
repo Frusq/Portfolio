@@ -238,6 +238,20 @@ groups:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+      - title: "Miscellaneous Media"
+        # A photo and video wall for 6036. No text, just pictures. Each entry is ONE of:
+        #   - { src: "/assets/images/Your_Photo.jpg", caption: "Optional caption" }
+        #   - { video: "/assets/images/Your_Video.MOV", loop: true, caption: "Optional caption" }   (loop: true = silent autoplay loop)
+        #   - { youtube: "VIDEO_ID", caption: "Optional caption" }
+        # per_row is how many go on each line. Fewer per line = bigger pictures. Add as many entries as you like.
+        per_row: 3
+        photos:
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
   - id: purdue-electric-racing
     name: "Purdue Electric Racing"
     blurb: "Replace with one line about your drivetrain role"
@@ -1281,25 +1295,23 @@ groups:
     box-shadow: none !important;
     border-radius: 0 !important;
   }
+  /* The arrows sit beside the thumbnails, under the picture, so nothing covers the picture itself. */
+  .dz-nav { flex: 0 0 auto; display: flex; align-items: center; gap: 0.7em; margin-top: 0.8em; }
   .dz-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1.9em;
-    height: 1.9em;
+    flex: 0 0 auto;
+    width: 2.1em;
+    height: 2.1em;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(20, 20, 20, 0.72);
+    background: transparent;
     color: #fff;
     font-size: 1.15em;
     line-height: 1;
     padding: 0 0 0.1em;
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
   }
   .dz-btn:hover, .dz-btn:focus-visible { background: #f48fb1; border-color: #f48fb1; color: #1b1b1b; }
-  .dz-prev { left: 0.7em; }
-  .dz-next { right: 0.7em; }
   .dz-count {
     position: absolute;
     right: 0.7em;
@@ -1312,10 +1324,10 @@ groups:
   }
   .dz-count b { color: #f48fb1; }
   .dz-thumbs {
-    flex: 0 0 auto;
+    flex: 1 1 auto;
+    min-width: 0;
     display: flex;
     gap: 0.6em;
-    margin-top: 0.8em;
     overflow-x: auto;
     scrollbar-width: none; /* hide the scroll bar; the row still scrolls with swipes, the arrows and clicks */
   }
@@ -1671,16 +1683,16 @@ groups:
               {% for d in part.designs %}
               <a class="dz-slide{% if forloop.first %} is-on{% endif %}" href="{{ d.src }}" target="_blank" rel="noopener" aria-label="Open design {{ forloop.index }} full size"><img src="{{ d.src }}" alt="{{ d.alt | default: d.title }}"{% unless forloop.first %} loading="lazy"{% endunless %}></a>
               {% endfor %}
-              {% if part.designs.size > 1 %}
-              <button class="dz-btn dz-prev" type="button" aria-label="Previous design">&#8249;</button>
-              <button class="dz-btn dz-next" type="button" aria-label="Next design">&#8250;</button>
-              {% endif %}
             </div>
             {% if part.designs.size > 1 %}
-            <div class="dz-thumbs">
-              {% for d in part.designs %}
-              <button class="dz-thumb{% if forloop.first %} is-on{% endif %}" type="button" aria-label="Show design {{ forloop.index }}"><img src="{{ d.src }}" alt="" loading="lazy"></button>
-              {% endfor %}
+            <div class="dz-nav">
+              <button class="dz-btn dz-prev" type="button" aria-label="Previous design">&#8249;</button>
+              <div class="dz-thumbs">
+                {% for d in part.designs %}
+                <button class="dz-thumb{% if forloop.first %} is-on{% endif %}" type="button" aria-label="Show design {{ forloop.index }}"><img src="{{ d.src }}" alt="" loading="lazy"></button>
+                {% endfor %}
+              </div>
+              <button class="dz-btn dz-next" type="button" aria-label="Next design">&#8250;</button>
             </div>
             {% endif %}
           </div>
@@ -1733,6 +1745,7 @@ groups:
       </div>
       {% endif %}
 
+      {% if p.situation %}
       <div class="project-top">
         <div class="rv">
           <p class="situation"><strong>Situation:</strong> {{ p.situation }}</p>
@@ -1756,6 +1769,7 @@ groups:
           {% if p.hero_caption != blank %}<p class="media-cap">{{ p.hero_caption }}</p>{% endif %}
         </div>
       </div>
+      {% endif %}
 
       {% for s in p.sections %}
       <div class="section rv">
@@ -1781,8 +1795,11 @@ groups:
       {% endfor %}
 
       {% if p.photos and p.photos.size > 0 %}
+      {% assign p_per_row = p.per_row | default: p.photos.size %}
       <div class="gallery">
         {% for ph in p.photos %}
+        {% assign p_col = forloop.index0 | modulo: p_per_row %}
+        {% if p_col == 0 and forloop.first == false %}</div><div class="gallery">{% endif %}
         <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
           {% if ph.youtube %}
           <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: p.title }}" loading="lazy" allowfullscreen></iframe></div>
