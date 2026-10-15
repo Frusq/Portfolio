@@ -123,7 +123,8 @@ groups:
             # designs: a carousel. One CAD screenshot per design, with a short note beside it.
             #   src    the screenshot
             #   title  short name for the design, e.g. "Version 3: Straight walls"
-            #   why    why we made this design
+            #   thought   our thought process: why we made a design like this
+            #   problem   the problem we ran into when we tested it
             # Add or delete blocks as you like, in the order you want people to cycle through them.
             # designs_title is the heading above the carousel (delete the line for no heading).
             # Optional:  designs_ratio: "16 / 10"  sets the shape of the picture box (width / height).
@@ -132,34 +133,44 @@ groups:
             designs:
               - src: "/assets/images/Spindexer_Cone_1.png"
                 title: "Design 1: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_2.png"
                 title: "Design 2: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_3.png"
                 title: "Design 3: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_4.png"
                 title: "Design 4: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_5.png"
                 title: "Design 5: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_6.png"
                 title: "Design 6: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_7.png"
                 title: "Design 7: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_8.png"
                 title: "Design 8: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_9.png"
                 title: "Design 9: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
               - src: "/assets/images/Spindexer_Cone_10.png"
                 title: "Design 10: Replace with a name"
-                why: "Replace with why we decided to make a design like this."
+                thought: "Replace with why we decided to make a design like this."
+                problem: "Replace with what went wrong or what we learned when we tested it."
           - kicker: "Subsystem 2"
             name: "Replace with the subsystem name"
             situation: "Replace with the situation: what this subsystem had to do and what you set out to build."
@@ -1555,7 +1566,8 @@ groups:
             <div class="dz-note{% if forloop.first %} is-on{% endif %}" aria-live="polite">
               <div class="dz-kick">Design {{ forloop.index }} of {{ part.designs.size }}</div>
               {% if d.title != blank %}<h5 class="dz-title">{{ d.title }}</h5>{% endif %}
-              {% if d.why != blank %}<div class="dz-label">Why we made it</div><p>{{ d.why }}</p>{% endif %}
+              {% if d.thought != blank %}<div class="dz-label">Thought process</div><p>{{ d.thought }}</p>{% endif %}
+              {% if d.problem != blank %}<div class="dz-label">Problem</div><p>{{ d.problem }}</p>{% endif %}
             </div>
             {% endfor %}
           </div>
