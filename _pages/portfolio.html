@@ -1151,15 +1151,18 @@ groups:
   /* Design carousel (add designs: to a part). Picture and thumbnails on the left, a note on the right. */
   .dz {
     display: grid;
-    grid-template-columns: minmax(0, 1.45fr) minmax(17em, 1fr);
+    grid-template-columns: minmax(0, 1.25fr) minmax(19em, 1fr);
     gap: 1.6em;
     align-items: stretch;
     margin: 0 0 2em;
     outline: none;
   }
   .dz-heading { margin: 1.6em 0 0.8em !important; }
+  /* The picture box grows to fill the column, so its bottom edge (with the thumbnails) lines up with the notes box. */
+  .dz-main { display: flex; flex-direction: column; min-width: 0; }
   .dz-stage {
     position: relative;
+    flex: 1 1 auto;
     width: 100%;
     overflow: hidden;
     background: #333333; /* Onshape dark-mode gray, so the screenshots blend into the box */
@@ -1218,6 +1221,7 @@ groups:
   }
   .dz-count b { color: #f48fb1; }
   .dz-thumbs {
+    flex: 0 0 auto;
     display: flex;
     gap: 0.6em;
     margin-top: 0.8em;
