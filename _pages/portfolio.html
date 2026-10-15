@@ -184,8 +184,21 @@ groups:
                 title: "TPU Pudding (Used at World Championships)"
                 thought: "The pudding's design actively forced balls downward, increasing the speed at which the spindexer could intake balls. TPU was chosen to allow slight compliance and create some compression between the pudding and balls"
                 problem: "Became worse at higher speeds, and did not have as much grip due to the pudding shape. Overall the best design."
-      - title: 'FRC 2025 Offseason Robot "Replace with the robot name"'
-        summary: "Replace with one line about this robot"
+      - title: 'FRC 2025 Offseason Robot "Gamma"'
+        summary: '22", 360° pivoting arm mounted to a two stage elevator, capable of scoring on all levels and climb in less than 10 seconds'
+        # overview: the Situation (left) beside a big picture or video (right), like on the Ball Knowledge robot.
+        # Text blocks: the first is the Situation. A second block, if you add one, goes bottom right. Delete the whole
+        # overview_text and overview lines for no overview. For the big media use ONE of: src, video (loop: true), or youtube.
+        overview_text:
+          - label: "Situation"
+            text: 'The <a href="https://www.youtube.com/watch?v=YWbxcjlY9JY" target="_blank" rel="noopener">2025 FRC game challenge “Reefscape”</a> requires robots to collect and score 12" long, 4.5" diameter PVC pipes (Coral) on the reef at 4 different levels. Robots also remove 16.25" diameter playground balls (Algae) from the reef and put them in a goal 8ft high (Barge). During the last 20 seconds, robots can lift themselves off the ground by climbing a high (shallow) or low (deep) cage.'
+        overview:
+          - { src: "/assets/images/Gamma_Full_CAD.png", wide: true, caption: "CAD Assembly" }
+        # robot_photos: a picture row between the overview and the subsystems. One entry = one picture. Add more entries
+        # to put more pictures side by side (they all end up the same height). Each entry is ONE of: src, video (loop: true), or youtube.
+        # Delete the robot_photos lines for no picture row.
+        robot_photos:
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         parts:
           - kicker: "Replace with the subsystem name"
             situation_label: "Goal"
@@ -204,6 +217,19 @@ groups:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
       - title: 'FRC 2025 Robot "Replace with the robot name"'
         summary: "Replace with one line about this robot"
+        # overview: the Situation (left) beside a big picture or video (right), like on the Ball Knowledge robot.
+        # Text blocks: the first is the Situation. A second block, if you add one, goes bottom right. Delete the whole
+        # overview_text and overview lines for no overview. For the big media use ONE of: src, video (loop: true), or youtube.
+        overview_text:
+          - label: "Situation"
+            text: "Replace with the situation: the game or challenge, and what this robot was built to do."
+        overview:
+          - { src: "/assets/images/BallKnowledge.jpg", wide: true, caption: "Replace with a caption" }
+        # robot_photos: a picture row between the overview and the subsystems. One entry = one picture. Add more entries
+        # to put more pictures side by side (they all end up the same height). Each entry is ONE of: src, video (loop: true), or youtube.
+        # Delete the robot_photos lines for no picture row.
+        robot_photos:
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         parts:
           - kicker: "Replace with the subsystem name"
             situation_label: "Goal"
@@ -222,6 +248,19 @@ groups:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
       - title: 'FRC 2024 Offseason Robot "Replace with the robot name"'
         summary: "Replace with one line about this robot"
+        # overview: the Situation (left) beside a big picture or video (right), like on the Ball Knowledge robot.
+        # Text blocks: the first is the Situation. A second block, if you add one, goes bottom right. Delete the whole
+        # overview_text and overview lines for no overview. For the big media use ONE of: src, video (loop: true), or youtube.
+        overview_text:
+          - label: "Situation"
+            text: "Replace with the situation: the game or challenge, and what this robot was built to do."
+        overview:
+          - { src: "/assets/images/BallKnowledge.jpg", wide: true, caption: "Replace with a caption" }
+        # robot_photos: a picture row between the overview and the subsystems. One entry = one picture. Add more entries
+        # to put more pictures side by side (they all end up the same height). Each entry is ONE of: src, video (loop: true), or youtube.
+        # Delete the robot_photos lines for no picture row.
+        robot_photos:
+          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         parts:
           - kicker: "Replace with the subsystem name"
             situation_label: "Goal"
@@ -1527,6 +1566,23 @@ groups:
           {% endif %}
         </div>
         {% endif %}{% endfor %}
+      </div>
+      {% endif %}
+
+      {% if p.robot_photos and p.robot_photos.size > 0 %}
+      <div class="gallery robot-photos">
+        {% for ph in p.robot_photos %}
+        <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+          {% if ph.youtube %}
+          <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: p.title }}" loading="lazy" allowfullscreen></iframe></div>
+          {% elsif ph.video %}
+          <div class="vid-frame"><video src="{{ ph.video }}"{% if ph.poster %} poster="{{ ph.poster }}"{% endif %}{% if ph.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+          {% else %}
+          <a href="{{ ph.src }}" target="_blank" rel="noopener"><img src="{{ ph.src }}" alt="{{ ph.alt | default: p.title }}"></a>
+          {% endif %}
+          {% if ph.caption != blank %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
       </div>
       {% endif %}
 
