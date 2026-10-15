@@ -182,7 +182,7 @@ groups:
           - label: "Why a Single Stage Elevator"
             text: "A single stage elevator is lighter, simpler, and more reliable than a multi-stage design, and it keeps the center of gravity low so the robot can accelerate and drive faster. Fewer stages means fewer moving parts to tune and fewer places for a string or belt to fail, which leaves more time for driver practice instead of repairs. I also built the end effector around Coral only instead of trying to handle both game pieces. Specializing it let the mechanism intake quickly, hold the pipe securely, and place it consistently on every level, which is what cuts cycle time."
         overview:
-          - { video: "/assets/images/Stingray_Auto_Align.MOV", wide: true, loop: true, caption: "Auto Align L4 Place" }
+          - { video: "/assets/images/Stingray_Auto_Align.MOV", wide: true, fit: true, loop: true, caption: "Auto Align L4 Place" }
         robot_photos:
         parts:
           - kicker: "Coral Funnel"
@@ -701,6 +701,28 @@ groups:
     object-position: 85% center;
   }
 
+  .cell--fit {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-content: center;
+  }
+  .cell--fit figure { width: auto; align-items: center; }
+  .cell--fit .vid-frame {
+    flex: none;
+    min-height: 0;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .cell--fit .vid-frame video {
+    position: static;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 42em;
+    object-fit: contain;
+  }
+
   .ov-label {
     margin: 0 0 0.6em;
     font-size: 0.8em;
@@ -724,6 +746,8 @@ groups:
     .cell--side { order: 4; }
     .cell--side { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8em; }
     .cell--main .vid-frame { flex: none; min-height: 0; aspect-ratio: 16 / 9; }
+    .cell--fit { grid-column: auto; grid-row: auto; align-self: start; }
+    .cell--fit .vid-frame { aspect-ratio: auto; }
   }
   @media (max-width: 600px) {
     .cell--side { grid-template-columns: 1fr; }
@@ -1442,7 +1466,7 @@ groups:
           {% endif %}
 
           {% for m in p.overview %}{% if m.wide %}
-          <div class="cell cell--media cell--main">
+          <div class="cell cell--media cell--main{% if m.fit %} cell--fit{% endif %}">
             <figure class="rv">
               {% if m.youtube %}
               <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ m.youtube }}" title="{{ m.caption | default: 'Robot video' }}" loading="lazy" allowfullscreen></iframe></div>
