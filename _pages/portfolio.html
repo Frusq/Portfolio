@@ -16,19 +16,11 @@ groups:
     projects:
       - title: 'FRC 2026 Robot "Ball Knowledge"'
         summary: "Fully autonomous turreted shooter firing at 8 balls per second, ranked top 100 globally in 2026"
-        # The overview is a checkerboard: Situation (text) | big video, then photos | Why a Turret (text).
-        # Text blocks: the first goes top left, the second goes bottom right. Any extra blocks run full width underneath.
         overview_text:
           - label: "Situation"
             text: "The <a href='https://www.youtube.com/watch?v=_fybREErgyM' target='_blank' rel='noopener'>2026 FRC game challenge “Rebuilt”</a> requires robots to collect yellow 15cm dense foam balls from the ground and shoot them into a roughly 6ft high hexagonal goal. Over 500 yellow balls are continuously recycled back onto the field throughout the match. Along with this, robots are only allowed to shoot during specific “shifts” of 25 seconds during the game. These shifts mean teams are trying to use the inactive shifts when they can't score to optimize scoring during their active shifts."
           - label: "Why a Turret"
             text: "A turreted shooter, specifically ones that rotate 360+ degrees, are capable of shooting projectiles from any orientation of the chassis. Due to this, playing defense against them would be much more difficult compared to a fixed shooter. Along with that, being able to pick up game pieces from the ground while the turret aims at the goal to shoot can greatly reduce dead time where the robot is not scoring, something especially important when robots can only shoot during certain periods of the game. Lastly, I wanted to capitalize on our software strengths. By analyzing previous FRC shooting games, I noticed that turrets were consistently a high level mechanism that, although not always necessary, differentiated top teams by giving them more software freedom."
-        # Photos and videos. ANY slot can be a photo, a YouTube video, or an MP4. Use ONE per entry:
-        #   - { src: "/assets/images/robot-1.jpg", caption: "Optional caption" }
-        #   - { youtube: "VIDEO_ID", caption: "Match footage" }
-        #   - { video: "/assets/videos/robot.mp4", loop: true, caption: "Robot driving" }
-        # The entry with wide: true is the big one (top right, beside Situation). Every other entry stacks in the bottom-left cell, beside Why a Turret.
-        # Keep exactly one wide: true entry. Delete a caption: "..." part to hide that caption.
         overview:
           - { video: "/assets/images/BallKnowledge_Auto.MOV", wide: true, loop: true, caption: "20 Second Autonomous Routine" }
           - { src: "/assets/images/BallKnowledge_CAD.png", caption: "Full CAD Assembly" }
@@ -41,9 +33,6 @@ groups:
               - "Block CAD models help to envision robot subsystems and allocate space requirements for each subsystem"
               - "Subsystems are derived from the mastersketch to keep dimensions consistent and prevent collisions in assembly"
             tools: ["Onshape", "Top Down Design", "Multi-Body Assemblies"]
-            # slider: replaces the big image on the right with a sliding strip of images.
-            # Dragging the bar is the only way to move. Add, remove, or reorder slides freely.
-            # Each slide has a src and a label (the label is shown under the bar).
             slider:
               - { src: "/assets/images/Mastersketch_Corner_View.png", label: "Sketch" }
               - { src: "/assets/images/Mastersketch_KrayonCAD.png", label: "Block CAD" }
@@ -58,23 +47,13 @@ groups:
               - "Hood angle ranges from 10° to 45°, allowing the shooter to score from anywhere in the alliance zone"
               - "7\" shooter sweep radius creates tight packaging for more ball storage"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "Top Down Design"]
-            # CHANGE THIS to your shooting video's exact file name (capitals matter):
             video: /assets/images/Shooter_SOTM.MOV
             loop: true
             crop: true
-            # flip: true puts the picture/video on the left and the text on the right. Delete the line to go back.
             flip: true
-            # crop_focus picks which part of the video stays in view when the sides are trimmed.
-            # "left center" keeps the left edge, "right center" keeps the right edge, "50% center" is the middle.
-            # Try a number like "75% center" to cut the left side more (bigger number = more cut from the left).
             crop_focus: "60% center"
             image_caption: "Shooting on the move (Dark Blue Bumpers)"
-            # below: a picture or video that sits directly under the big video, inside the same column.
-            # The big video shrinks (trimming its top and bottom) so both together match the height of the text.
-            # ratio trims the top and bottom of this picture to a fixed shape (width / height). A bigger first number
-            # trims more. "4 / 3" trims a little; "16 / 9" trims a lot. Delete ratio to show the whole picture.
             below: { src: "/assets/images/Shooter_Full_CAD", ratio: "4 / 3", caption: "Shooter CAD Assembly" }
-            # per_row: how many photos go on each line. Fewer per line = bigger photos. Delete the line to put them all on one line.
             photos:
               - { src: "/assets/images/Shooter_CNC_Plates.jpg", caption: '1/4" Routered Side Plates' }
               - { video: "/assets/images/Shooter_Full_Field.MOV", loop: true, caption: "Full Field Test" }
@@ -90,13 +69,8 @@ groups:
             video: /assets/images/Shooter_Tracking.mov
             loop: true
             crop: true
-            # crop_focus: first number = left/right, second = up/down. 0% keeps the top, 100% keeps the bottom,
-            # so a bigger second number cuts more off the top and shows lower down in the video.
             crop_focus: "50% 35%"
             image_caption: "Turret Tracking (Real Time Speed)"
-            # photos_key: a numbered list that sits UNDER the photo row, in a 3 x 3 grid.
-            # Use it for a labeled diagram: number the parts in the picture, then list what each number is here.
-            # (Works when the photos are on one line, so don't use it together with per_row.)
             photos_key:
               - "X-Contact bearing"
               - "Main turret plate, clamps outer race of bearing"
@@ -116,11 +90,6 @@ groups:
               - "Iterated on 10+ center cone and wheel designs to optimize flowrate and reduce jams"
               - "Geared 4:1 and voltage-limited to 6V to spin the center at about 13rps, chosen for ball flowrate rather than peak motor power"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing"]
-            # text_image: { src: "/assets/images/YOUR_PICTURE.png", caption: "A caption" }
-            #   (a picture under the bullets, in the text column. Delete the # at the start of the line to use it.)
-            # calc: a small calculation box under the picture, one row per step.
-            #   label   what the step is        math   the arithmetic        result   the answer
-            # note (optional) is a line of small text under the rows. Add or delete rows freely.
             calc_title: "Center Wheel RPS Calculation"
             calc:
               - { label: "Motor voltage limit", math: "set in code", result: "6 V" }
@@ -129,18 +98,9 @@ groups:
               - { label: "Convert to revolutions per second", math: "750 ÷ 60", result: "12.5 ≈ 13 RPS" }
             video: /assets/images/Spindexer_Initial_Test.MOV
             loop: true
-            # crop: true stretches the video to the same height as the text, so the calculation box lines up with it.
             crop: true
             crop_focus: "50% center"
             image_caption: "Spindexer Initial Testing"
-            # designs: a carousel. One CAD screenshot per design, with a short note beside it.
-            #   src    the screenshot
-            #   title  short name for the design, e.g. "Version 3: Straight walls"
-            #   thought   our thought process: why we made a design like this
-            #   problem   the problem we ran into when we tested it
-            # Add or delete blocks as you like, in the order you want people to cycle through them.
-            # designs_title is the heading above the carousel (delete the line for no heading).
-            # Optional:  designs_ratio: "16 / 10"  sets the shape of the picture box (width / height).
             designs_title: "Spindexer Cone Designs (The ones I could find in CAD)"
             designs_ratio: "16 / 10"
             designs:
@@ -186,9 +146,6 @@ groups:
                 problem: "Became worse at higher speeds, and did not have as much grip due to the pudding shape. Overall the best design."
       - title: 'FRC 2025 Offseason Robot "Gamma"'
         summary: '22", 360° pivoting arm mounted to a two stage elevator, capable of scoring on all levels and climb in less than 10 seconds'
-        # overview: the Situation (left) beside a big picture or video (right), like on the Ball Knowledge robot.
-        # Text blocks: the first is the Situation. A second block, if you add one, goes bottom right. Delete the whole
-        # overview_text and overview lines for no overview. For the big media use ONE of: src, video (loop: true), or youtube.
         overview_text:
           - label: "Situation"
             text: 'The <a href="https://www.youtube.com/watch?v=YWbxcjlY9JY" target="_blank" rel="noopener">2025 FRC game challenge “Reefscape”</a> requires robots to collect and score 12" long, 4.5" diameter PVC pipes (Coral) onto the reef at 4 different levels. Robots also remove 16.25" diameter playground balls (Algae) from the reef and put them in a goal 8ft high (Barge). During the last 20 seconds, robots can lift themselves off the ground by climbing a high (shallow) or low (deep) cage.'
@@ -205,9 +162,7 @@ groups:
               - "Spring loaded one-way latch to securely hold the cage in and prevent slipping"
             tools: ["Onshape", "Autodesk Fusion", "CNC Router", "3D Printing", "DFM", ]
             image: /assets/images/Climb_CAD_Labeled.png
-            # fit: true makes the picture as tall as the text beside it (the whole picture stays visible, on a gray background).
             fit: true
-            # image_key: a numbered key under the big picture. Number the parts in the picture, then list what each number is here.
             image_key:
               - "Structure"
               - "End effector"
@@ -215,32 +170,28 @@ groups:
               - "Sensors"
             alt: "Replace with a description of the photo"
             image_caption: "Climb Components"
-            # The photos sit on one line and are sized to the same height automatically.
-            # photos_fill: true stretches the row to the full page width (the photos get bigger and taller). Delete it for a smaller row.
             photos_fill: true
             photos:
               - { video: "/assets/images/Clinb_Video.MOV", caption: "Climb Video" }
               - { video: "/assets/images/Climb_Latch_Test.MOV", loop: true, caption: "Testing One-way Latch" }
       - title: 'FRC 2025 Robot "Stingray"'
         summary: "Single stage elevator with a coral optimized end effector to achieve fast cycles, ranked top 200 globally"
-        # overview: the Situation (left) beside a big picture or video (right), like on the Ball Knowledge robot.
-        # Text blocks: the first is the Situation. A second block, if you add one, goes bottom right. Delete the whole
-        # overview_text and overview lines for no overview. For the big media use ONE of: src, video (loop: true), or youtube.
         overview_text:
           - label: "Situation"
             text: 'The <a href="https://www.youtube.com/watch?v=YWbxcjlY9JY" target="_blank" rel="noopener">2025 FRC game challenge “Reefscape”</a> requires robots to collect and score 12" long, 4.5" diameter PVC pipes (Coral) onto the reef at 4 different levels. Robots also remove 16.25" diameter playground balls (Algae) from the reef and put them in a goal 8ft high (Barge). During the last 20 seconds, robots can lift themselves off the ground by climbing a high (shallow) or low (deep) cage.'
+          - label: "Why a Single Stage Elevator"
+            text: "A single stage elevator is lighter, simpler, and more reliable than a multi-stage design, and it keeps the center of gravity low so the robot can accelerate and drive faster. Fewer stages means fewer moving parts to tune and fewer places for a string or belt to fail, which leaves more time for driver practice instead of repairs. I also built the end effector around Coral only instead of trying to handle both game pieces. Specializing it let the mechanism intake quickly, hold the pipe securely, and place it consistently on every level, which is what cuts cycle time."
         overview:
-          - { video: "/assets/images/Stingray_Auto_Align.MOV", loop: true, caption: "Auto Align L4 Place" }
+          - { video: "/assets/images/Stingray_Auto_Align.MOV", wide: true, loop: true, caption: "Auto Align L4 Place" }
         robot_photos:
         parts:
-          - kicker: "Replace with the subsystem name"
+          - kicker: "Coral Funnel"
             situation_label: "Goal"
-            situation: "Replace with what this subsystem had to do and what you set out to build."
+            situation: "Optimize coral intake from human player by passively guiding coral to the end effector"
             points:
-              - "Replace with what you designed or modeled"
-              - "Replace with a constraint or challenge you solved"
-              - "Replace with what you manufactured"
-            tools: ["Onshape", "3D Printing"]
+              - 'Made using bent 1/8" Polycarb to absorb coral impact when dropping while also allowing for flex when getting hit'
+              - "Design prevents coral from getting stuck by sloping walls to straighten coral"
+            tools: ["Onshape", "Autodesk Fusion", "CNC Router", "Manufacture Drawings"]
             image: /assets/images/BallKnowledge.jpg
             alt: "Replace with a description of the photo"
             image_caption: "Replace with a caption"
@@ -250,17 +201,11 @@ groups:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
       - title: 'FRC 2024 Offseason Robot "Replace with the robot name"'
         summary: "Replace with one line about this robot"
-        # overview: the Situation (left) beside a big picture or video (right), like on the Ball Knowledge robot.
-        # Text blocks: the first is the Situation. A second block, if you add one, goes bottom right. Delete the whole
-        # overview_text and overview lines for no overview. For the big media use ONE of: src, video (loop: true), or youtube.
         overview_text:
           - label: "Situation"
             text: "Replace with the situation: the game or challenge, and what this robot was built to do."
         overview:
           - { src: "/assets/images/BallKnowledge.jpg", wide: true, caption: "Replace with a caption" }
-        # robot_photos: a picture row between the overview and the subsystems. One entry = one picture. Add more entries
-        # to put more pictures side by side (they all end up the same height). Each entry is ONE of: src, video (loop: true), or youtube.
-        # Delete the robot_photos lines for no picture row.
         robot_photos:
           - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
         parts:
@@ -280,11 +225,6 @@ groups:
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
       - title: "Miscellaneous Media"
-        # A photo and video wall for 6036. No text, just pictures. Each entry is ONE of:
-        #   - { src: "/assets/images/Your_Photo.jpg", caption: "Optional caption" }
-        #   - { video: "/assets/images/Your_Video.MOV", loop: true, caption: "Optional caption" }   (loop: true = silent autoplay loop)
-        #   - { youtube: "VIDEO_ID", caption: "Optional caption" }
-        # per_row is how many go on each line. Fewer per line = bigger pictures. Add as many entries as you like.
         per_row: 3
         photos:
           - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
@@ -304,7 +244,6 @@ groups:
           - "Replace with how it was machined (3-axis or 5-axis)"
           - "Replace with tolerances or results"
         tools: ["Siemens NX", "5-Axis Milling", "GD&T"]
-        # For a video here, delete the hero line and add youtube: "VIDEO_ID" or video: "/assets/videos/part.mp4" (and loop: true if you like)
         hero: /assets/images/PERPlaque.jpg
         hero_alt: "Aluminum machined part"
         hero_caption: "Replace with a caption"
@@ -344,17 +283,16 @@ groups:
 <style>
   :root {
     --gutter: clamp(1.2rem, 4vw, 4rem);
-    /* One border thickness for every photo and video on this page */
+
     --frame: 12px;
-    /* Space between the two columns of the checkerboard */
+
     --ovgap: 3.5em;
-    /* Widest the page gets (the top bar and footer match it) */
+
     --maxw: 1400px;
-    /* Width of the left sidebar that holds the jump links */
+
     --navw: 11em;
   }
 
-  /* Prevent sideways scrolling */
   html,
   body {
     overflow-x: hidden;
@@ -367,8 +305,6 @@ groups:
     }
   }
 
-  /* Pull-past-the-edge color: swiping up past the top shows the top bar color, swiping down past the
-     bottom shows the footer color. (Same block can be pasted into the style section of index.html.) */
   html {
     min-height: 100%;
     background-color: #121212;
@@ -376,13 +312,11 @@ groups:
   }
   body { background-color: #1a1a1a; }
 
-  /* Smooth scrolling when a jump link is clicked */
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
   }
 
-  /* Layout: remove the theme's side offset and width cap, then center the page at --maxw */
   #main {
     max-width: none !important;
     padding-left: 0 !important;
@@ -411,7 +345,7 @@ groups:
     width: 100% !important;
     max-width: none !important;
   }
-  /* Top bar and footer line up with the content */
+
   .masthead__inner-wrap,
   .page__footer footer {
     max-width: var(--maxw) !important;
@@ -422,7 +356,6 @@ groups:
     padding-right: var(--gutter) !important;
   }
 
-  /* Two columns: the jump links on the left, everything else on the right */
   .page__content {
     display: grid;
     grid-template-columns: var(--navw) minmax(0, 1fr);
@@ -435,7 +368,6 @@ groups:
     min-width: 0;
   }
 
-  /* Small pink uppercase label with a line, used for group headings */
   .label {
     display: flex;
     align-items: center;
@@ -454,7 +386,6 @@ groups:
     background: rgba(244, 143, 177, 0.35);
   }
 
-  /* Chamfered tags */
   .tag {
     display: inline-block;
     padding: 0.35em 0.95em 0.35em 1.1em;
@@ -481,15 +412,11 @@ groups:
     gap: 0.55em;
   }
 
-  /* Skills row: sits right under each title, above the text and big image */
   .part-tools { margin: 0 0 1.8em; }
   .project-tools { margin: 0 0 2em; }
 
-  /* Intro */
   .lead { font-size: 1.1em; max-width: 46em; margin-bottom: 2.4em; }
 
-  /* The jump links: a quiet sidebar pinned on the left as you scroll.
-     Plain text, dimmed until hovered. The section you are reading gets a thin pink bar. */
   .page__content > .jump {
     grid-column: 1;
     grid-row: 1 / span 40;
@@ -528,7 +455,6 @@ groups:
     color: #f48fb1;
   }
 
-  /* Narrow screens have no room for a sidebar: one column, with the links as a pinned row on top */
   @media (max-width: 900px) {
     .page__content { display: block; }
     .page__content > .jump {
@@ -547,7 +473,6 @@ groups:
     .jump .tag { white-space: nowrap; }
   }
 
-  /* Groups and projects */
   .group {
     margin-bottom: 3.5em;
     scroll-margin-top: 3em;
@@ -581,7 +506,7 @@ groups:
     align-items: start;
     margin-bottom: 3em;
   }
-  /* No big picture: the text runs full width */
+
   .project-top--text { grid-template-columns: 1fr; }
   .project-top--text > div { max-width: 56em; }
   @media (max-width: 800px) {
@@ -608,7 +533,6 @@ groups:
     color: #f48fb1;
   }
 
-  /* Every photo and video frame: same white border, square corners */
   .photo,
   .vid-frame,
   .board img,
@@ -621,15 +545,12 @@ groups:
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
   }
 
-  /* The theme makes every figure a flex row, which shrinks captions to their text width.
-     Make figures plain blocks so each caption spans the full width of its photo. */
   .board figure,
   .shots figure {
     display: block;
     margin: 0;
   }
 
-  /* Captions under every photo and video: centered and tight, with a short pink line above */
   .board figcaption,
   .shots figcaption,
   .gallery figcaption,
@@ -664,8 +585,6 @@ groups:
     background: #f48fb1;
   }
 
-  /* Pull every caption tight against its photo: the theme adds bottom margins and spacing under images,
-     so all of that is zeroed here. To change the gap, edit the 0.55em margin in the caption rule above. */
   .board figure > a,
   .gallery figure > a,
   .below-fig > a,
@@ -698,7 +617,6 @@ groups:
     padding-bottom: 0 !important;
   }
 
-  /* Main photo */
   .photo {
     display: block;
     width: 100%;
@@ -712,7 +630,6 @@ groups:
     margin-top: 1.2em;
   }
 
-  /* Video frames. MP4/MOV files fit their own shape; YouTube stays 16:9. */
   .vid-frame {
     display: block;
     width: 100%;
@@ -732,10 +649,6 @@ groups:
     height: auto;
   }
 
-  /* Robot overview: a checkerboard. Two equal columns; text and media alternate.
-       row 1:  Situation (text)   |  big video
-       row 2:  photo(s)           |  Why a Turret (text)
-     Photos keep their own shape, so nothing is stretched or cropped. */
   .overview-wrap {
     display: block;
     margin: 0 0 4.5em;
@@ -753,7 +666,7 @@ groups:
     flex-direction: column;
     gap: 1.1em;
   }
-  /* Only photo links become blocks. (The text link inside Situation must stay inline.) */
+
   .board figure > a { display: block; }
   .board figure > a img {
     display: block;
@@ -765,9 +678,6 @@ groups:
   }
   .board figure > a:hover img { transform: translateY(-4px); }
 
-  /* Big video: starts at the top of the row and stretches down to match the Situation text.
-     object-position picks which part stays in view when the sides are cropped
-     (100% = right edge, 50% = center, 0% = left edge). */
   .cell--main {
     align-self: stretch;
     display: flex;
@@ -802,7 +712,6 @@ groups:
   .ov-body { margin: 0 0 1em; }
   .ov-block .plain-list { margin-bottom: 0; }
 
-  /* Any extra text blocks (beyond the first two) run full width underneath */
   .ov-extra {
     max-width: 56em;
     margin-top: 3.2em;
@@ -810,7 +719,7 @@ groups:
 
   @media (max-width: 1000px) {
     .board { grid-template-columns: 1fr; row-gap: 2.2em; align-items: start; }
-    /* Stacked order on narrow screens: Situation, video, Why a Turret, photos */
+
     .cell--t1 { order: 3; }
     .cell--side { order: 4; }
     .cell--side { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8em; }
@@ -820,7 +729,6 @@ groups:
     .cell--side { grid-template-columns: 1fr; }
   }
 
-  /* Parts inside one project (master sketch, subsystems) */
   .part { margin-bottom: 4.5em; }
   .part:last-child { margin-bottom: 0; }
   .part-kicker {
@@ -831,8 +739,7 @@ groups:
     letter-spacing: 0.18em;
     color: #f48fb1;
   }
-  /* The number in front of each part title (1, 2, 3...). It counts the parts in order, so reordering
-     parts renumbers them automatically. To hide the numbers, delete this block and the part-num span in the HTML. */
+
   .part-num {
     display: inline-block;
     min-width: 1.6em;
@@ -852,7 +759,6 @@ groups:
     letter-spacing: 0.06em;
   }
 
-  /* Smaller part (add size: small to a part): tighter text */
   .part--small { margin-bottom: 3.5em; }
   .part--small .part-kicker { font-size: 1.05em; }
   .page__content .part--small h4.part-title {
@@ -871,11 +777,6 @@ groups:
     .part--small .project-top { grid-template-columns: 1fr; gap: 1.2em; }
   }
 
-  /* A part with photos_split: true. The text, the big image, and the first two photos sit in one
-     grid on the same two columns as a normal part, so every edge lines up:
-       row 1:  text          |  big image
-       row 2:  first photo   |  second photo
-     Photos keep their own shape (nothing is cropped or stretched); --pgh caps how tall they get. */
   .part-grid {
     --pgh: clamp(260px, 30vw, 480px);
     display: grid;
@@ -909,7 +810,7 @@ groups:
     transition: transform 0.25s ease;
   }
   .pg-fig > a:hover img { transform: translateY(-4px); }
-  /* A caption never makes its photo any wider than the photo itself */
+
   .pg-fig figcaption {
     width: 0;
     min-width: 100%;
@@ -918,10 +819,6 @@ groups:
     .part-grid { grid-template-columns: 1fr; row-gap: 1.8em; }
   }
 
-  /* Image slider. The images sit side by side in a strip that follows the slider handle, so they
-     really slide. The bar is the only control: the image itself ignores clicks and swipes. The stage
-     is a fixed 4:3 box with the same dark gray as the screenshots, so no image is cropped or
-     stretched and there is no white padding. */
   .sl {
     --th: 24px;
     display: block !important;
@@ -948,7 +845,7 @@ groups:
     height: 100%;
     will-change: transform;
   }
-  /* Each slide has its own solid gray, so the color never shifts while sliding between images */
+
   .sl-strip img {
     flex: 0 0 100%;
     width: 100%;
@@ -960,9 +857,6 @@ groups:
     background: #323232;
   }
 
-  /* When a part has a slider, the picture grows to match the height of the text beside it, so the two
-     columns end at about the same place. The picture keeps its gray background (nothing is cropped).
-     To go back to a fixed shape, delete this block. */
   .project-top--slider { align-items: stretch; }
   .project-top--slider > .rv:last-child { min-width: 0; }
   .project-top--slider .sl {
@@ -983,19 +877,13 @@ groups:
     .project-top--slider .sl-stage { aspect-ratio: 4 / 3; flex: none; min-height: 0; }
   }
 
-  /* A part with crop: true: the video is cut off at the bottom so it ends level with the text beside it.
-     object-position: center top keeps the top of the video and trims the bottom.
-     Use center center to trim top and bottom equally, or center bottom to trim the top.
-     Add crop_focus: "60% center" to the part to choose which side stays in view.
-     To go back to the full video, delete crop: true from the part. */
   .project-top--crop { align-items: stretch; }
   .project-top--crop > .rv:last-child {
     min-width: 0;
     display: flex;
     flex-direction: column;
   }
-  /* min-height is the shortest the picture gets. Raise it for a taller video, even when the text is short.
-     When the text is taller than this, the video grows to match the text. */
+
   .project-top--crop .vid-frame {
     flex: 1 1 auto;
     position: relative;
@@ -1022,9 +910,6 @@ groups:
     .project-top--crop .vid-frame video { position: static; height: auto; }
   }
 
-  /* A part with fit: true: the picture grows or shrinks to the height of the text beside it. The whole picture stays
-     visible (nothing is cropped); any extra room is filled with the same dark gray as the screenshots.
-     To go back to the picture's own shape, delete fit: true from the part. */
   .project-top--fit { align-items: stretch; }
   .project-top--fit > .rv:last-child { min-width: 0; display: flex; flex-direction: column; }
   .project-top--fit img.photo {
@@ -1039,8 +924,6 @@ groups:
     .project-top--fit img.photo { flex: none; height: auto; min-height: 0; }
   }
 
-  /* A part with below: a second picture sits under the big one. The big video gives up height to it
-     (trimming its top and bottom) so the whole column ends level with the text. */
   .below-fig {
     display: block !important;
     flex: none;
@@ -1063,8 +946,6 @@ groups:
     .project-top--below .vid-frame { min-height: 0; }
   }
 
-  /* A part with flip: true: the picture or video goes on the left and the text on the right.
-     (On narrow screens the text still comes first.) */
   .project-top--flip { grid-template-columns: 1.3fr 1fr; }
   .project-top--flip > .rv:last-child { order: -1; }
   @media (max-width: 800px) {
@@ -1072,8 +953,6 @@ groups:
     .project-top--flip > .rv:last-child { order: 0; }
   }
 
-  /* The slider bar. The theme styles every form input with a border, rounded corners, and a glow
-     when clicked, so all of that is switched off here (including when focused or pressed). */
   .sl-bar {
     padding: 1.3em 0 0;
   }
@@ -1133,8 +1012,6 @@ groups:
   }
   .sl-range::-moz-focus-outer { border: 0; }
 
-  /* Labels under the bar. They only mark the positions; they are not clickable.
-     To remove them, delete the <div class="sl-marks"> block in the HTML. */
   .sl-marks {
     position: relative;
     height: 1.7em;
@@ -1155,14 +1032,12 @@ groups:
     transition: opacity 0.2s ease, color 0.2s ease;
   }
   .sl-mark.is-on { opacity: 1; color: #f48fb1; }
-  /* First and last labels sit flush with the edges of the image, so nothing hangs outside it */
+
   .sl .sl-marks .sl-mark:first-child { left: 0 !important; right: auto !important; transform: none !important; }
   .sl .sl-marks .sl-mark:last-child { left: auto !important; right: 0 !important; transform: none !important; }
 
-  /* Line the top of the bullet text up with the top of the picture beside it */
   .project-top > .rv:first-child > :first-child { margin-top: -0.3em !important; }
 
-  /* Extra sections inside a project (How it works, Dev / Test, etc.) */
   .section { margin-bottom: 3em; }
   .section-heading {
     margin: 0 0 0.8em;
@@ -1185,11 +1060,6 @@ groups:
     background-color: #fff;
   }
 
-  /* Photo rows. Every photo and video in a row sits side by side on ONE line, all exactly the same
-     height. Each one gets a share of the width that matches its own shape (wide ones get more, tall
-     ones get less), so nothing is cropped, stretched, or padded and the captions line up level.
-     A small script at the bottom of the page reads each picture's shape and sets the shares.
-     --maxh is the tallest the row is allowed to get (raise it for bigger photos, lower it for smaller). */
   .gallery {
     display: flex;
     flex-wrap: nowrap;
@@ -1218,13 +1088,12 @@ groups:
   .gallery figure > a:hover img { transform: translateY(-4px); }
   .gallery .gal-vid { width: auto; }
   .gallery .vid-frame video { width: 100%; height: auto; }
-  /* A caption never makes its photo any wider than the photo itself */
+
   .gallery figcaption {
     width: 0;
     min-width: 100%;
   }
-  /* photos_feature: true on a part: the first photo is big on the left and the rest are stacked on the right,
-     so every picture and video gets bigger. Delete photos_feature to go back to one row. */
+
   .gallery--feature {
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
@@ -1237,11 +1106,10 @@ groups:
   @media (max-width: 600px) {
     .gallery--feature { display: flex; }
   }
-  /* A numbered key under a photo row (add photos_key to a part). The numbers are pink and match
-     the numbers drawn on the picture. */
+
   .gallery-row { margin-bottom: 2em; }
   .gallery-row .gallery { margin-bottom: 1.2em; }
-  /* 3 x 3 grid under the picture, reading down each column: 1-3, 4-6, 7-9 */
+
   .photo-key {
     list-style: none !important;
     margin: 0 !important;
@@ -1285,18 +1153,17 @@ groups:
     .photo-key li:nth-child(3n+1) { border-top: 1px solid rgba(255, 255, 255, 0.07); }
     .photo-key li:first-child { border-top: 0; }
   }
-  /* A picture under the bullets (add text_image: to a part) */
+
   .text-fig { margin: 1.2em 0 0 !important; max-width: 100%; display: block !important; }
   .text-fig img { display: block; width: 100%; height: auto; border-radius: 8px; }
-  /* With a calc box next to a cropped video: the box drops to the bottom of the text column, and the column
-     leaves room for the caption under the video, so the box ends level with the bottom of the video. */
+
   .project-top--calc > .rv:first-child { display: flex; flex-direction: column; padding-bottom: 1.88em; }
   .project-top--calc .calc { margin-top: auto; }
   .project-top--calc .plain-list { margin-bottom: 1.4em; }
   @media (max-width: 800px) {
     .project-top--calc > .rv:first-child { padding-bottom: 0; }
   }
-  /* A calculation box (add calc: to a part): one row per step, with the answer on the right */
+
   .calc {
     margin: 1.4em 0 0;
     padding: 1em 1.2em 1.1em;
@@ -1325,7 +1192,7 @@ groups:
   .calc-result { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-weight: 700; font-size: 1em; color: #fff; text-align: right; white-space: nowrap; }
   .calc-row:last-of-type .calc-result { color: #f48fb1; }
   .calc-note { margin: 0.7em 0 0 !important; padding-top: 0.7em; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8em; line-height: 1.4; color: #9a9a9a; }
-  /* A numbered key under the big picture (add image_key: to a part). Two columns of numbered chips, reading across: 1 2 / 3 4. */
+
   .image-key {
     list-style: none !important;
     margin: 0.9em 0 0 !important;
@@ -1361,7 +1228,7 @@ groups:
     color: #1b1b1b;
     background: #f48fb1;
   }
-  /* Design carousel (add designs: to a part). Picture and thumbnails on the left, a note on the right. */
+
   .dz {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(19em, 1fr);
@@ -1371,14 +1238,14 @@ groups:
     outline: none;
   }
   .dz-heading { margin: 1.6em 0 0.8em !important; }
-  /* The picture box grows to fill the column, so its bottom edge (with the thumbnails) lines up with the notes box. */
+
   .dz-main { display: flex; flex-direction: column; min-width: 0; }
   .dz-stage {
     position: relative;
     flex: 1 1 auto;
     width: 100%;
     overflow: hidden;
-    background: #333333; /* Onshape dark-mode gray, so the screenshots blend into the box */
+    background: #333333; 
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 10px;
   }
@@ -1403,7 +1270,7 @@ groups:
     box-shadow: none !important;
     border-radius: 0 !important;
   }
-  /* The arrows sit beside the thumbnails, under the picture, so nothing covers the picture itself. */
+
   .dz-nav { flex: 0 0 auto; display: flex; align-items: center; gap: 0.7em; margin-top: 0.8em; }
   .dz-btn {
     flex: 0 0 auto;
@@ -1437,7 +1304,7 @@ groups:
     display: flex;
     gap: 0.6em;
     overflow-x: auto;
-    scrollbar-width: none; /* hide the scroll bar; the row still scrolls with swipes, the arrows and clicks */
+    scrollbar-width: none; 
   }
   .dz-thumbs::-webkit-scrollbar { display: none; }
   .dz-thumb {
@@ -1456,7 +1323,7 @@ groups:
   .dz-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; margin: 0 !important; }
   .dz-thumb:hover { opacity: 0.9; }
   .dz-thumb.is-on { opacity: 1; border-color: #f48fb1; }
-  /* All notes share one grid cell, so the box stays as tall as the longest note and nothing jumps. */
+
   .dz-side {
     display: grid;
     padding: 1.3em 1.5em 1.4em;
@@ -1480,7 +1347,7 @@ groups:
     line-height: 1.25;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  /* Thought process and Problem: each is a short block with a colored bar down its left side */
+
   .dz-sec { margin: 0 0 1em; padding-left: 0.9em; border-left: 3px solid #f48fb1; }
   .dz-sec:last-child { margin-bottom: 0; }
   .dz-label {
@@ -1498,19 +1365,17 @@ groups:
   @media (prefers-reduced-motion: reduce) {
     .dz-slide, .dz-note { transition: none; }
   }
-  /* Phones: one picture per row, full width */
+
   @media (max-width: 600px) {
     .gallery { flex-direction: column; max-width: none !important; }
     .gallery figure,
     .gallery .gal-vid { flex: none !important; width: 100%; }
   }
 
-  /* Close the gap above the footer */
   .page__content { padding-bottom: 0 !important; margin-bottom: 0 !important; }
   .page { margin-bottom: 0 !important; padding-bottom: 0 !important; }
   .page__footer { margin-top: 2em !important; }
 
-  /* Fall into place as you scroll (only when JavaScript is available) */
   .rv-on .rv {
     opacity: 0;
     transform: translateY(40px);
@@ -1970,8 +1835,6 @@ groups:
     els.forEach(function (el) { io.observe(el); });
   })();
 
-  /* Slider: the strip of images follows the handle while you drag, so they really slide.
-     When you let go, it glides to the nearest image. Arrow keys glide one image at a time. */
   (function () {
     var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -2008,18 +1871,17 @@ groups:
         raf = requestAnimationFrame(step);
       }
 
-      /* dragging: the images follow the handle exactly */
       range.addEventListener('input', function () {
         if (raf) cancelAnimationFrame(raf);
         var v = parseFloat(range.value);
         render(isNaN(v) ? 0 : v);
       });
-      /* letting go: glide to the nearest image */
+
       range.addEventListener('change', function () {
         var v = parseFloat(range.value);
         glideTo(Math.max(0, Math.min(last, Math.round(isNaN(v) ? 0 : v))));
       });
-      /* keyboard: one image per press */
+
       range.addEventListener('keydown', function (e) {
         var i = Math.round(cur), t = null;
         if (e.key === 'ArrowRight' || e.key === 'ArrowUp') t = i + 1;
@@ -2031,7 +1893,6 @@ groups:
         glideTo(Math.max(0, Math.min(last, t)));
       });
 
-      /* browsers can remember the handle position after a refresh */
       var start = parseFloat(range.value);
       start = isNaN(start) ? 0 : Math.max(0, Math.min(last, Math.round(start)));
       range.value = start;
@@ -2039,7 +1900,6 @@ groups:
     });
   })();
 
-  /* Design carousel: arrows, thumbnails, arrow keys and swipe all change the design shown. */
   (function () {
     document.querySelectorAll('[data-dz]').forEach(function (box) {
       var slides = box.querySelectorAll('.dz-slide');
@@ -2073,7 +1933,6 @@ groups:
         if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
       });
 
-      /* swipe on touch screens */
       var x0 = null, stage = box.querySelector('.dz-stage');
       stage.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
       stage.addEventListener('touchend', function (e) {
@@ -2085,9 +1944,6 @@ groups:
     });
   })();
 
-  /* Picture file-name helper: if a picture doesn't load, try the same name with other common endings
-     (.PNG, .png, .jpg, .JPG, .jpeg, .webp) before giving up. This rescues a file name with the wrong
-     capitals or extension. The real fix is still to match the file name exactly. */
   (function () {
     var exts = ['.PNG', '.png', '.jpg', '.JPG', '.jpeg', '.JPEG', '.webp'];
     function next(img) {
@@ -2120,10 +1976,8 @@ groups:
     });
   })();
 
-  /* Photo rows: read each picture's shape and give it a share of the row that matches, so every
-     picture in the row ends up the same height and the whole row fits on one line. */
   (function () {
-    var MAXH = 600; /* tallest a row may get, in pixels */
+    var MAXH = 600; 
     var galleries = document.querySelectorAll('.gallery');
     if (!galleries.length) return;
 
@@ -2132,7 +1986,7 @@ groups:
       if (m) {
         var w = m.naturalWidth || m.videoWidth, h = m.naturalHeight || m.videoHeight;
         if (w && h) return w / h;
-        return m.tagName === 'VIDEO' ? 9 / 16 : 1.5; /* video not loaded yet: assume a phone video */
+        return m.tagName === 'VIDEO' ? 9 / 16 : 1.5; 
       }
       if (fig.querySelector('iframe')) return 16 / 9;
       return 1.5;
@@ -2166,7 +2020,6 @@ groups:
     window.addEventListener('resize', function () { galleries.forEach(layout); });
   })();
 
-  /* Highlight the jump link for the section you are reading */
   (function () {
     var tags = document.querySelectorAll('.jump .tag');
     var groups = document.querySelectorAll('.group');
