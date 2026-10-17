@@ -182,6 +182,7 @@ groups:
               - { video: "/assets/images/Climb_Latch_Test.MOV", loop: true, caption: "Testing One-way Latch" }
       - title: 'FRC 2025 Robot "Stingray"'
         summary: "Single stage elevator with a coral optimized end effector to achieve fast cycles, ranked top 200 globally"
+        overview_flip: true
         overview_text:
           - label: "Situation"
             text: 'The <a href="https://www.youtube.com/watch?v=YWbxcjlY9JY" target="_blank" rel="noopener">2025 FRC game challenge “Reefscape”</a> requires robots to collect and score 12" long, 4.5" diameter PVC pipes (Coral) onto the reef at 4 different levels. Robots also remove 16.25" diameter playground balls (Algae) from the reef and put them in a goal 8ft high (Barge). During the last 20 seconds, robots can lift themselves off the ground by climbing a high (shallow) or low (deep) cage.'
@@ -640,22 +641,27 @@ groups:
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.8em 1em;
-    margin: 1.4em 0 0;
+    gap: 0.6rem 0.75rem;
+    margin: 1.6rem 0 0;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
   .project-links .links-lead {
     flex: 0 0 100%;
-    margin: 0 0 -0.2em;
-    font-size: 0.85em;
-    letter-spacing: 0.02em;
-    color: #a8a8a8;
+    margin: 0;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    color: #8f8f8f;
   }
   .project-links a {
     display: inline-flex;
     align-items: center;
-    gap: 0.65em;
-    padding: 0.6em 1.15em 0.6em 1.05em;
-    font-size: 0.92em;
+    gap: 0.6rem;
+    padding: 0.5rem 0.95rem 0.5rem 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: 0.02em;
@@ -663,14 +669,14 @@ groups:
     text-decoration: none;
     background: rgba(244, 143, 177, 0.15);
     box-shadow: inset 3px 0 0 #f48fb1;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
     transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   }
   .project-links a::before {
     content: "";
     flex: 0 0 auto;
-    width: 1.15em;
-    height: 1.15em;
+    width: 1rem;
+    height: 1rem;
     background: #f48fb1;
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 2v6h6M8 13h8M8 17h8'/%3E%3C/svg%3E") center / contain no-repeat;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 2v6h6M8 13h8M8 17h8'/%3E%3C/svg%3E") center / contain no-repeat;
@@ -802,6 +808,13 @@ groups:
     margin-top: 3.2em;
   }
 
+  .board--flip .cell--main { grid-column: 1; grid-row: 1; }
+  .board--flip .cell--t0 { grid-column: 2; grid-row: 1; }
+  .board--flip .cell--t1 { grid-column: 1; grid-row: 2; }
+  .board--flip .cell--side { grid-column: 2; grid-row: 2; }
+  .board--flip .cell--fit { grid-column: 1; grid-row: 1 / span 2; }
+  .board--flip:has(.cell--fit) .cell--t1 { grid-column: 2; }
+
   @media (max-width: 1000px) {
     .board { grid-template-columns: 1fr; row-gap: 2.2em; align-items: start; }
 
@@ -810,6 +823,7 @@ groups:
     .cell--side { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8em; }
     .cell--main .vid-frame { flex: none; min-height: 0; aspect-ratio: 16 / 9; }
     .cell--fit { grid-column: auto; grid-row: auto; align-self: start; }
+    .board--flip > .cell { grid-column: auto; grid-row: auto; }
     .cell--fit .vid-frame { aspect-ratio: auto; }
   }
   @media (max-width: 600px) {
@@ -1522,7 +1536,7 @@ groups:
       {% assign side_count = 0 %}
       {% for m in p.overview %}{% unless m.wide %}{% assign side_count = side_count | plus: 1 %}{% endunless %}{% endfor %}
       <div class="overview-wrap">
-        <div class="board">
+        <div class="board{% if p.overview_flip %} board--flip{% endif %}">
 
           {% if t0 %}
           <div class="cell cell--text cell--t0">
@@ -1643,7 +1657,7 @@ groups:
             </ul>
             {% endif %}
             {% if part.links and part.links.size > 0 %}
-            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth about my design choices:" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
+            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth about my design choices" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
             {% endif %}
           </div>
           <div class="rv">
@@ -1703,7 +1717,7 @@ groups:
             </ul>
             {% endif %}
             {% if part.links and part.links.size > 0 %}
-            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth about my design choices:" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
+            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth about my design choices" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
             {% endif %}
             {% if part.text_image %}
             <figure class="text-fig">
@@ -1854,7 +1868,7 @@ groups:
           </ul>
           {% if p.links and p.links.size > 0 %}
           <div class="project-links">
-            <span class="links-lead">{{ p.links_label | default: "Read more in depth about my design choices:" }}</span>
+            <span class="links-lead">{{ p.links_label | default: "Read more in depth about my design choices" }}</span>
             {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}
           </div>
           {% endif %}
