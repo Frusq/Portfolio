@@ -711,27 +711,59 @@ groups:
     transform: translateX(5px);
   }
 
-  .season { margin: 2.6rem 0 1rem; }
+  .season { margin: 3rem 0 1.2rem; }
   .season-head {
     display: flex;
     align-items: baseline;
-    gap: 0.9rem;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.9rem;
     margin: 0;
-    padding: 0 0 0.6rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    font-size: 0.8rem;
+    padding: 0;
+    border: none;
+    font-size: 1.05rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #f48fb1;
   }
   .season-note {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-transform: none;
     color: #8f8f8f;
   }
+  .collage {
+    column-count: 3;
+    column-gap: 1.6rem;
+    margin-bottom: 1rem;
+  }
+  .collage figure {
+    display: block;
+    break-inside: avoid;
+    margin: 0 0 1.6rem;
+  }
+  .collage figure > a { display: block; line-height: 0; margin: 0; padding: 0; }
+  .collage img {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    margin: 0 !important;
+    border: var(--frame) solid #fff;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+  }
+  .collage .vid-frame { margin: 0; }
+  .collage figcaption {
+    margin: 0.5em 0 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    font-size: 0.78em !important;
+    line-height: 1.3 !important;
+    opacity: 0.85;
+  }
+  @media (max-width: 1000px) { .collage { column-count: 2; } }
+  @media (max-width: 560px) { .collage { column-count: 1; } }
 
   .vid-frame {
     display: block;
@@ -1969,20 +2001,15 @@ groups:
       <div class="season rv">
         <h4 class="season-head"><span class="season-name">{{ sea.label }}</span>{% if sea.note != blank %}<span class="season-note">{{ sea.note }}</span>{% endif %}</h4>
       </div>
-      {% assign s_per_row = sea.per_row | default: p.per_row | default: 3 %}
-      <div class="gallery">
+      <div class="collage">
         {% for ph in sea.photos %}
-        {% assign s_col = forloop.index0 | modulo: s_per_row %}
-        {% if s_col == 0 and forloop.first == false %}</div><div class="gallery">{% endif %}
         <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
           {% if ph.youtube %}
           <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: sea.label }}" loading="lazy" allowfullscreen></iframe></div>
           {% elsif ph.video %}
           <div class="vid-frame"><video src="{{ ph.video }}"{% if ph.poster %} poster="{{ ph.poster }}"{% endif %}{% if ph.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
           {% else %}
-          <a href="{{ ph.src }}" target="_blank" rel="noopener">
-            <img src="{{ ph.src }}" alt="{{ ph.alt | default: sea.label }}">
-          </a>
+          <a href="{{ ph.src }}" target="_blank" rel="noopener"><img src="{{ ph.src }}" alt="{{ ph.alt | default: sea.label }}"></a>
           {% endif %}
           {% if ph.caption != blank %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
         </figure>
