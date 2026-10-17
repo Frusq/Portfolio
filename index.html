@@ -4,6 +4,7 @@ title: "Hi, I'm Gary Yan"
 permalink: /
 author_profile: true
 classes: wide
+resume: /assets/Gary_Yan_Resume.pdf
 gallery:
   - url: /assets/images/BallKnowledge.jpg
     image_path: /assets/images/BallKnowledge.jpg
@@ -78,6 +79,30 @@ dreaming:
     margin-bottom: 0;
   }
   .intro-text p { font-size: 1.1em; }
+  .intro-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8em 1em;
+    margin-top: 1.4em;
+  }
+  .intro-links a {
+    display: inline-block;
+    padding: 0.55em 1.25em;
+    font-size: 0.95em;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #f48fb1;
+    text-decoration: none;
+    border: 1px solid rgba(244, 143, 177, 0.55);
+    border-radius: 999px;
+    background: rgba(244, 143, 177, 0.07);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .intro-links a:hover {
+    color: #1b1b1b;
+    background: #f48fb1;
+    transform: translateY(-2px);
+  }
   @media (max-width: 800px) {
     .intro-row { grid-template-columns: 1fr; }
   }
@@ -339,6 +364,10 @@ dreaming:
   <div class="intro-text reveal" style="--d: 0.05s">
     <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area region. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
     <p>Browse my <a href="/portfolio/">portfolio</a> to see more!</p>
+    <div class="intro-links">
+      <a href="/portfolio/">Portfolio &rarr;</a>
+      {% if page.resume %}<a href="{{ page.resume }}" target="_blank" rel="noopener">Resume (PDF) &rarr;</a>{% endif %}
+    </div>
   </div>
 
   <div class="collage">
