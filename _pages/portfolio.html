@@ -1640,7 +1640,7 @@ groups:
             </ul>
             {% endif %}
             {% if part.links and part.links.size > 0 %}
-            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth:" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
+            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth about my design choices:" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
             {% endif %}
           </div>
           <div class="rv">
@@ -1700,7 +1700,7 @@ groups:
             </ul>
             {% endif %}
             {% if part.links and part.links.size > 0 %}
-            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth:" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
+            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth about my design choices:" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
             {% endif %}
             {% if part.text_image %}
             <figure class="text-fig">
@@ -1851,7 +1851,7 @@ groups:
           </ul>
           {% if p.links and p.links.size > 0 %}
           <div class="project-links">
-            <span class="links-lead">{{ p.links_label | default: "Read more in depth:" }}</span>
+            <span class="links-lead">{{ p.links_label | default: "Read more in depth about my design choices:" }}</span>
             {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}
           </div>
           {% endif %}
