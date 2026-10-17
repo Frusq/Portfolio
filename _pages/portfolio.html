@@ -234,25 +234,16 @@ groups:
               - { src: "/assets/images/Doppelganger_Chassis_Top_View.png", caption: "Electronics layout" }
               - { src: "/assets/images/Doppelganger_Wiring", caption: "Electronics Layout (Wiring Unfinished)" }
       - title: "Miscellaneous Media"
-        per_row: 3
         seasons:
-          - label: "2026 · Season Name"
-            note: "Replace with a short note"
-            photos:
-              - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption" }
+          - photos:
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption", size: wide }
               - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-          - label: "2025 · Season Name"
-            note: "Replace with a short note"
-            photos:
               - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
               - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-          - label: "2024 · Crescendo"
-            photos:
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
               - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption" }
-              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
   - id: purdue-electric-racing
     name: "Purdue Electric Racing"
     blurb: "Replace with one line about your drivetrain role"
@@ -735,14 +726,30 @@ groups:
   }
   .collage {
     column-count: 3;
-    column-gap: 1.6rem;
+    column-gap: 1.4rem;
     margin-bottom: 1rem;
   }
   .collage figure {
     display: block;
     break-inside: avoid;
-    margin: 0 0 1.6rem;
+    margin: 0 0 1.4rem;
   }
+  .collage--grid {
+    column-count: auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 8px;
+    grid-auto-flow: dense;
+    column-gap: 1.4rem;
+    row-gap: 0;
+  }
+  .collage--grid figure { margin: 0; align-self: start; }
+  .collage--grid figure.is-wide { grid-column: span 2; }
+  .collage figure > a, .collage figure > .vid-frame { transition: transform 0.25s ease; }
+  .collage figure:nth-child(4n+1) > a, .collage figure:nth-child(4n+1) > .vid-frame { transform: rotate(-0.7deg); }
+  .collage figure:nth-child(4n+3) > a, .collage figure:nth-child(4n+3) > .vid-frame { transform: rotate(0.6deg); }
+  .collage figure:nth-child(4n+4) > a, .collage figure:nth-child(4n+4) > .vid-frame { transform: rotate(-0.3deg); }
+  .collage figure > a:hover, .collage figure > .vid-frame:hover { transform: rotate(0) scale(1.02); position: relative; z-index: 2; }
   .collage figure > a { display: block; line-height: 0; margin: 0; padding: 0; }
   .collage img {
     display: block;
@@ -762,8 +769,8 @@ groups:
     line-height: 1.3 !important;
     opacity: 0.85;
   }
-  @media (max-width: 1000px) { .collage { column-count: 2; } }
-  @media (max-width: 560px) { .collage { column-count: 1; } }
+  @media (max-width: 1000px) { .collage { column-count: 2; } .collage--grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .collage { column-count: 1; } .collage--grid { grid-template-columns: 1fr; } .collage--grid figure.is-wide { grid-column: auto; } }
 
   .vid-frame {
     display: block;
@@ -1416,10 +1423,10 @@ groups:
   }
   .dz-heading { margin: 1.6em 0 0.8em !important; }
 
-  .dz-main { display: flex; flex-direction: column; min-width: 0; align-self: start; }
+  .dz-main { display: flex; flex-direction: column; min-width: 0; }
   .dz-stage {
     position: relative;
-    flex: none;
+    flex: 1 1 auto;
     width: 100%;
     overflow: hidden;
     background: #333333; 
@@ -2001,12 +2008,14 @@ groups:
       {% endif %}
 
       {% for sea in p.seasons %}
+      {% if sea.label != blank %}
       <div class="season rv">
         <h4 class="season-head"><span class="season-name">{{ sea.label }}</span>{% if sea.note != blank %}<span class="season-note">{{ sea.note }}</span>{% endif %}</h4>
       </div>
+      {% endif %}
       <div class="collage">
         {% for ph in sea.photos %}
-        <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+        <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}{% if ph.size == "wide" %} is-wide{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
           {% if ph.youtube %}
           <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: sea.label }}" loading="lazy" allowfullscreen></iframe></div>
           {% elsif ph.video %}
@@ -2109,6 +2118,30 @@ groups:
   })();
 
   (function () {
+    document.querySelectorAll('.collage').forEach(function (box) {
+      var figs = box.querySelectorAll('figure');
+      function lay() {
+        figs.forEach(function (f) {
+          f.style.gridRowEnd = '';
+        });
+        box.classList.add('collage--grid');
+        figs.forEach(function (f) {
+          f.style.gridRowEnd = 'span ' + Math.ceil((f.getBoundingClientRect().height + 22) / 8);
+        });
+      }
+      lay();
+      window.addEventListener('load', lay);
+      window.addEventListener('resize', lay);
+      box.querySelectorAll('img').forEach(function (im) { im.addEventListener('load', lay); });
+      box.querySelectorAll('video').forEach(function (v) { v.addEventListener('loadedmetadata', lay); });
+      if ('ResizeObserver' in window) {
+        var ro = new ResizeObserver(lay);
+        figs.forEach(function (f) { ro.observe(f.firstElementChild); });
+      }
+    });
+  })();
+
+  (function () {
     document.querySelectorAll('[data-dz]').forEach(function (box) {
       var slides = box.querySelectorAll('.dz-slide');
       var notes = box.querySelectorAll('.dz-note');
@@ -2117,6 +2150,23 @@ groups:
       var strip = box.querySelector('.dz-thumbs');
       var n = slides.length, i = 0;
       if (!n) return;
+
+      var side = box.querySelector('.dz-side');
+      var main = box.querySelector('.dz-main');
+      function lockHeight() {
+        main.style.minHeight = '';
+        if (window.innerWidth <= 800) return;
+        var tallest = 0;
+        notes.forEach(function (el) {
+          notes.forEach(function (o) { o.style.display = o === el ? 'block' : 'none'; });
+          tallest = Math.max(tallest, side.offsetHeight);
+        });
+        notes.forEach(function (o) { o.style.display = ''; });
+        main.style.minHeight = tallest + 'px';
+      }
+      lockHeight();
+      window.addEventListener('resize', lockHeight);
+      window.addEventListener('load', lockHeight);
 
       function show(k) {
         i = (k + n) % n;
