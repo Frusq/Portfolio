@@ -214,7 +214,7 @@ groups:
             text: "The strategy of this game is to hoard notes near the amp and speaker in order to be constantly amped while scoring in the speaker. To do this, Doppelganger was designed to be simple, light, nimble, and fast to efficiently hoard notes near the speaker/amp."
         overview:
           - { video: "/assets/images/Doppelganger_Shooting.mp4", wide: true, loop: true, caption: "Shooter Test" }
-          - { src: "/assets/images/Doppelganger.jpg" }
+          - { src: "/assets/images/Doppelganger.jpg", caption: "Replace with a caption" }
         parts:
           - kicker: "Chassis"
             situation_label: "Goal"
@@ -639,26 +639,55 @@ groups:
   .project-links {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.8em 1em;
     margin: 1.4em 0 0;
   }
-  .project-links a {
-    display: inline-block;
-    padding: 0.5em 1.15em;
+  .project-links .links-lead {
     font-size: 0.9em;
+    color: #b8b8b8;
+  }
+  .project-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65em;
+    padding: 0.6em 1.15em 0.6em 1.05em;
+    font-size: 0.92em;
     font-weight: 600;
     line-height: 1.2;
-    color: #f48fb1;
+    letter-spacing: 0.02em;
+    color: #f5f5f5;
     text-decoration: none;
-    border: 1px solid rgba(244, 143, 177, 0.55);
-    border-radius: 999px;
-    background: rgba(244, 143, 177, 0.07);
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    background: rgba(244, 143, 177, 0.15);
+    box-shadow: inset 3px 0 0 #f48fb1;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .project-links a::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 1.15em;
+    height: 1.15em;
+    background: #f48fb1;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 2v6h6M8 13h8M8 17h8'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 2v6h6M8 13h8M8 17h8'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition: background 0.2s ease;
+  }
+  .project-links .pl-arrow {
+    color: #f48fb1;
+    transition: transform 0.2s ease, color 0.2s ease;
   }
   .project-links a:hover {
     color: #1b1b1b;
     background: #f48fb1;
-    transform: translateY(-2px);
+    box-shadow: inset 5px 0 0 #fff;
+  }
+  .project-links a:hover::before {
+    background: #1b1b1b;
+  }
+  .project-links a:hover .pl-arrow {
+    color: #1b1b1b;
+    transform: translateX(5px);
   }
 
   .vid-frame {
@@ -1611,7 +1640,7 @@ groups:
             </ul>
             {% endif %}
             {% if part.links and part.links.size > 0 %}
-            <div class="project-links">{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}</div>
+            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth:" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
             {% endif %}
           </div>
           <div class="rv">
@@ -1671,7 +1700,7 @@ groups:
             </ul>
             {% endif %}
             {% if part.links and part.links.size > 0 %}
-            <div class="project-links">{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}</div>
+            <div class="project-links"><span class="links-lead">{{ part.links_label | default: "Read more in depth:" }}</span>{% for l in part.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}</div>
             {% endif %}
             {% if part.text_image %}
             <figure class="text-fig">
@@ -1822,7 +1851,8 @@ groups:
           </ul>
           {% if p.links and p.links.size > 0 %}
           <div class="project-links">
-            {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }} &rarr;</a>{% endfor %}
+            <span class="links-lead">{{ p.links_label | default: "Read more in depth:" }}</span>
+            {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}
           </div>
           {% endif %}
         </div>
