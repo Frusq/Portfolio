@@ -1,118 +1,379 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+---
+layout: single
+title: "Hi, I'm Gary Yan"
+permalink: /
+author_profile: true
+classes: wide
+gallery:
+  - url: /assets/images/BallKnowledge.jpg
+    image_path: /assets/images/BallKnowledge.jpg
+    alt: "Ball Knowledge project"
+  - url: /assets/images/Climb.jpg
+    image_path: /assets/images/Climb.jpg
+    alt: "Climbing"
+  - url: /assets/images/PERPlaque.jpg
+    image_path: /assets/images/PERPlaque.jpg
+    alt: "PER plaque"
+  - url: /assets/images/LaptopStand.jpg
+    image_path: /assets/images/LaptopStand.jpg
+    alt: "Laptop stand"
+skills:
+  - name: "Software"
+    items:
+      - { name: "Onshape", note: "FRC 6036" }
+      - { name: "Siemens NX", note: "Purdue Electric Racing" }
+      - { name: "Autodesk Fusion", note: "Purdue Electric Racing | FRC 6036" }
+      - { name: "MATLAB", note: "Engineering 130 Course" }
+      - { name: "Python", note: "Engineering 130 Course" }
+      - { name: "Bambu Slicer", note: "FRC 6036 | Personal Projects" }
+      - { name: "RichAuto Controller", note: "FRC 6036" }
+      - { name: "Mach 3", note: "FRC 6036" }
+  - name: "Manufacture"
+    items:
+      - { name: "5-Axis Milling", note: "Purdue Electric Racing" }
+      - { name: "3-Axis Milling", note: "Purdue Electric Racing | FRC 6036" }
+      - { name: "CNC Router", note: "FRC 6036" }
+      - { name: "Laser Cutter", note: "FRC 6036" }
+      - { name: "3D Printing", note: "FRC 6036 | Personal Projects" }
+      - { name: "Hand Tools", note: "Purdue Electric Racing | FRC 6036 | Personal Projects" }
+  - name: "Design"
+    items:
+      - { name: "GD&T", note: "Purdue Electric Racing" }
+      - { name: "DFM", note: "Purdue Electric Racing | FRC 6036" }
+      - { name: "Multi-body Assemblies", note: "Purdue Electric Racing | FRC 6036 | Personal Projects" }
+      - { name: "Manufacture Drawings", note: "Purdue Electric Racing" }
+      - { name: "Top Down Design", note: "Purdue Electric Racing | FRC 6036" }
+      - { name: "Bill of Materials", note: "FRC 6036" }
+currently:
+  - "First Year ME @ Purdue"
+  - "Purdue Electric Racing Drivetrain Engineer"
+  - "Looking for internship opportunities"
+dreaming:
+  - "Quadruped Exploration Robot"
+  - "Automatic Badminton Shuttle Feeder"
+  - "Aluminum Keyboard Case"
+---
 
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-title: Gary's Portfolio
-masthead_title: "Home"
-email: garyyan008@gmail.com
-github_username: Frusq
-minimal_mistakes_skin: dark
-search: false
+<style>
+  /* Prevent sideways scrolling */
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+  @supports (overflow: clip) {
+    html,
+    body {
+      overflow-x: clip;
+    }
+  }
 
-url: "https://garyyan.net"
-baseurl: ""
+  .author__name { margin-bottom: 0.5em; }
 
-# Build settings
-markdown: kramdown
-remote_theme: mmistakes/minimal-mistakes
-# Outputting
-permalink: /:categories/:title/
-paginate: 5 # amount of posts to show
-paginate_path: /page:num/
-timezone: America/Los_Angeles
+  .intro-row {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 2em;
+    align-items: start;
+    margin-bottom: 0;
+  }
+  .intro-text p { font-size: 1.1em; }
+  @media (max-width: 800px) {
+    .intro-row { grid-template-columns: 1fr; }
+  }
 
-include:
-  - _pages
+  .collage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin-top: -3em;
+    margin-bottom: 3em;
+    max-width: 100%;
+  }
+  @media (max-width: 800px) {
+    .collage { margin-top: 0; margin-bottom: 0; padding: 0.5em 0 1.5em; }
+  }
+  .collage img {
+    position: relative;
+    object-fit: cover;
+    border: 14px solid #fff;
+    border-radius: 0;
+    background-color: #fff;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+    outline: 1px solid transparent;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+    transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg));
+    transition: transform 0.25s ease;
+  }
+  .collage img:nth-child(1) {
+    width: 52%; aspect-ratio: 4 / 3;
+    --r: -6deg; --x: 0; --y: 0.5em;
+    margin: -0.5em -1.5em; z-index: 1;
+  }
+  .collage img:nth-child(2) {
+    width: 34%; aspect-ratio: 2 / 3;
+    object-position: 65% center;
+    --r: 5deg; --x: -1.5em; --y: 1.5em;
+    margin: 0 -1em; z-index: 3;
+  }
+  .collage img:nth-child(3) {
+    width: 54%; aspect-ratio: 4 / 3;
+    object-position: center;
+    --r: 3deg; --x: 1em; --y: -1em;
+    margin: -1em; z-index: 2;
+  }
+  .collage img:nth-child(4) {
+    width: 50%; aspect-ratio: 5 / 4;
+    --r: -3deg; --x: -1em; --y: -0.5em;
+    margin: -1em 0; z-index: 4;
+  }
+  .collage img:hover {
+    transform: translate(var(--x, 0), var(--y, 0)) rotate(0deg) scale(1.08);
+    z-index: 10;
+  }
 
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+  /* Open sections: no boxes */
+  .block {
+    margin-bottom: 2.8em;
+  }
+  .page__content h3.block-title {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+    margin: 0 0 1.1em;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #f48fb1;
+  }
+  .page__content h3.block-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(244, 143, 177, 0.35);
+  }
 
-# Plugins (previously gems:)
-plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
-  - jemoji
-  - jekyll-include-cache
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+  }
+  .skill-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2em;
+  }
+  .skill-group strong {
+    flex: 0 0 130px;
+    padding-top: 0.35em;
+    font-size: 0.95em;
+    opacity: 0.8;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55em;
+  }
 
-author:
-  name   : "Gary Yan"
-  avatar : "/assets/images/Headshot.jpg"
-  location : San Francisco Bay Area
-  links:
-    - label: "Linkedin"
-      icon: "fab fa-fw fa-linkedin"
-      url: "https://linkedin.com/in/garyyan8"
-    - label: "garyyan008@gmail.com"
-      icon: "fas fa-fw fa-envelope"
-      url: "https://mail.google.com/mail/?view=cm&to=garyyan008@gmail.com"
+  /* Wrapper holds the tooltip, because the tag's clip-path would cut it off */
+  .pill {
+    position: relative;
+    display: inline-block;
+    cursor: default;
+    outline: none;
+  }
+  .pill:hover,
+  .pill:focus {
+    z-index: 30;
+  }
 
-footer:
-  links:
-    - label: "Linkedin"
-      icon: "fab fa-fw fa-linkedin"
-      url: "https://linkedin.com/in/garyyan8"
+  /* Chamfered "machined part" pills with a pink edge bar */
+  .tag {
+    display: inline-block;
+    padding: 0.35em 0.95em 0.35em 1.1em;
+    font-size: 0.85em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    background: rgba(244, 143, 177, 0.15);
+    box-shadow: inset 3px 0 0 #f48fb1;
+    clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .pill:hover .tag,
+  .pill:focus .tag {
+    background: rgba(244, 143, 177, 0.3);
+    box-shadow: inset 5px 0 0 #f48fb1;
+  }
 
-atom_feed:
-  hide: true
+  /* Tooltip: shrinks to fit its text, one source per line */
+  .tip {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 8px);
+    width: max-content;
+    white-space: nowrap;
+    padding: 0.45em 0.8em;
+    font-size: 0.8em;
+    line-height: 1.5;
+    color: #f5f5f5;
+    background: #2a2628;
+    border-left: 3px solid #f48fb1;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+    pointer-events: none;
+  }
+  .pill:hover .tip,
+  .pill:focus .tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
 
-collections:
-  portfolio:
-    output: true
-    permalink: /:collection/:path/
+  @media (max-width: 600px) {
+    .skill-group { flex-direction: column; gap: 0.4em; }
+    .skill-group strong { flex: none; padding-top: 0; }
+  }
 
-defaults:
-  # _posts
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: false
-      share: true
-      related: true
-  # _pages
-  - scope:
-      path: "_pages"
-      type: pages
-    values:
-      layout: single
-      author_profile: true
-  # _portfolio
-  - scope:
-      path: ""
-      type: portfolio
-    values:
-      layout: single
-      author_profile: true
-      share: true
+  .duo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5em;
+    margin-bottom: 2.8em;
+  }
+  .duo .block { margin-bottom: 0; }
+  .plain-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .plain-list li {
+    position: relative;
+    padding-left: 1.6em;
+    margin-bottom: 0.7em;
+  }
+  .plain-list li:last-child { margin-bottom: 0; }
+  .plain-list li::before {
+    content: "\2192";
+    position: absolute;
+    left: 0;
+    color: #f48fb1;
+  }
 
-category_archive:
-  type: liquid
-  path: /categories/
-tag_archive:
-  type: liquid
-  path: /tags/
+  /* Close the gap above the footer */
+  .page__content { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+  .page { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+  .page__footer { margin-top: 2em !important; }
+
+  /* ---------- Entrance animations: things fall into place ---------- */
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: translate(var(--x, 0), calc(var(--y, 0px) - 180px)) rotate(calc(var(--r, 0deg) - 18deg));
+    }
+    to {
+      opacity: 1;
+      transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg));
+    }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(-28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Photos drop in one after another, with a small bounce as they land */
+  .collage img {
+    animation: drop-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+  .collage img:nth-child(1) { animation-delay: 0.30s; }
+  .collage img:nth-child(2) { animation-delay: 0.45s; }
+  .collage img:nth-child(3) { animation-delay: 0.60s; }
+  .collage img:nth-child(4) { animation-delay: 0.75s; }
+
+  /* Text and section labels drop in; delay is set per element with --d */
+  .reveal {
+    animation: rise-in 0.7s ease-out backwards;
+    animation-delay: var(--d, 0s);
+  }
+
+  /* Skill pills pop in left to right, row by row (they start after the two short sections) */
+  .skill-group strong {
+    animation: rise-in 0.6s ease-out backwards;
+    animation-delay: calc(1.45s + var(--g, 0) * 0.15s);
+  }
+  .pill {
+    animation: rise-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+    animation-delay: calc(1.5s + var(--g, 0) * 0.15s + var(--i, 0) * 0.045s);
+  }
+
+  /* Sidebar fades in */
+  .sidebar {
+    animation: fade-in 0.8s ease-out backwards;
+  }
+
+  /* Respect people who turn off motion in their system settings */
+  @media (prefers-reduced-motion: reduce) {
+    .collage img,
+    .reveal,
+    .skill-group strong,
+    .pill,
+    .sidebar {
+      animation: none !important;
+    }
+  }
+</style>
+
+<div class="intro-row">
+  <div class="intro-text reveal" style="--d: 0.05s">
+    <p>I'm a mechanical engineering student at Purdue University from the San Francisco Bay Area region. I'm passionate about turning creative design into real-world innovation through CAD, iterative design, manufacturing, and robotics.</p>
+    <p>Browse my <a href="/portfolio/">portfolio</a> to see more!</p>
+  </div>
+
+  <div class="collage">
+    {% for photo in page.gallery %}
+      <img src="{{ photo.image_path }}" alt="{{ photo.alt }}">
+    {% endfor %}
+  </div>
+</div>
+
+<div class="duo">
+  <div class="block reveal" style="--d: 0.9s">
+    <h3 class="block-title">Currently</h3>
+    <ul class="plain-list">
+      {% for line in page.currently %}<li>{{ line }}</li>{% endfor %}
+    </ul>
+  </div>
+
+  <div class="block reveal" style="--d: 1.05s">
+    <h3 class="block-title">What I'm dreaming about</h3>
+    <ul class="plain-list">
+      {% for line in page.dreaming %}<li>{{ line }}</li>{% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="block">
+  <h3 class="block-title reveal" style="--d: 1.35s">Skills</h3>
+  <div class="skills-grid">
+    {% for group in page.skills %}
+      <div class="skill-group" style="--g: {{ forloop.index0 }}">
+        <strong>{{ group.name }}</strong>
+        <div class="tags">
+          {% for item in group.items %}<span class="pill" tabindex="0" style="--i: {{ forloop.index0 }}"><span class="tag">{{ item.name }}</span>{% if item.note %}<span class="tip">{{ item.note | replace: ' | ', '<br>' }}</span>{% endif %}</span>{% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
