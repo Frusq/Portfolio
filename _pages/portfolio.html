@@ -1502,14 +1502,16 @@ groups:
   .dz-thumb.is-on { opacity: 1; border-color: #f48fb1; }
 
   .dz-side {
-    display: grid;
+    align-self: start;
+    display: block;
     padding: 1.3em 1.5em 1.4em;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 10px;
   }
-  .dz-note { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; }
-  .dz-note.is-on { opacity: 1; visibility: visible; }
+  .dz-note { display: none; }
+  .dz-note.is-on { display: block; animation: dz-fade 0.3s ease; }
+  @keyframes dz-fade { from { opacity: 0; } to { opacity: 1; } }
   .dz-kick {
     font-size: 0.7em;
     font-weight: 700;
@@ -1540,7 +1542,8 @@ groups:
     .dz { grid-template-columns: 1fr; gap: 1.2em; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .dz-slide, .dz-note { transition: none; }
+    .dz-slide { transition: none; }
+    .dz-note.is-on { animation: none; }
   }
 
   @media (max-width: 600px) {
