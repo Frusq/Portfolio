@@ -235,13 +235,24 @@ groups:
               - { src: "/assets/images/Doppelganger_Wiring", caption: "Electronics Layout (Wiring Unfinished)" }
       - title: "Miscellaneous Media"
         per_row: 3
-        photos:
-          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
-          - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+        seasons:
+          - label: "2026 · Season Name"
+            note: "Replace with a short note"
+            photos:
+              - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption" }
+              - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption" }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+          - label: "2025 · Season Name"
+            note: "Replace with a short note"
+            photos:
+              - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption" }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+          - label: "2024 · Crescendo"
+            photos:
+              - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption" }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
   - id: purdue-electric-racing
     name: "Purdue Electric Racing"
     blurb: "Replace with one line about your drivetrain role"
@@ -698,6 +709,28 @@ groups:
   .project-links a:hover .pl-arrow {
     color: #1b1b1b;
     transform: translateX(5px);
+  }
+
+  .season { margin: 2.6rem 0 1rem; }
+  .season-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0 0 0.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #f48fb1;
+  }
+  .season-note {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: #8f8f8f;
   }
 
   .vid-frame {
@@ -1931,6 +1964,31 @@ groups:
         {% endfor %}
       </div>
       {% endif %}
+
+      {% for sea in p.seasons %}
+      <div class="season rv">
+        <h4 class="season-head"><span class="season-name">{{ sea.label }}</span>{% if sea.note != blank %}<span class="season-note">{{ sea.note }}</span>{% endif %}</h4>
+      </div>
+      {% assign s_per_row = sea.per_row | default: p.per_row | default: 3 %}
+      <div class="gallery">
+        {% for ph in sea.photos %}
+        {% assign s_col = forloop.index0 | modulo: s_per_row %}
+        {% if s_col == 0 and forloop.first == false %}</div><div class="gallery">{% endif %}
+        <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+          {% if ph.youtube %}
+          <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: sea.label }}" loading="lazy" allowfullscreen></iframe></div>
+          {% elsif ph.video %}
+          <div class="vid-frame"><video src="{{ ph.video }}"{% if ph.poster %} poster="{{ ph.poster }}"{% endif %}{% if ph.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+          {% else %}
+          <a href="{{ ph.src }}" target="_blank" rel="noopener">
+            <img src="{{ ph.src }}" alt="{{ ph.alt | default: sea.label }}">
+          </a>
+          {% endif %}
+          {% if ph.caption != blank %}<figcaption>{{ ph.caption }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
+      </div>
+      {% endfor %}
 
     {% endif %}
   </div>
