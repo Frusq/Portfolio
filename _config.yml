@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Gary's Portfolio
-masthead_title: "Gary Yan"
+masthead_title: "Home"
 email: garyyan008@gmail.com
 github_username: Frusq
 minimal_mistakes_skin: dark
