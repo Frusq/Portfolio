@@ -236,20 +236,14 @@ groups:
       - title: "Miscellaneous Media"
         seasons:
           - photos:
-              - { video: "/assets/images/Spindexer_Prototype.MOV", caption: "Replace with a caption", size: wide }
-              - { video: "/assets/images/Turret_Shooter_Alpha_Tracking.MOV", caption: "Replace with a caption" }
-              - { src: "/assets/images/Echain_Segments.jpg", caption: "Replace with a caption" }
-              - { video: "/assets/images/Echain_Test.mp4", caption: "Replace with a caption" }
-              - { video: "/assets/images/Alpha_Lindexer_POV.MOV", caption: "Replace with a caption" }
-              - { video: "/assets/images/Stingray_Elevator_Test.MOV", caption: "Replace with a caption" }
-              - { src: "/assets/images/Gary_Reaction.PNG", caption: "Replace with a caption" }
-              - { src: "/assets/images/Gary_Strat.PNG", caption: "Replace with a caption" }
-              - { video: "/assets/images/Coral_Intake_Fail.mp4", caption: "Replace with a caption" }
-              - { video: "/assets/images/HighTide_Fake.mp4", caption: "Replace with a caption" }
-              - { src: "/assets/images/Stingray_Elevator_Build.JPG", caption: "Replace with a caption" }
-              - { video: "/assets/images/Doppelganger_Intake.MOV", caption: "Replace with a caption" }
-              - { src: "/assets/images/Gamma_Elevator_Build.JPG", caption: "Replace with a caption" }
-              - { src: "/assets/images/FTC_Plate_Machining.JPG", caption: "Replace with a caption" }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption", size: wide }
+              - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption", tall: true }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+              - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption", tall: true }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+              - { src: "/assets/images/BallKnowledge.jpg", caption: "Replace with a caption" }
+              - { video: "/assets/images/Replace_Video.MOV", caption: "Replace with a caption", tall: true }
   - id: purdue-electric-racing
     name: "Purdue Electric Racing"
     blurb: "Replace with one line about your drivetrain role"
@@ -743,10 +737,10 @@ groups:
   .collage--grid {
     column-count: auto;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-auto-rows: 8px;
     grid-auto-flow: dense;
-    column-gap: 1.4rem;
+    column-gap: 1.8rem;
     row-gap: 0;
   }
   .collage--grid figure { margin: 0; align-self: start; }
@@ -767,6 +761,8 @@ groups:
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
   }
   .collage .vid-frame { margin: 0; }
+  .collage .is-tall .vid-frame { aspect-ratio: 9 / 16; }
+  .collage .is-tall .vid-frame video { height: 100%; object-fit: contain; }
   .collage figcaption {
     margin: 0.5em 0 0 !important;
     padding: 0 !important;
@@ -2021,7 +2017,7 @@ groups:
       {% endif %}
       <div class="collage">
         {% for ph in sea.photos %}
-        <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}{% if ph.size == "wide" %} is-wide{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
+        <figure class="rv{% if ph.youtube or ph.video %} gal-vid{% endif %}{% if ph.size == "wide" %} is-wide{% endif %}{% if ph.tall %} is-tall{% endif %}" style="--d: {{ forloop.index0 | modulo: 3 | times: 0.12 }}s">
           {% if ph.youtube %}
           <div class="vid-frame vid-frame--yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ ph.youtube }}" title="{{ ph.caption | default: sea.label }}" loading="lazy" allowfullscreen></iframe></div>
           {% elsif ph.video %}
