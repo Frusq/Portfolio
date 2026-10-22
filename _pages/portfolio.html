@@ -260,7 +260,7 @@ groups:
     blurb: "Drivetrain Engineer"
     projects:
       - title: "Hub Cap O-Ring Seal"
-        situation: "Alternative solution to seal lubricant in the gearbox on the outboard side"
+        situation: "Alternative solution to seal lubricate in the hub on the outboard side"
         points:
           - "Used an O-Ring calculator to verify dimensions for proper fit and expansion"
           - "Designed parametrically to easily change dimensions for future iterations"
@@ -469,13 +469,23 @@ groups:
     background: none;
     box-shadow: inset 2px 0 0 rgba(244, 143, 177, 0.18);
     clip-path: none;
-    opacity: 0.5;
-    transition: opacity 0.2s ease, box-shadow 0.2s ease;
+    color: #a8a8a8;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   }
   .jump .tag:hover {
     background: none;
     box-shadow: inset 2px 0 0 rgba(244, 143, 177, 0.6);
-    opacity: 0.9;
+    color: #e0e0e0;
+    opacity: 1;
+  }
+  .jump .tag:not(.is-current):not(:hover),
+  .jump .tag:not(.is-current):focus:not(:hover),
+  .jump .tag:not(.is-current):visited:not(:hover),
+  .jump .tag:not(.is-current):active:not(:hover) {
+    color: #a8a8a8;
+    outline: none;
+    background: none;
   }
   .jump .tag.is-current {
     background: none;
@@ -2354,6 +2364,7 @@ groups:
         if (rect.top < br.top || rect.bottom > br.bottom) box.scrollTop += rect.top - br.top - br.height / 3;
       }
     }
+    tags.forEach(function (t) { t.addEventListener('click', function () { setTimeout(function () { t.blur(); }, 0); }); });
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     update();
