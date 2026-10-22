@@ -290,7 +290,7 @@ groups:
           - { src: "/assets/images/PER_Plaque_CAM.png", caption: "Fusion CAM" }
   - id: personal-projects
     name: "Personal Project"
-    blurb: "3D Printed and custom projects for myself and others"
+    blurb: "3D printed and custom projects for myself and others"
     projects:
       - title: "3D Printed Folding Laptop Stand"
         situation: "Laptop Stands online were too expensive, unstable, and ugly, so I decided to make my own"
@@ -484,6 +484,16 @@ groups:
     color: #f48fb1;
   }
 
+  .jump-sub { display: none; flex-direction: column; gap: 0.1em; }
+  .jump-sub.is-open { display: flex; }
+  .jump .tag.sub { padding-left: 1.8em; font-size: 0.78em; }
+  .jump .tag.sub2 { padding-left: 2.8em; font-size: 0.72em; }
+  .page__content > .jump {
+    max-height: calc(100vh - 7em);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .project, .part { scroll-margin-top: 3em; }
   @media (max-width: 900px) {
     .page__content { display: block; }
     .page__content > .jump {
@@ -500,6 +510,8 @@ groups:
       backdrop-filter: blur(6px);
     }
     .jump .tag { white-space: nowrap; }
+    .jump-sub, .jump-sub.is-open { display: none; }
+    .page__content > .jump { max-height: none; overflow: visible; }
   }
 
   .group {
@@ -1600,7 +1612,15 @@ groups:
 <p class="lead">Stuff I've made</p>
 
 <div class="tags jump">
-  {% for g in page.groups %}<a class="tag" href="#{{ g.id }}">{{ g.name }}</a>{% endfor %}
+  {% for g in page.groups %}
+  <a class="tag" href="#{{ g.id }}">{{ g.name }}</a>
+  <div class="jump-sub" data-group="{{ g.id }}">
+    {% for p in g.projects %}
+    <a class="tag sub" href="#{{ g.id }}-{{ p.title | slugify }}">{{ p.title }}</a>
+    {% for part in p.parts %}{% assign pn = part.kicker | default: part.name %}{% if pn %}<a class="tag sub sub2" href="#{{ g.id }}-{{ p.title | slugify }}-{{ pn | slugify }}">{{ pn }}</a>{% endif %}{% endfor %}
+    {% endfor %}
+  </div>
+  {% endfor %}
 </div>
 
 {% for g in page.groups %}
@@ -1731,7 +1751,7 @@ groups:
       {% if part.image or part.youtube or part.video or part.slider %}{% assign has_media = true %}{% endif %}
       {% assign split = false %}
       {% if part.photos_split and has_media and part.photos.size > 0 and part.slider == nil %}{% assign split = true %}{% endif %}
-      <div class="part{% if part.size == 'small' %} part--small{% endif %}">
+      <div class="part{% if part.size == 'small' %} part--small{% endif %}"{% assign pn = part.kicker | default: part.name %}{% if pn %} id="{{ g.id }}-{{ p.title | slugify }}-{{ pn | slugify }}"{% endif %}>
         {% if part.kicker %}<div class="part-kicker rv"><span class="part-num">{{ forloop.index }}</span>{{ part.kicker }}</div>{% endif %}
         {% if part.name %}<h4 class="part-title rv">{{ part.name }}</h4>{% endif %}
 
@@ -2308,19 +2328,35 @@ groups:
   })();
 
   (function () {
-    var tags = document.querySelectorAll('.jump .tag');
-    var groups = document.querySelectorAll('.group');
-    if (!tags.length || !groups.length) return;
+    var tags = Array.prototype.slice.call(document.querySelectorAll('.jump .tag'));
+    var subs = document.querySelectorAll('.jump-sub');
+    if (!tags.length) return;
+    var items = tags.map(function (t) {
+      var id = (t.getAttribute('href') || '').slice(1);
+      return { tag: t, el: document.getElementById(id) };
+    }).filter(function (x) { return x.el; });
+    if (!items.length) return;
     function update() {
-      var current = groups[0].id;
-      groups.forEach(function (g) {
-        if (g.getBoundingClientRect().top <= 160) current = g.id;
+      var cur = items[0];
+      items.forEach(function (x) {
+        if (x.el.getBoundingClientRect().top <= 160) cur = x;
       });
-      tags.forEach(function (t) {
-        t.classList.toggle('is-current', t.getAttribute('href') === '#' + current);
+      var group = cur.el.classList.contains('group') ? cur.el : cur.el.closest('.group');
+      var gid = group ? group.id : '';
+      tags.forEach(function (t) { t.classList.toggle('is-current', t === cur.tag); });
+      subs.forEach(function (s) {
+        var open = s.getAttribute('data-group') === gid;
+        s.classList.toggle('is-open', open);
       });
+      var rect = cur.tag.getBoundingClientRect();
+      var box = cur.tag.closest('.jump');
+      if (box && window.innerWidth > 900) {
+        var br = box.getBoundingClientRect();
+        if (rect.top < br.top || rect.bottom > br.bottom) box.scrollTop += rect.top - br.top - br.height / 3;
+      }
     }
     window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
     update();
   })();
 </script>
