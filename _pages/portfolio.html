@@ -270,8 +270,8 @@ groups:
         hero_caption: "Hub Cap O-Ring Seal"
         links: []
         sections: []
+        below: { src: "/assets/images/Per_Hub_Cap_Oring_Front.png", caption: "Front View" }
         photos:
-          - { src: "/assets/images/Per_Hub_Cap_Oring_Front.png", caption: "Front View" }
           - { src: "/assets/images/Oring_Settings.png", caption: "Settings" }
           - { src: "/assets/images/Oring_Calculated_Results.png", caption: "Results" }
       - title: "Onboarding PER Plaque"
@@ -1966,6 +1966,16 @@ groups:
             <span class="links-lead">{{ p.links_label | default: "Read more in depth about my design choices" }}</span>
             {% for l in p.links %}<a href="{{ l.url }}" target="_blank" rel="noopener"><span class="pl-label">{{ l.label }}</span><span class="pl-arrow">&rarr;</span></a>{% endfor %}
           </div>
+          {% endif %}
+          {% if p.below %}
+          <figure class="below-fig">
+            {% if p.below.video %}
+            <div class="vid-frame"><video src="{{ p.below.video }}"{% if p.below.loop %} autoplay muted loop{% else %} controls{% endif %} playsinline preload="metadata"></video></div>
+            {% else %}
+            <a href="{{ p.below.src }}" target="_blank" rel="noopener"><img src="{{ p.below.src }}" alt="{{ p.below.alt | default: p.below.caption }}"{% if p.below.ratio %} style="aspect-ratio: {{ p.below.ratio }}; height: auto; object-fit: cover;"{% endif %}></a>
+            {% endif %}
+            {% if p.below.caption != blank %}<figcaption>{{ p.below.caption }}</figcaption>{% endif %}
+          </figure>
           {% endif %}
         </div>
         <div class="rv">
