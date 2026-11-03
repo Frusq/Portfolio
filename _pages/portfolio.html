@@ -936,7 +936,8 @@ groups:
     .cell--side { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8em; }
     .cell--main .vid-frame { flex: none; min-height: 0; aspect-ratio: 16 / 9; }
     .cell--fit { grid-column: auto; grid-row: auto; align-self: start; }
-    .board--flip > .cell { grid-column: auto; grid-row: auto; }
+    .board--flip > .cell,
+    .board--flip:has(.cell--fit) > .cell--t1 { grid-column: auto; grid-row: auto; }
     .cell--fit .vid-frame { aspect-ratio: auto; }
   }
   @media (max-width: 600px) {
@@ -2178,24 +2179,35 @@ groups:
   (function () {
     document.querySelectorAll('.collage').forEach(function (box) {
       var figs = box.querySelectorAll('figure');
+      var lastW = window.innerWidth;
+      var queued = false;
       function lay() {
-        figs.forEach(function (f) {
-          f.style.gridRowEnd = '';
-        });
+        queued = false;
+        if (window.innerWidth <= 560) {
+          box.classList.remove('collage--grid');
+          figs.forEach(function (f) { f.style.gridRowEnd = ''; });
+          return;
+        }
         box.classList.add('collage--grid');
         figs.forEach(function (f) {
-          f.style.gridRowEnd = 'span ' + Math.ceil((f.getBoundingClientRect().height + 22) / 8);
+          var span = 'span ' + Math.ceil((f.getBoundingClientRect().height + 22) / 8);
+          if (f.style.gridRowEnd !== span) f.style.gridRowEnd = span;
         });
       }
-      lay();
-      window.addEventListener('load', lay);
-      window.addEventListener('resize', lay);
-      box.querySelectorAll('img').forEach(function (im) { im.addEventListener('load', lay); });
-      box.querySelectorAll('video').forEach(function (v) { v.addEventListener('loadedmetadata', lay); });
-      if ('ResizeObserver' in window) {
-        var ro = new ResizeObserver(lay);
-        figs.forEach(function (f) { ro.observe(f.firstElementChild); });
+      function queue() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(lay);
       }
+      lay();
+      window.addEventListener('load', queue);
+      window.addEventListener('resize', function () {
+        if (window.innerWidth === lastW) return;
+        lastW = window.innerWidth;
+        queue();
+      });
+      box.querySelectorAll('img').forEach(function (im) { im.addEventListener('load', queue); });
+      box.querySelectorAll('video').forEach(function (v) { v.addEventListener('loadedmetadata', queue); });
     });
   })();
 
