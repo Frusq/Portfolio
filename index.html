@@ -54,8 +54,7 @@ featured:
   summary: "Planned around my Engineering 130 class, Our group decided to prototype a robot that can explore rough and uneven terrain"
   tools: ["Onshape", "3D Printing"]
   media:
-    - { src: "/assets/images/Spiderbot_CAD.png", caption: "CAD" }
-    - { video: "/assets/images/Spiderbot_Build_Timelapse.mp4", caption: "Build Timelapse" }
+    - { src: "/assets/images/Spiderbot_Build_Progress.jpg", caption: "Build Progress" }
   link:
     label: "Learn more"
     url: "/portfolio/#personal-projects"
@@ -265,8 +264,8 @@ dreaming:
     margin-top: 2em;
   }
   .featured-media-row figure:nth-child(1) { flex: 1.26 1 0; min-width: 0; }
+  .featured-media-row--single figure:nth-child(1) { flex: 0 1 820px; margin: 0 auto; }
   .featured-media-row figure:nth-child(2) { flex: 1.78 1 0; min-width: 0; }
-  .fm-frame img { transform: scale(1.04); }
   .featured-media-row figure { margin: 0; }
   .fm-frame {
     display: block;
@@ -521,7 +520,7 @@ dreaming:
     {% endif %}
   </div>
   {% if f.media %}
-  <div class="featured-media-row">
+  <div class="featured-media-row{% if f.media.size == 1 %} featured-media-row--single{% endif %}">
     {% for m in f.media %}
     <figure>
       {% if m.video %}
