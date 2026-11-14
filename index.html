@@ -49,14 +49,17 @@ currently:
   - "Purdue Electric Racing Drivetrain Engineer"
   - "Looking for internship opportunities"
 featured:
-  title: "Spiderbot"
-  status: "Ongoing"
-  summary: "Replace with one or two sentences on what Spiderbot is and what you are trying to build."
+  title: "4-Legged Spiderbot"
+  status: "In-Progress"
+  summary: "Planned around my Engineering 130 class, Our group decided to prototype a robot that can explore rough and uneven terrain"
   points:
-    - "Replace with a key design decision"
-    - "Replace with what is working so far"
-    - "Replace with what you are building next"
+    - "Fully 3D Printed design to allow easy iteration"
+    - "Powered using 12 MG995 servo motors to create 3 DOFs and allow for fluid movement"
+    - "Planning on adding a camera and sensors to implement terrain detection and avoidance"
   tools: ["Onshape", "3D Printing"]
+  media:
+    - { src: "/assets/images/Spiderbot_CAD.png", caption: "CAD" }
+    - { video: "Spiderbot_Build_Timelapse.mp4",loop: true, caption: "Build Timelapse" }
   link:
     label: "See more"
     url: "/portfolio/#personal-projects"
@@ -258,25 +261,36 @@ dreaming:
   .featured {
     margin-bottom: 2.8em;
   }
-  .featured-card {
+  .featured-media-row {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.6em;
-    align-items: start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2em;
+    margin-top: 2em;
   }
-  .featured-card.has-media {
-    grid-template-columns: 1fr 1fr;
-    gap: 2.2em;
-  }
-  .featured-media img,
-  .featured-media video {
-    display: block;
-    width: 100%;
-    height: auto;
+  .featured-media-row figure { margin: 0; }
+  .fm-frame {
+    aspect-ratio: 4 / 3;
     border: 14px solid #fff;
-    background: #000;
+    background: #fff;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
     box-sizing: border-box;
+    overflow: hidden;
+  }
+  .fm-frame--video { background: #000; }
+  .fm-frame img,
+  .fm-frame video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border: 0;
+    margin: 0;
+  }
+  .featured-media-row figcaption {
+    margin-top: 0.7em;
+    text-align: center;
+    font-size: 0.8em;
+    opacity: 0.8;
   }
   .featured-head {
     display: flex;
@@ -332,8 +346,8 @@ dreaming:
     transition: background 0.2s ease;
   }
   .featured-link:hover { background: rgba(244, 143, 177, 0.3); color: #fff; }
-  @media (max-width: 800px) {
-    .featured-card.has-media { grid-template-columns: 1fr; }
+  @media (max-width: 700px) {
+    .featured-media-row { grid-template-columns: 1fr; gap: 1.6em; }
   }
 
   .duo {
@@ -446,31 +460,38 @@ dreaming:
 {% assign f = page.featured %}
 <div class="block featured reveal" style="--d: 0.75s">
   <h3 class="block-title">Featured</h3>
-  <div class="featured-card{% if f.image or f.video %} has-media{% endif %}">
-    {% if f.image or f.video %}
-    <div class="featured-media">
-      {% if f.video %}<video src="{{ f.video }}" autoplay muted loop playsinline></video>{% else %}<img src="{{ f.image }}" alt="{{ f.image_alt | default: f.title }}">{% endif %}
+  <div class="featured-body">
+    <div class="featured-head">
+      <h4 class="featured-title">{{ f.title }}</h4>
+      {% if f.status %}<span class="status-badge"><span class="status-dot"></span>{{ f.status }}</span>{% endif %}
+    </div>
+    {% if f.summary %}<p class="featured-summary">{{ f.summary }}</p>{% endif %}
+    {% if f.points %}
+    <ul class="plain-list">
+      {% for pt in f.points %}<li>{{ pt }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+    {% if f.tools %}
+    <div class="tags featured-tools">
+      {% for t in f.tools %}<span class="tag">{{ t }}</span>{% endfor %}
     </div>
     {% endif %}
-    <div class="featured-body">
-      <div class="featured-head">
-        <h4 class="featured-title">{{ f.title }}</h4>
-        {% if f.status %}<span class="status-badge"><span class="status-dot"></span>{{ f.status }}</span>{% endif %}
-      </div>
-      {% if f.summary %}<p class="featured-summary">{{ f.summary }}</p>{% endif %}
-      {% if f.points %}
-      <ul class="plain-list">
-        {% for pt in f.points %}<li>{{ pt }}</li>{% endfor %}
-      </ul>
-      {% endif %}
-      {% if f.tools %}
-      <div class="tags featured-tools">
-        {% for t in f.tools %}<span class="tag">{{ t }}</span>{% endfor %}
-      </div>
-      {% endif %}
-      {% if f.link %}<a class="featured-link" href="{{ f.link.url }}">{{ f.link.label | default: "See more" }} &rarr;</a>{% endif %}
-    </div>
   </div>
+  {% if f.media %}
+  <div class="featured-media-row">
+    {% for m in f.media %}
+    <figure>
+      {% if m.video %}
+      <div class="fm-frame fm-frame--video"><video src="{{ m.video }}" autoplay muted loop playsinline preload="metadata"></video></div>
+      {% else %}
+      <a class="fm-frame" style="display:block" href="{{ m.src }}" target="_blank" rel="noopener"><img src="{{ m.src }}" alt="{{ m.alt | default: m.caption }}"></a>
+      {% endif %}
+      {% if m.caption %}<figcaption>{{ m.caption }}</figcaption>{% endif %}
+    </figure>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if f.link %}<a class="featured-link" href="{{ f.link.url }}">{{ f.link.label | default: "See more" }} &rarr;</a>{% endif %}
 </div>
 {% endif %}
 
