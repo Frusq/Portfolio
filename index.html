@@ -48,6 +48,18 @@ currently:
   - "ME @ Purdue"
   - "Purdue Electric Racing Drivetrain Engineer"
   - "Looking for internship opportunities"
+featured:
+  title: "Spiderbot"
+  status: "Ongoing"
+  summary: "Replace with one or two sentences on what Spiderbot is and what you are trying to build."
+  points:
+    - "Replace with a key design decision"
+    - "Replace with what is working so far"
+    - "Replace with what you are building next"
+  tools: ["Onshape", "3D Printing"]
+  link:
+    label: "See more"
+    url: "/portfolio/#personal-projects"
 dreaming:
   - "Quadruped Exploration Robot"
   - "Automatic Badminton Shuttle Feeder"
@@ -243,6 +255,87 @@ dreaming:
     .skill-group strong { flex: none; padding-top: 0; }
   }
 
+  .featured {
+    margin-bottom: 2.8em;
+  }
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6em;
+    align-items: start;
+  }
+  .featured-card.has-media {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.2em;
+  }
+  .featured-media img,
+  .featured-media video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 14px solid #fff;
+    background: #000;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
+    box-sizing: border-box;
+  }
+  .featured-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6em 1em;
+    margin: 0 0 0.8em;
+  }
+  .page__content h4.featured-title {
+    margin: 0;
+    font-size: 1.5em;
+    letter-spacing: 0.02em;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    padding: 0.3em 0.9em 0.3em 0.8em;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #f48fb1;
+    background: rgba(244, 143, 177, 0.15);
+    box-shadow: inset 3px 0 0 #f48fb1;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .status-dot {
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 50%;
+    background: #f48fb1;
+    animation: status-pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes status-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.7); }
+  }
+  .featured-summary { font-size: 1.05em; margin: 0 0 1.1em; }
+  .featured-tools { margin: 1.4em 0 0; }
+  .featured-link {
+    display: inline-block;
+    margin-top: 1.4em;
+    padding: 0.5em 1.1em 0.5em 1em;
+    font-size: 0.85em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #f5f5f5;
+    text-decoration: none;
+    background: rgba(244, 143, 177, 0.15);
+    box-shadow: inset 3px 0 0 #f48fb1;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    transition: background 0.2s ease;
+  }
+  .featured-link:hover { background: rgba(244, 143, 177, 0.3); color: #fff; }
+  @media (max-width: 800px) {
+    .featured-card.has-media { grid-template-columns: 1fr; }
+  }
+
   .duo {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -327,6 +420,7 @@ dreaming:
   @media (prefers-reduced-motion: reduce) {
     .collage img,
     .reveal,
+    .status-dot,
     .skill-group strong,
     .pill,
     .sidebar {
@@ -347,6 +441,38 @@ dreaming:
     {% endfor %}
   </div>
 </div>
+
+{% if page.featured %}
+{% assign f = page.featured %}
+<div class="block featured reveal" style="--d: 0.75s">
+  <h3 class="block-title">Featured</h3>
+  <div class="featured-card{% if f.image or f.video %} has-media{% endif %}">
+    {% if f.image or f.video %}
+    <div class="featured-media">
+      {% if f.video %}<video src="{{ f.video }}" autoplay muted loop playsinline></video>{% else %}<img src="{{ f.image }}" alt="{{ f.image_alt | default: f.title }}">{% endif %}
+    </div>
+    {% endif %}
+    <div class="featured-body">
+      <div class="featured-head">
+        <h4 class="featured-title">{{ f.title }}</h4>
+        {% if f.status %}<span class="status-badge"><span class="status-dot"></span>{{ f.status }}</span>{% endif %}
+      </div>
+      {% if f.summary %}<p class="featured-summary">{{ f.summary }}</p>{% endif %}
+      {% if f.points %}
+      <ul class="plain-list">
+        {% for pt in f.points %}<li>{{ pt }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+      {% if f.tools %}
+      <div class="tags featured-tools">
+        {% for t in f.tools %}<span class="tag">{{ t }}</span>{% endfor %}
+      </div>
+      {% endif %}
+      {% if f.link %}<a class="featured-link" href="{{ f.link.url }}">{{ f.link.label | default: "See more" }} &rarr;</a>{% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
 
 <div class="duo">
   <div class="block reveal" style="--d: 0.9s">
