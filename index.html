@@ -54,12 +54,12 @@ featured:
   summary: "Planned around my Engineering 130 class, Our group decided to prototype a robot that can explore rough and uneven terrain"
   points:
     - "Fully 3D Printed design to allow easy iteration"
-    - "Powered using 12 MG995 servo motors to create 3 DOFs and allow for fluid movement"
+    - "Powered using 12 servo motors to create 3 DOFs and allow for fluid movement"
     - "Planning on adding a camera and sensors to implement terrain detection and avoidance"
   tools: ["Onshape", "3D Printing"]
   media:
     - { src: "/assets/images/Spiderbot_CAD.png", caption: "CAD" }
-    - { video: "/assets/images/Spiderbot_Build_Timelapse.mp4",loop: true, caption: "Build Timelapse" }
+    - { video: "/assets/images/Spiderbot_Build_Timelapse.mp4", caption: "Build Timelapse" }
   link:
     label: "See more"
     url: "/portfolio/#personal-projects"
@@ -267,10 +267,12 @@ dreaming:
     gap: 2em;
     margin-top: 2em;
   }
+  .featured-media-row { align-items: start; }
   .featured-media-row figure { margin: 0; }
   .fm-frame {
-    aspect-ratio: 4 / 3;
-    border: 14px solid #fff;
+    display: block;
+    line-height: 0;
+    border: 12px solid #fff;
     background: #fff;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
     box-sizing: border-box;
@@ -281,16 +283,25 @@ dreaming:
   .fm-frame video {
     display: block;
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
     border: 0;
     margin: 0;
   }
   .featured-media-row figcaption {
-    margin-top: 0.7em;
+    display: block;
+    margin: 0.55em 0 0;
     text-align: center;
     font-size: 0.8em;
-    opacity: 0.8;
+    line-height: 1.3;
+    opacity: 0.9;
+  }
+  .featured-media-row figcaption::before {
+    content: "";
+    display: block;
+    width: 1.8em;
+    height: 2px;
+    margin: 0 auto 0.35em;
+    background: #f48fb1;
   }
   .featured-head {
     display: flex;
